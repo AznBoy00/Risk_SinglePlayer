@@ -1,8 +1,0 @@
-﻿  Player.cpp
-  Map.cpp
-l:\fall 2017\comp 345\assignment 1\comp345_risk\comp345_risk\maps\country.h(6): fatal error C1083: Cannot open include file: 'Player\Player.h': No such file or directory
-  Country.cpp
-l:\fall 2017\comp 345\assignment 1\comp345_risk\comp345_risk\maps\country.h(6): fatal error C1083: Cannot open include file: 'Player\Player.h': No such file or directory
-  Continent.cpp
-l:\fall 2017\comp 345\assignment 1\comp345_risk\comp345_risk\maps\country.h(6): fatal error C1083: Cannot open include file: 'Player\Player.h': No such file or directory
-  Generating Code...

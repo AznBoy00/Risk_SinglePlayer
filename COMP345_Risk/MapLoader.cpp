@@ -58,9 +58,9 @@ MapLoader::MapLoader(std::string fileDirectory) {
 
 }
 
-int main() {
+/*int main() {
 	MapLoader("World.map");
 	system("pause");
 	return 0;
-}
+}*/
 
