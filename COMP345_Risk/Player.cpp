@@ -1,12 +1,10 @@
 #include "Player.h"
+#include "Dice.h"
 
-
-
-Player::Player()
-{
+Player::Player() {
+	Dice Dice();
 }
 
 
-Player::~Player()
-{
+Player::~Player() {
 }

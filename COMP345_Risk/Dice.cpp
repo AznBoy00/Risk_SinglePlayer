@@ -1,7 +1,17 @@
 #include "Dice.h"
+#include "Player.h"
 #include "Time.h"
+
 #include <iostream>
 using namespace std;
+
+/*
+	Dice default constructor.
+*/
+Dice::Dice() {
+	diceRollNumber = 1;
+	diceValue = new int[1];
+}
 
 /*
 	Dice constructor.
