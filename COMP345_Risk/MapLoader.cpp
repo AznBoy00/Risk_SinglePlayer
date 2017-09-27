@@ -22,7 +22,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 				stringstream ss(line);
 				std::string word;
 				vector<string> lineVector;
-
+				vector<string> existingCountries;
 				//Improved while loop
 				//B4 it actually added an additional empty element
 				while (std::getline(ss, word, ',')) {
@@ -33,12 +33,19 @@ MapLoader::MapLoader(std::string fileDirectory) {
 					territory->setY(stoi(lineVector.at(2)));
 					territory->setContinent(lineVector.at(3));
 					vector<Country*> neighborCountries;
+
 					for (int i = 4; i < lineVector.size(); i++) {
 						//Change this loop and try to implement the Map and Continent classes
 						//The issue is that you keep on creating multiple country objects even if they exist
 						//(i.e. If you have two country whose neighbor is Alaska; you are essentailly creating 2 Alakas)
-						Country* country = new Country(lineVector[i]);
-						territory->setNeighboringCountries(country);
+						if (find(existingCountries.begin(), existingCountries.end(), lineVector[i]) != existingCountries.end()) {
+							existingCountries.push_back(lineVector[i]);
+							Country* country = new Country(lineVector[i]);
+							territory->setNeighboringCountries(country);
+						}
+						
+						
+
 					}
 				
 				cout << "Country name is: " << territory->getCountryName() << endl;
