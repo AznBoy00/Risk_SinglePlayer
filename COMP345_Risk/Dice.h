@@ -10,6 +10,7 @@ public:
 	void setDiceRollNumber(int num);
 private:
 	int diceRollNumber;
-	int *diceValue;	
+	int totalDiceRolled;
+	int diceRollDistribution[];
 };
 

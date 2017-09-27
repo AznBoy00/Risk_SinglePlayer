@@ -13,6 +13,7 @@ int main() {
 
 void loadMenu() {
 	int selection;
+	cout << "Welcome to Team18's COMP345 Risk Game!" << endl;
 	
 	do {
 		cout << "\n\nAssignment 1 Debug Menu" << endl;

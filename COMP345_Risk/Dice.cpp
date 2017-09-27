@@ -10,7 +10,8 @@ using namespace std;
 */
 Dice::Dice() {
 	diceRollNumber = 1;
-	diceValue = new int[1];
+	totalDiceRolled = 0;
+	diceRollDistribution[6] = (0,0,0,0,0,0);
 }
 
 /*
@@ -18,15 +19,14 @@ Dice::Dice() {
 */
 Dice::Dice(int num) {
 	diceRollNumber = num;
-	diceValue = new int[num];
+	totalDiceRolled = 0;
+	diceRollDistribution[6] = (0,0,0,0,0,0);
 }
 
 /*
 	Dice destructor.
 */
 Dice::~Dice() {
-	diceRollNumber = 0;
-	diceValue[0];
 }
 
 /*
@@ -40,11 +40,12 @@ void Dice::rollDice(int num) {
 	for (size_t i = 0; i < num; i++) {
 		rr = r;
 		r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-		diceValue[i] = r;
-	}
-	// For debugging purpose
-	for (size_t i = 0; i < Dice::getDiceRollNumber(); i++) {
-		cout << diceValue[i] << endl;
+		cout << "Roll #" << i << ": " << r << endl;
+		diceRollDistribution[r-1] += 1;
+		totalDiceRolled++;
+		//Debug purpose
+		cout << "diceRollDistribution" <<
+		diceRollDistribution[0] << diceRollDistribution[1] << diceRollDistribution[2] << diceRollDistribution[3] << diceRollDistribution[4] << diceRollDistribution[5] << endl;
 	}
 }
 
