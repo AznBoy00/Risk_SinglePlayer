@@ -1,46 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{5b8bec0c-f277-45d9-a016-ff2ef942ef4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{8434925e-7823-4201-999f-3559203189d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Map">
-      <UniqueIdentifier>{6bfb84b5-7365-417d-a539-0015047ae2ae}</UniqueIdentifier>
+      <UniqueIdentifier>{0901913a-1d7a-4722-a876-c40a868657e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Map">
-      <UniqueIdentifier>{b58d37ff-d35e-483c-b70a-e737e480b5ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Map Loader">
-      <UniqueIdentifier>{da636e9c-d141-4ac6-bdda-1a975d7e2cf8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Map Loader">
-      <UniqueIdentifier>{31ad734d-2cd8-4634-9f64-57c41475e915}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Player">
-      <UniqueIdentifier>{91813187-5ef4-4f78-9765-6cf1711bbaaf}</UniqueIdentifier>
+    <Filter Include="Header Files\MapLoader">
+      <UniqueIdentifier>{b8f9c4ba-fcc9-49e1-8ca8-bd88d9b7411f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Player">
-      <UniqueIdentifier>{1f427e41-48f8-4431-9ecd-f77a33df98bf}</UniqueIdentifier>
+      <UniqueIdentifier>{207bc066-2267-4c82-aed8-eca74d0560bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{3bb7db35-bbb4-42fc-888f-f32e9006d52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MapLoader">
+      <UniqueIdentifier>{ca2f43c6-76bb-4d21-a8a5-239f73467713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{40bf2d4c-6117-4ac0-b509-a18171569b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map Files">
+      <UniqueIdentifier>{031cb3ed-fa65-426d-bead-cee8b1d2cd5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameConstants.cpp" />
-    <ClCompile Include="Continent.cpp">
-      <Filter>Source Files\Map</Filter>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Country.cpp">
-      <Filter>Source Files\Map</Filter>
+    <ClCompile Include="GameConstants.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapLoader.cpp">
-      <Filter>Source Files\Map Loader</Filter>
+    <ClCompile Include="MapDriver.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Player</Filter>
@@ -48,24 +51,30 @@
     <ClCompile Include="Map.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
+    <ClCompile Include="MapLoader.cpp">
+      <Filter>Source Files\MapLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameConstants.h" />
-    <ClInclude Include="Continent.h">
-      <Filter>Header Files\Map</Filter>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Country.h">
-      <Filter>Header Files\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="MapLoader.h">
-      <Filter>Header Files\Map Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\Player</Filter>
+    <ClInclude Include="GameConstants.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Header Files\Map</Filter>
     </ClInclude>
+    <ClInclude Include="MapLoader.h">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="World.map">
+      <Filter>Map Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

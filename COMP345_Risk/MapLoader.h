@@ -1,6 +1,8 @@
-#include <iostream>
-using namespace std;
+#include "Map.h"
 
-class LoadMapHandler {
-
+class MapLoader {
+public:
+	MapLoader(std::string fileDirectory);
+private:
+	Map* map;
 };
