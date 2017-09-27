@@ -34,7 +34,7 @@ Dice::~Dice() {
 	rollDice method that will roll a dice x number of times depending on int num input.
 */
 void Dice::rollDice(int num) {
-	// Weird way to make ran() as random as possible.
+	// Weird way to make rand() as random as possible.
 	int r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
 	int rr;
 	for (size_t i = 0; i < num; i++) {
@@ -60,11 +60,11 @@ int Dice::getDiceRollNumber() {
 	Setter method for diceRollNumber.
 */
 void Dice::setDiceRollNumber(int num) {
-	num = diceRollNumber;
+	diceRollNumber = num;
 }
 
 //Debugging driver
-int main() {
+/*int main() {
 	srand(time(0));
 	int num;
 	cout << "How many dice(s) do you want to roll? (1-3)" << endl;
@@ -76,6 +76,4 @@ int main() {
 	Dice Dice(num);
 	Dice.rollDice(num);
 	return 0;
-}
-
-
+}*/

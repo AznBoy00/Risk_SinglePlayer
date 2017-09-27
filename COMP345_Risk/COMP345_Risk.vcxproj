@@ -31,12 +31,17 @@
     <ClInclude Include="Dice.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameConstants.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="World.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="COMP345_Risk.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
