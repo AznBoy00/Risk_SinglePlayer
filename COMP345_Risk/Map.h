@@ -13,10 +13,15 @@ public:
 
 	void setContainedContinents(Continent* continent);
 	void setContainedCountries(Country* country);
+	Country* getCountryFromMapByName(std::string countryName);
+	bool containsCountry(Country c);
+	bool isMapNotValid();
+	bool isCountryExist();
+	bool isContinentExist();
 
 private:
 	std::vector <Continent*> contained_continent;
-	std::vector <Country*> contained_country;
+	std::vector <Country*> contained_country_map;
 };
 
 class Continent
@@ -25,13 +30,12 @@ public:
 	Continent(std::string name);
 
 	void setContainedCountries(Country *country);
-	void setNeiboringContinents(Continent *continent);
-
+	void setNeighboringContinents(Continent *continent);
 	bool isContinentNotValid();
 	std::string getContinentName();
 private:
 	std::string continent_name;
-	std::vector<Country*> contained_countries;
+	std::vector<Country*> contained_country_cont;
 	std::vector<Continent*> neighboring_continent;
 };
 

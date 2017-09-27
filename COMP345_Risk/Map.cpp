@@ -9,7 +9,32 @@ void Map::setContainedContinents(Continent* continent) {
 }
 
 void Map::setContainedCountries(Country* country) {
-	Map::contained_country.push_back(country);
+	Map::contained_country_map.push_back(country);
+}
+
+Country* Map::getCountryFromMapByName(std::string countryName){
+	
+	int i = 0;
+	while(i < contained_country_map.size){
+		
+		if (contained_country_map[i]->getCountryName == countryName){
+			return contained_country_map[i];
+		}
+		
+		i++;
+	}
+}
+
+bool Map::isMapNotValid(){
+	if (contained_continent.empty()){
+		return true;
+	}
+}
+bool Map::containsCountry(Country c){
+	if (find(contained_country_map.begin(), contained_country_map.end(), c) != contained_country_map.end()){
+		return true;
+	}
+	else return false;
 }
 
 //Nope
@@ -20,15 +45,15 @@ Continent::Continent(std::string name)
 }
 
 void Continent::setContainedCountries(Country* country) {
-	contained_countries.push_back(country);
+	contained_country_cont.push_back(country);
 }
 
-void Continent::setNeiboringContinents(Continent* continent) {
+void Continent::setNeighboringContinents(Continent* continent) {
 	neighboring_continent.push_back(continent);
 }
 
 bool Continent::isContinentNotValid() {
-	return contained_countries.empty() || neighboring_continent.empty();
+	return contained_country_cont.empty() || neighboring_continent.empty();
 }
 
 std::string Continent::getContinentName() {
