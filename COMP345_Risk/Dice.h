@@ -1,16 +1,13 @@
 #pragma once
 
-class Dice{
+class Dice {
 public:
 	Dice();
-	Dice(int num);
 	~Dice();
 	void rollDice(int num);
-	int getDiceRollNumber();
-	void setDiceRollNumber(int num);
+	int rollDiceOnce();
+	void showStats();
 private:
-	int diceRollNumber;
+	int diceRollDistribution[6];
 	int totalDiceRolled;
-	int diceRollDistribution[];
 };
-

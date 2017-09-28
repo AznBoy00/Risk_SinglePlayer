@@ -56,7 +56,7 @@ void readMaps() {
 
 void loadMaps() {
 	MapLoader("World.map");
-	system("pause");
+	//system("pause");
 }
 
 void loadDice() {
@@ -66,16 +66,28 @@ void loadDice() {
 	Player *p1 = new Player(1);
 	Player *p2 = new Player(2);
 
-	cout << "How many dice(s) does Player 1 want to roll? (1-3)" << endl;
+	cout << "\nHow many dice(s) does Player 1 want to roll? (1-3)" << endl;
 	cin >> num;
 	while (num < 1 || num > 3) {
 		cout << "You must enter a number between 1-3!" << endl;
 		cin >> num;
 	}
+	p1->roll(num);
 
-	p1->getDice().setDiceRollNumber(num);
-	cout << "Player " << p1->getId() << "'s dice roll number is now " << p1->getDice().getDiceRollNumber() << endl;
-	p1->getDice().rollDice(p1->getDice().getDiceRollNumber());
+	cout << "\nHow many dice(s) does Player 2 want to roll? (1-3)" << endl;
+	cin >> num;
+	while (num < 1 || num > 3) {
+		cout << "You must enter a number between 1-3!" << endl;
+		cin >> num;
+	}
+	p2->roll(num);
+
+	cout << "P1 stats" << endl;
+	//p1->showStats();
+	p1->getDice().showStats();
+	cout << "P1 stats" << endl;
+	p2->getDice().showStats();
+	//p2->showStats();
 }
 
 void playerActions() {
