@@ -1,16 +1,13 @@
 #pragma once
+#include "Player.h"
 
-class Dice{
+class Dice {
 public:
 	Dice();
-	//Dice(int num);
 	~Dice();
 	void rollDice(int num);
-	int getDiceRollNumber();
-	void setDiceRollNumber(int num);
+	int rollDiceOnce();
 private:
-	int diceRollNumber;
-	int totalDiceRolled;
 	int diceRollDistribution[6];
 };
 

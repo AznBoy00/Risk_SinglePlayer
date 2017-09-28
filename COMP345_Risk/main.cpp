@@ -70,9 +70,8 @@ void loadDice() {
 		cin >> num;
 	}
 
-	p1->getDice().setDiceRollNumber(num);
-	cout << "Player " << p1->getId() << "'s dice roll number is now " << p1->getDice().getDiceRollNumber() << endl;
-	p1->getDice().rollDice(num);
+	cout << "Player " << p1->getId() << "'s dice roll number is now " << p1->getDiceRolled() << endl;
+	p1->roll(num);
 
 	cout << "\nHow many dice(s) does Player 2 want to roll? (1-3)" << endl;
 	cin >> num;
@@ -81,9 +80,11 @@ void loadDice() {
 		cin >> num;
 	}
 
-	p2->getDice().setDiceRollNumber(num);
-	cout << "Player " << p1->getId() << "'s dice roll number is now " << p1->getDice().getDiceRollNumber() << endl;
-	p2->getDice().rollDice(num);
+	cout << "Player " << p1->getId() << "'s dice roll number is now " << p1->getDiceRolled() << endl;
+	p2->roll(num);
+
+	p1->showStats();
+	p2->showStats();
 }
 
 void playerActions() {
