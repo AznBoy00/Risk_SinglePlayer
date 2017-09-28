@@ -4,3 +4,6 @@
 /COMP345_Risk/COMP345_Risk.vcxproj.filters
 /COMP345_Risk/COMP345_Risk.vcxproj.user
 *.obj
+/COMP345_Risk/x64/Debug/*.obj
+/COMP345_Risk/x64/Debug/*.idb
+/COMP345_Risk/x64/Debug/*.pdb

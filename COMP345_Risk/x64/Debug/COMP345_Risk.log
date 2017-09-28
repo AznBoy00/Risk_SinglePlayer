@@ -1,11 +1,17 @@
-<<<<<<< HEAD
-﻿  Dice.cpp
-c:\users\lin_k\desktop\cpp345_f17\comp345_risk\dice.h(14): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  c:\users\lin_k\desktop\cpp345_f17\comp345_risk\dice.h(14): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
-  COMP345_Risk.vcxproj -> C:\Users\Lin_K\Desktop\CPP345_F17\x64\Debug\COMP345_Risk.exe
-  COMP345_Risk.vcxproj -> C:\Users\Lin_K\Desktop\CPP345_F17\x64\Debug\COMP345_Risk.pdb (Partial PDB)
-=======
-﻿  Player.cpp
-  COMP345_Risk.vcxproj -> C:\Users\Kevin\Desktop\CPP345_F17\x64\Debug\COMP345_Risk.exe
-  COMP345_Risk.vcxproj -> C:\Users\Kevin\Desktop\CPP345_F17\x64\Debug\COMP345_Risk.pdb (Partial PDB)
->>>>>>> rev21
+﻿  main.cpp
+c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\main.cpp(60): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Player.cpp
+  MapLoader.cpp
+c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\maploader.cpp(19): error C2512: 'Country::Country': no appropriate default constructor available
+c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\maploader.cpp(34): error C2039: 'containsCountry': is not a member of 'Map'
+  c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\map.h(10): note: see declaration of 'Map'
+c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\maploader.cpp(37): error C2039: 'setNeighboringCountries': is not a member of 'Country'
+  c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\map.h(45): note: see declaration of 'Country'
+c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\maploader.cpp(40): error C2039: 'setNeighboringCountries': is not a member of 'Country'
+  c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\map.h(45): note: see declaration of 'Country'
+c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\maploader.cpp(45): error C2039: 'getX': is not a member of 'Country'
+  c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\map.h(45): note: see declaration of 'Country'
+c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\maploader.cpp(45): error C2039: 'getY': is not a member of 'Country'
+  c:\users\lin_k\desktop\comp345\cpp345_f17\comp345_risk\map.h(45): note: see declaration of 'Country'
+  Dice.cpp
+  Generating Code...
