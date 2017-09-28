@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Time.h"
 #include "main.h"
+#include "MapLoader.h"
 
 #include <iostream>
 using namespace std;
@@ -54,6 +55,8 @@ void readMaps() {
 }
 
 void loadMaps() {
+	MapLoader("World.map");
+	system("pause");
 }
 
 void loadDice() {

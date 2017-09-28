@@ -1,5 +1,8 @@
-﻿  Dice.cpp
-c:\users\lin_k\desktop\cpp345_f17\comp345_risk\dice.h(14): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  c:\users\lin_k\desktop\cpp345_f17\comp345_risk\dice.h(14): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
-  COMP345_Risk.vcxproj -> C:\Users\Lin_K\Desktop\CPP345_F17\x64\Debug\COMP345_Risk.exe
-  COMP345_Risk.vcxproj -> C:\Users\Lin_K\Desktop\CPP345_F17\x64\Debug\COMP345_Risk.pdb (Partial PDB)
+﻿  MapLoader.cpp
+  Map.cpp
+  Generating Code...
+d:\users\brand\downloads\comp345_a1\comp345_risk\map.cpp(28): warning C4715: 'Map::getCountryFromMapByName': not all control paths return a value
+  Skipping... (no relevant changes detected)
+  main.cpp
+  COMP345_Risk.vcxproj -> D:\Users\brand\Downloads\COMP345_A1\x64\Debug\COMP345_Risk.exe
+  COMP345_Risk.vcxproj -> D:\Users\brand\Downloads\COMP345_A1\x64\Debug\COMP345_Risk.pdb (Partial PDB)

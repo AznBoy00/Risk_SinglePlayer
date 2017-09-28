@@ -13,8 +13,9 @@ public:
 
 	void setContainedContinents(Continent* continent);
 	void setContainedCountries(Country* country);
+	std::vector <Country*> getContainedCountries();
 	Country* getCountryFromMapByName(std::string countryName);
-	bool containsCountry(Country c);
+	bool containsCountry(std::string s);
 	bool isMapNotValid();
 	bool isCountryExist();
 	bool isContinentExist();

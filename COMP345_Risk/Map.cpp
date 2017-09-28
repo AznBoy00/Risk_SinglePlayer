@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <algorithm>
 
 Map::Map()
 {
@@ -12,10 +13,14 @@ void Map::setContainedCountries(Country* country) {
 	Map::contained_country_map.push_back(country);
 }
 
+std::vector<Country*> Map::getContainedCountries() {
+	return Map::contained_country_map;
+}
+
 Country* Map::getCountryFromMapByName(std::string countryName){
 	int i = 0;
-	while(i < contained_country_map.size){
-		if (contained_country_map[i]->getCountryName.compare(countryName) == 0){
+	while(i < contained_country_map.size()){
+		if (contained_country_map[i]->getCountryName().compare(countryName) == 0){
 			return contained_country_map[i];
 		}
 		i++;
@@ -26,12 +31,16 @@ bool Map::isMapNotValid(){
 	if (contained_continent.empty()){
 		return true;
 	}
+	return false;
 }
-bool Map::containsCountry(Country c){
-	if (find(contained_country_map.begin(), contained_country_map.end(), c) != contained_country_map.end()){
-		return true;
+
+bool Map::containsCountry(std::string s){ //rewrite this function
+	for (int i = 0; i < contained_country_map.size(); i++) {
+		if (contained_country_map[i]->getCountryName().compare(s) == 0) {
+			return true;
+		}
 	}
-	else return false;
+	return false;
 }
 
 //Nope
