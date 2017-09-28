@@ -1,7 +1,9 @@
 #include "Map.h"
 
+//Map Class Initialization
 Map::Map()
 {
+	std::cout << "Map has been created." << std::endl;
 }
 
 void Map::setContainedContinents(Continent* continent) {
@@ -9,64 +11,111 @@ void Map::setContainedContinents(Continent* continent) {
 }
 
 void Map::setContainedCountries(Country* country) {
-	Map::contained_country_map.push_back(country);
+	contained_country_in_map.push_back(country);
 }
 
 Country* Map::getCountryFromMapByName(std::string countryName){
 	int i = 0;
-	while(i < contained_country_map.size){
-		if (contained_country_map[i]->getCountryName.compare(countryName) == 0){
-			return contained_country_map[i];
+	while(i < contained_country_in_map.size){
+		if (contained_country_in_map[i]->getCountryName.compare(countryName) == 0){
+			return contained_country_in_map[i];
 		}
 		i++;
 	}
 }
 
 bool Map::isMapNotValid(){
-	if (contained_continent.empty()){
+
+	for (int i = 0; i < contained_continent.size; i++) {
+		if (contained_continent[i]->isContinentNotValid()) {
+			return true;
+		}
+	}
+
+
+	for (int i = 0; i < contained_continent.size; i++) {
+		if (contained_country_in_map[i]->isCountryNotValid()) {
+			return true;
+		}
+	}
+
+	int numberOfCountriesCounted = 0;
+	for (int i = 0; i < contained_continent.size; i++) {
+		for (int j = 0; j < contained_continent[i]->getContainedCountriesInContinent.size; j++) {
+			numberOfCountriesCounted++;
+		}
+	}
+	if (numberOfCountriesCounted != contained_country_in_map.size) {
 		return true;
 	}
+
+	std::vector<Country*> listOfCountriesVisited;
+	DepthFirstSearch(contained_country_in_map[0], listOfCountriesVisited);
+	
+	if (listOfCountriesVisited.size != contained_country_in_map) {
+		return true;
+	}
+
 }
-bool Map::containsCountry(Country c){
+/*bool Map::containsCountry(Country c){
 	if (find(contained_country_map.begin(), contained_country_map.end(), c) != contained_country_map.end()){
 		return true;
 	}
 	else return false;
+}*/
+
+void DepthFirstSearch(Country* currentPoint, std::vector<Country*> listVisited) {
+	if (std::find(listVisited.begin(), listVisited.end(), currentPoint) != listVisited.end()) {
+		return;
+	}
+
+	listVisited.push_back(currentPoint);
+	for (int i = 0; i < currentPoint->getNeighboringCountries.size; i++) {
+		if (std::find(listVisited.begin(), listVisited.end(), currentPoint->getNeighboringCountries[i]) != listVisited.end()) {
+			DepthFirstSearch(currentPoint->getNeighboringCountries[i], listVisited);
+		}
+	}
 }
 
-//Nope
+//Continent Class Initialization
 
 Continent::Continent(std::string name)
 {
 	continent_name = name;
 }
 
-void Continent::setContainedCountries(Country* country) {
-	contained_country_cont.push_back(country);
+void Continent::setContainedCountry(Country* country) {
+	contained_country_in_continent.push_back(country);
 }
 
-void Continent::setNeighboringContinents(Continent* continent) {
+void Continent::setNeighboringContinent(Continent* continent) {
 	neighboring_continent.push_back(continent);
-}
-
-bool Continent::isContinentNotValid() {
-	return contained_country_cont.empty() || neighboring_continent.empty();
 }
 
 std::string Continent::getContinentName() {
 	return continent_name;
 }
 
-//Nope
-
-Country::Country()
+std::vector<Country*> Continent::getContainedCountriesInContinent()
 {
+	return contained_country_in_continent;
 }
+
+std::vector<Continent*> Continent::getNeighboringContinents()
+{
+	return neighboring_continent;
+}
+
+bool Continent::isContinentNotValid() {
+	return contained_country_in_continent.empty() || neighboring_continent.empty();
+}
+
+//Country Class Initialization
 
 Country::Country(std::string name){
 	country_name = name;
 }
-void Country::setNeighboringCountries(Country * neighbor)
+void Country::setNeighboringCountry(Country* neighbor)
 {
 	Country::neighboring_countries.push_back(neighbor);
 }
@@ -88,11 +137,11 @@ void Country::setContinent(std::string insideContinent) {
 }
 
 void Country::setX(int coordX) {
-	x = coordX;
+	coordinate_X = coordX;
 }
 
 void Country::setY(int coordY) {
-	y = coordY;
+	coordinate_Y = coordY;
 }
 
 std::vector<Country*> Country::getNeighboringCountries(){
@@ -119,10 +168,10 @@ bool Country::isCountryNotValid() {
 	return neighboring_countries.empty();
 }
 
-int Country::getX() {
-	return x;
+int Country::getCoordinateX() {
+	return coordinate_X;
 }
 
-int Country::getY() {
-	return y;
+int Country::getCoordinateY() {
+	return coordinate_Y;
 }

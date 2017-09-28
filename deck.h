@@ -1,3 +1,4 @@
+
 using namespace std;
 
 class deck {
@@ -13,5 +14,7 @@ public:
 	string exchange();
 	void printdeck();
 	void shuffle();
+
 	string driver();
+
 };

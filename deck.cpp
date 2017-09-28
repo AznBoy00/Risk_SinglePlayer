@@ -6,11 +6,13 @@
 #include "deck.h"
 
 
+
 int numberOfCountry = 0; // changable depending on the map. 
 
 class deck {
 
 	string countryCard, cardType;
+
 
 	string deck::card(string country, string type) {
 		countryCard = country;
@@ -21,10 +23,11 @@ class deck {
 				 type[numberOfCountry];
 			}
 	}
-
+  
 	string deck::getType(card) {
 		return cardType;
 	}
+
 	string deck::print() {
 		return (countryCard + ", " + cardType);
 	}
@@ -52,6 +55,7 @@ class deck {
 
 	string deck::hand(){
 		deck();
+
 		deck.shuffle(); 
 	    deck player1[];
 		deck player2[];
@@ -59,7 +63,6 @@ class deck {
 		deck player4[];
 		deck player5[];
 		deck player6[];
-
 	}
 
 	string deck::draw() {
@@ -85,6 +88,7 @@ class deck {
 	string deck::driver() {
 
 	};
+
 
 	void deck::printdeck() {
 		for (int i = 0; i < numberOfCountry; i++) {
