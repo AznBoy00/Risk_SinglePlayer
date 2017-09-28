@@ -11,6 +11,6 @@ public:
 	void setId(int newId);
 private:
 	int id;
-	Dice dice;
+	Dice *dice;
 };
 

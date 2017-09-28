@@ -9,19 +9,29 @@ using namespace std;
 	Dice default constructor.
 */
 Dice::Dice() {
-	diceRollNumber = 1;
+	diceRollNumber = 0;
 	totalDiceRolled = 0;
-	diceRollDistribution[6] = (0,0,0,0,0,0);
+	diceRollDistribution[0] = 0;
+	diceRollDistribution[1] = 0;
+	diceRollDistribution[2] = 0;
+	diceRollDistribution[3] = 0;
+	diceRollDistribution[4] = 0;
+	diceRollDistribution[5] = 0;
 }
 
 /*
 	Dice constructor.
 */
-Dice::Dice(int num) {
+/*Dice::Dice(int num) {
 	diceRollNumber = num;
 	totalDiceRolled = 0;
-	diceRollDistribution[6] = (0,0,0,0,0,0);
-}
+	diceRollDistribution[0] = 0;
+	diceRollDistribution[1] = 0;
+	diceRollDistribution[2] = 0;
+	diceRollDistribution[3] = 0;
+	diceRollDistribution[4] = 0;
+	diceRollDistribution[5] = 0;
+}*/
 
 /*
 	Dice destructor.
@@ -40,11 +50,11 @@ void Dice::rollDice(int num) {
 	for (size_t i = 0; i < num; i++) {
 		rr = r;
 		r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-		cout << "Roll #" << i << ": " << r << endl;
+		cout << "Roll #" << i+1 << ": " << r << endl;
 		diceRollDistribution[r-1] += 1;
 		totalDiceRolled++;
 		//Debug purpose
-		cout << "diceRollDistribution" <<
+		cout << "diceRollDistribution:\t" <<
 		diceRollDistribution[0] << diceRollDistribution[1] << diceRollDistribution[2] << diceRollDistribution[3] << diceRollDistribution[4] << diceRollDistribution[5] << endl;
 	}
 }

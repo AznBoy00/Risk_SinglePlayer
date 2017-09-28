@@ -3,7 +3,7 @@
 class Dice{
 public:
 	Dice();
-	Dice(int num);
+	//Dice(int num);
 	~Dice();
 	void rollDice(int num);
 	int getDiceRollNumber();
@@ -11,6 +11,6 @@ public:
 private:
 	int diceRollNumber;
 	int totalDiceRolled;
-	int diceRollDistribution[];
+	int diceRollDistribution[6];
 };
 

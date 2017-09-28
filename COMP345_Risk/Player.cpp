@@ -10,16 +10,16 @@ Player::Player() {
 
 Player::Player(int newId) {
 	id = newId;
-	cout << "Player id: " << id << " created." << endl;
-	Dice dice = Dice();
-	cout << "Dice object for player id: " << id << " created." << endl;
+	cout << "Player id: " << id << " created." << endl;//debug
+	dice = new Dice();
+	cout << "Dice object for player id: " << id << " created." << endl;//debug
 }
 
 Player::~Player() {
 }
 
 Dice Player::getDice() {
-	return dice;
+	return *dice;
 }
 
 int Player::getId() {
