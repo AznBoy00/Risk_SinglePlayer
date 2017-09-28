@@ -34,7 +34,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 					if (m->containsCountry(lineVector[i]) == false) {
 						//cout << "this country is new";
 						Country* neighboringCountry = new Country(lineVector.at(i));
-						m->setContainedCountries(neighboringCountry);
+						//m->setContainedCountries(neighboringCountry);
 						territory->setNeighboringCountries(neighboringCountry);
 					}
 					else{
