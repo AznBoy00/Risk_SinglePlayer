@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Time.h"
 #include "main.h"
+#include "MapLoader.h"
 
 #include <iostream>
 using namespace std;
@@ -54,6 +55,8 @@ void readMaps() {
 }
 
 void loadMaps() {
+	MapLoader("World.map");
+	//system("pause");
 }
 
 void loadDice() {
@@ -69,8 +72,6 @@ void loadDice() {
 		cout << "You must enter a number between 1-3!" << endl;
 		cin >> num;
 	}
-
-	cout << "Player " << p1->getId() << "'s dice roll number is now " << p1->getDiceRolled() << endl;
 	p1->roll(num);
 
 	cout << "\nHow many dice(s) does Player 2 want to roll? (1-3)" << endl;
@@ -79,12 +80,14 @@ void loadDice() {
 		cout << "You must enter a number between 1-3!" << endl;
 		cin >> num;
 	}
-
-	cout << "Player " << p1->getId() << "'s dice roll number is now " << p1->getDiceRolled() << endl;
 	p2->roll(num);
 
-	p1->showStats();
-	p2->showStats();
+	cout << "P1 stats" << endl;
+	//p1->showStats();
+	p1->getDice().showStats();
+	cout << "P1 stats" << endl;
+	p2->getDice().showStats();
+	//p2->showStats();
 }
 
 void playerActions() {

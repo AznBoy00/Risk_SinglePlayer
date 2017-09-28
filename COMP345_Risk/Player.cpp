@@ -5,9 +5,9 @@
 using namespace std;
 
 Player::Player(int newId) {
-	//dice = new Dice();
-	cout << "Dice object for player id: " << id << " created." << endl;//debug
+	dice = new Dice();
 	id = newId;
+	cout << "\nDice object for player id: " << id << " created." << endl;//debug
 	diceRolled = 0;
 	diceDistribution[0] = 0;
 	diceDistribution[1] = 0;
@@ -21,9 +21,9 @@ Player::Player(int newId) {
 Player::~Player() {
 }
 
-/*Dice Player::getDice() {
+Dice Player::getDice() {
 	return *dice;
-}*/
+}
 
 int Player::getId() {
 	return id;
@@ -49,16 +49,17 @@ void Player::showStats() {
 	for (size_t i = 0; i < 6; i++) {
 		nominator = diceDistribution[i];
 		denominator = diceRolled;
-		cout << "Number of " << i+1 << " rolled: " << (double)(nominator/ denominator)*100 << "%" << endl;
+		cout << "Number of " << i + 1 << " rolled: " << (double)(nominator / denominator) * 100 << "%" << endl;
 	}
 }
 
 void Player::roll(int num) {
 	int result;
+	this->dice->rollDice(num);
 	for (size_t i = 0; i < num; i++) {
-		//result = this->dice->rollDiceOnce();
-		result = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-		cout << "Player rolled: " << result << endl;
+		result = this->dice->rollDiceOnce();
+		//result = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
+		//cout << "Player rolled: " << result << endl;
 		this->diceDistribution[result - 1] += 1;
 	}
 	this->diceRolled += num;

@@ -7,8 +7,10 @@ class Player {
 public:
 	Player(int id);
 	~Player();
-	//Dice *dice;
-	//Dice getDice();
+
+	Dice* dice;
+	Dice getDice();
+
 	int getId();
 	void setId(int newId);
 	int getDiceRolled();

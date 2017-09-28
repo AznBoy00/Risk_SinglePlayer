@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include "MapLoader.h"
+#include <algorithm>
 using namespace std;
 
 MapLoader::MapLoader(std::string fileDirectory) {
@@ -12,7 +13,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 
 	std::string line;
 	bool recordingTerritories = false;
-
+	Map* m = new Map();
 	while (std::getline(inputfilestream, line)) {
 		if (recordingTerritories) {
 			if (!line.empty()) {
@@ -20,7 +21,6 @@ MapLoader::MapLoader(std::string fileDirectory) {
 				stringstream ss(line);
 				std::string word;
 				vector<string> lineVector;
-				Map* m = new Map();
 				while (std::getline(ss, word, ',')) {
 					lineVector.push_back(word);
 				}
@@ -31,12 +31,14 @@ MapLoader::MapLoader(std::string fileDirectory) {
 				m->setContainedCountries(territory);
 
 				for (int i = 4; i < lineVector.size(); i++) {
-					if (m->containsCountry(territory[i]) == false) {
+					if (m->containsCountry(lineVector[i]) == false) {
+						//cout << "this country is new";
 						Country* neighboringCountry = new Country(lineVector.at(i));
-						m->setContainedCountries(neighboringCountry);
+						//m->setContainedCountries(neighboringCountry);
 						territory->setNeighboringCountries(neighboringCountry);
 					}
 					else{
+						//cout << "this country is not new";
 						territory->setNeighboringCountries(m->getCountryFromMapByName(lineVector[i]));
 					}
 				}
@@ -58,6 +60,8 @@ MapLoader::MapLoader(std::string fileDirectory) {
 			
 		}
 	}
+	cout << "Number of countries: " << m->getContainedCountries().size();
+	//cout << "Neighbor check: " << m->getCountryFromMapByName("Alaska")->getNeighboringCountries.at(0)->getCountryName();
 	inputfilestream.close();
 
 

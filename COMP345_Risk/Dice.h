@@ -1,5 +1,4 @@
 #pragma once
-#include "Player.h"
 
 class Dice {
 public:
@@ -7,6 +6,7 @@ public:
 	~Dice();
 	void rollDice(int num);
 	int rollDiceOnce();
+	void showStats();
 private:
 	int diceRollDistribution[6];
 	int totalDiceRolled;
