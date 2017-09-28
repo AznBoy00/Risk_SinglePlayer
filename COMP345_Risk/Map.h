@@ -13,39 +13,50 @@ public:
 
 	void setContainedContinents(Continent* continent);
 	void setContainedCountries(Country* country);
+	
 	Country* getCountryFromMapByName(std::string countryName);
-	bool containsCountry(Country c);
 	bool isMapNotValid();
-	bool isCountryExist();
-	bool isContinentExist();
 
 private:
 	std::vector <Continent*> contained_continent;
-	std::vector <Country*> contained_country_map;
+	std::vector <Country*> contained_country_in_map;
+	void DepthFirstSearch(Country* startingPoint, std::vector<Country*> listVisited);
 };
 
-class Continent
-{
+class Continent{
+
+private:
+	std::string continent_name;
+	std::vector<Country*> contained_country_in_continent;
+	std::vector<Continent*> neighboring_continent;
+
 public:
 	Continent(std::string name);
 
-	void setContainedCountries(Country *country);
-	void setNeighboringContinents(Continent *continent);
-	bool isContinentNotValid();
+	void setContainedCountry(Country *country);
+	void setNeighboringContinent(Continent *continent);
+
 	std::string getContinentName();
-private:
-	std::string continent_name;
-	std::vector<Country*> contained_country_cont;
-	std::vector<Continent*> neighboring_continent;
+	std::vector<Country*> getContainedCountriesInContinent();
+	std::vector<Continent*> getNeighboringContinents();
+	bool isContinentNotValid();
 };
 
-class Country
-{
+class Country{
+
+private:
+	int troopNumber;
+	std::string owner;
+	std::string continent;
+	std::string country_name;
+	std::vector<Country*> neighboring_countries;
+	int coordinate_X;
+	int coordinate_Y;
+
 public:
-	Country();
 	Country(std::string name);
 
-	void setNeighboringCountries(Country* neighbor);
+	void setNeighboringCountry(Country* neighbor);
 	void setCountryName(std::string name);
 	void setTroopNumber(int numberOfTroops);
 	void setOwner(std::string ownerOfCountry);
@@ -58,16 +69,8 @@ public:
 	int getTroopNumber();
 	std::string getOwner();
 	std::string getContinent();
-	int getX();
-	int getY();
 	bool isCountryNotValid();
-private:
-	int troopNumber;
-	std::string owner;
-	std::string continent;
-	std::string country_name;
-	std::vector<Country*> neighboring_countries;
-	int x;
-	int y;
+	int getCoordinateX();
+	int getCoordinateY();
 };
 
