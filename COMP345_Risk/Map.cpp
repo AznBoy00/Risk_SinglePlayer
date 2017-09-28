@@ -13,14 +13,11 @@ void Map::setContainedCountries(Country* country) {
 }
 
 Country* Map::getCountryFromMapByName(std::string countryName){
-	
 	int i = 0;
 	while(i < contained_country_map.size){
-		
-		if (contained_country_map[i]->getCountryName == countryName){
+		if (contained_country_map[i]->getCountryName.compare(countryName) == 0){
 			return contained_country_map[i];
 		}
-		
 		i++;
 	}
 }

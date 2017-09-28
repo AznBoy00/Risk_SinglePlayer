@@ -37,7 +37,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 						territory->setNeighboringCountries(neighboringCountry);
 					}
 					else{
-						territory->setNeighboringCountries(m->getCountryFromMapByName())
+						territory->setNeighboringCountries(m->getCountryFromMapByName(lineVector[i]));
 					}
 				}
 				
