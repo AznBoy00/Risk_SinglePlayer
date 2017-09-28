@@ -1,7 +1,12 @@
+
+using namespace std;
+
 class deck {
 public: 
 	
+
 	string card(string country, string type);
+	string getType();
 	string print();
 	deck::deck();
 	string hand();
@@ -9,4 +14,7 @@ public:
 	string exchange();
 	void printdeck();
 	void shuffle();
+
+	string driver();
+
 };

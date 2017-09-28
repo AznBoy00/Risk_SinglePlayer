@@ -6,17 +6,15 @@
 #include "deck.h"
 
 
-using namespace std;
 
 int numberOfCountry = 0; // changable depending on the map. 
-
-
 
 class deck {
 
 	string countryCard, cardType;
 
-	deck::card(string country, string type) {
+
+	string deck::card(string country, string type) {
 		countryCard = country;
 		cardType = type;
 		numberOfCountry = 
@@ -25,6 +23,11 @@ class deck {
 				 type[numberOfCountry];
 			}
 	}
+  
+	string deck::getType(card) {
+		return cardType;
+	}
+
 	string deck::print() {
 		return (countryCard + ", " + cardType);
 	}
@@ -52,15 +55,40 @@ class deck {
 
 	string deck::hand(){
 		deck();
-		deck().shuffle(); 
 
+		deck.shuffle(); 
+	    deck player1[];
+		deck player2[];
+		deck player3[];
+		deck player4[];
+		deck player5[];
+		deck player6[];
 	}
 
 	string deck::draw() {
+
+		int currentCard = 0; 
+		turnplayer[currentCard] = deck[currentCard]; // turnplayer to be define in player file. 
+		currentCard++;
 	}
 
 	string deck::exchange() {
-	}
+		int exchangeCount = 0;
+		int card1;
+		int card2;
+		int card3;
+		int army;
+		if (turnplayer[card1.getType()]==turnplayer[card2.getType()]==turnplayer[card3.getType()]){
+			// remove 3 cards from player's hand, and give army based on the number of exchanges done so far. 
+			army = 4 + exchangeCount * 2;
+			exchangeCount++;
+		}
+		else army = 15;
+		
+	string deck::driver() {
+
+	};
+
 
 	void deck::printdeck() {
 		for (int i = 0; i < numberOfCountry; i++) {
