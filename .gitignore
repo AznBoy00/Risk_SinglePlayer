@@ -3,3 +3,6 @@
 /COMP345_Risk/COMP345_Risk.vcxproj
 /COMP345_Risk/COMP345_Risk.vcxproj.filters
 /COMP345_Risk/COMP345_Risk.vcxproj.user
+/Debug
+*.db
+.vs/COMP345_Risk/v15/.suo
