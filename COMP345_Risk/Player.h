@@ -1,16 +1,23 @@
 #pragma once
 #include "Dice.h"
+#include <iostream>
+using namespace std;
 
 class Player {
 public:
-	Player();
-	Player(int id); // Main constructor
+	Player(int id);
 	~Player();
-	Dice getDice();
+	//Dice *dice;
+	//Dice getDice();
 	int getId();
 	void setId(int newId);
+	int getDiceRolled();
+	void showStats();
+	void setDiceRolled(int dice);
+	void roll(int num);
 private:
 	int id;
-	Dice dice;
+	int diceRolled;
+	int diceDistribution[6];
 };
 

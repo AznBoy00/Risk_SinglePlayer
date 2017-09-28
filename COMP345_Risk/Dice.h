@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #pragma once
 
 class Dice{
@@ -14,3 +15,18 @@ private:
 	int diceRollDistribution[];
 };
 
+=======
+#pragma once
+#include "Player.h"
+
+class Dice {
+public:
+	Dice();
+	~Dice();
+	void rollDice(int num);
+	int rollDiceOnce();
+private:
+	int diceRollDistribution[6];
+};
+
+>>>>>>> rev21
