@@ -5,6 +5,8 @@
 using namespace std;
 
 Player::Player(int newId) {
+	//dice = new Dice();
+	cout << "Dice object for player id: " << id << " created." << endl;//debug
 	id = newId;
 	diceRolled = 0;
 	diceDistribution[0] = 0;
@@ -14,8 +16,6 @@ Player::Player(int newId) {
 	diceDistribution[4] = 0;
 	diceDistribution[5] = 0;
 	cout << "Player id: " << id << " created." << endl;//debug
-	//dice = new Dice();
-	cout << "Dice object for player id: " << id << " created." << endl;//debug
 }
 
 Player::~Player() {

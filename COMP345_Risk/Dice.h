@@ -9,4 +9,5 @@ public:
 	int rollDiceOnce();
 private:
 	int diceRollDistribution[6];
+	int totalDiceRolled;
 };

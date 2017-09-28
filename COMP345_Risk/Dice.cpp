@@ -9,12 +9,18 @@ using namespace std;
 	Dice default constructor.
 */
 Dice::Dice() {
+	totalDiceRolled = 0;
 	diceRollDistribution[0] = 0;
 	diceRollDistribution[1] = 0;
 	diceRollDistribution[2] = 0;
 	diceRollDistribution[3] = 0;
 	diceRollDistribution[4] = 0;
 	diceRollDistribution[5] = 0;
+	cout << "DICE.CPP::DICE OBJECT CREATED!" << endl;
+	cout << "DICE.CPP::totalDiceRolled: " << totalDiceRolled << endl;
+	for (size_t i = 0; i < 6; i++) {
+		cout << "DICE.CPP::diceRollDistribution: " << i << ": " << diceRollDistribution[i] << endl;
+	}
 }
 
 /*
@@ -29,18 +35,16 @@ Dice::~Dice() {
 */
 void Dice::rollDice(int num) {
 	// Weird way to make rand() as random as possible.
-	int r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-	int rr;
+	int r;
 	for (size_t i = 0; i < num; i++) {
-		rr = r;
-		r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-		cout << "Roll #" << i+1 << ": " << r << endl;
+		r = rollDiceOnce();
 		diceRollDistribution[r-1] += 1;
-		//totalDiceRolled++;
+		totalDiceRolled++;
 	}
 	//debug
 	for (size_t i = 0; i < 6; i++) {
-		cout << "Number of " << i+1 << " rolled: " << diceRollDistribution[i] << endl;
+		cout << "DICE.CPP::Number of " << i+1 << " rolled: " << diceRollDistribution[i] << endl;
+		cout << "DICE.CPP::totalDiceRolled: " << totalDiceRolled << endl;
 	}
 }
 
