@@ -15,7 +15,6 @@ public:
 	string print();
 	string hand();
 	Card draw();
-	string exchange();
 	string driver();
 	void printdeck();
 	void shuffle();
@@ -31,6 +30,16 @@ public:
 private:
 	string country;
 	string type;
+
+};
+
+class Hand
+{
+public:
+	Hand();
+	void exchange();
+private:
+	vector<Card> hand;
 
 };
 
