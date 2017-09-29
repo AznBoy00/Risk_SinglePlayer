@@ -51,13 +51,13 @@ MapLoader::MapLoader(std::string fileDirectory) {
 					}
 				}
 				
-				cout << "Country name is: " << territory->getCountryName() << endl;
+				/*cout << "Country name is: " << territory->getCountryName() << endl;
 				cout << "X: " << territory->getX() << " Y: " << territory->getY() << endl;
 				cout << "Continent: " << territory->getContinent() << endl;
 				cout << "Neighbor countries: ";
 				//check neighbor countries
-				string vectorNeighbor = territory->getNeighboringCountries().at(0)->getNeighboringCountries().at(0)->getCountryName();
-				cout << endl << endl;
+				string vectorNeighbor = territory->getNeighboringCountries().at(0)->getCountryName();
+				cout << endl << endl;*/
 
 			}
 		}

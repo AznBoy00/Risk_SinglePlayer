@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
@@ -68,5 +68,5 @@ void Hand::exchange() {
 		}
 		hand.pop_back();
 	}
-}
+}*/
 
