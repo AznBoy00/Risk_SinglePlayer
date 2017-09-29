@@ -7,11 +7,16 @@
 #include <iostream>
 using namespace std;
 
+/*
+	Main driver method.
+*/
 int main() {
 	loadMenu();
 	return 0;
 }
-
+/*
+	Test menu for assignment 1.
+*/
 void loadMenu() {
 	int selection;
 	cout << "Welcome to Team18's COMP345 Risk Game!" << endl;
@@ -50,16 +55,17 @@ void loadMenu() {
 		}
 	} while (selection != 6);
 }
-
-void readMaps() {
-}
-
+/*
+	Load maps from map.cpp
+*/
 void loadMaps() {
 	cout << "\n(Part 1 & 2)Map demo:" << endl;
 	MapLoader("World.map");
 	//system("pause");
 }
-
+/*
+	Demonstrates the dice engine of the game.
+*/
 void loadDice() {
 	srand(time(0));
 	int num;
@@ -93,7 +99,9 @@ void loadDice() {
 	p2->getDice().showStats();
 	//p2->showStats();
 }
-
+/*
+	Shows a sample of the turn player's menu.
+*/
 void playerActions() {
 	int selection;
 	Player *p1 = new Player(1);
@@ -123,6 +131,8 @@ void playerActions() {
 			break;
 	}
 }
-
+/*
+	Create a deck object, then cards will be drawn and shown until the deck decks out.
+*/
 void cardDeckMethods() {
 }

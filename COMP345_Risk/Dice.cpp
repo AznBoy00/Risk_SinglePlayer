@@ -4,9 +4,8 @@
 
 #include <iostream>
 using namespace std;
-
 /*
-Dice default constructor.
+	Dice default constructor.
 */
 Dice::Dice() {
 	totalDiceRolled = 0;
@@ -22,16 +21,14 @@ Dice::Dice() {
 		cout << "DICE.CPP::diceRollDistribution: " << i << ": " << diceRollDistribution[i] << endl;
 	}
 }
-
 /*
-Dice destructor.
+	Dice destructor.
 */
 Dice::~Dice() {
 }
-
 /*
-@param int num
-rollDice method that will roll a dice x number of times depending on int num input.
+	@param int num
+	rollDice method that will roll a dice x number of times depending on int num input.
 */
 void Dice::rollDice(int num) {
 	// Weird way to make rand() as random as possible.
@@ -47,13 +44,17 @@ void Dice::rollDice(int num) {
 		cout << "\nDICE.CPP::Number of " << i + 1 << " rolled: " << diceRollDistribution[i] << endl;
 	}
 }
-
+/*
+	Rolls dice once.
+*/
 int Dice::rollDiceOnce() {
 	int r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
 	cout << "DICE.CPP::Turn player rolled " << r << endl;
 	return r;
 }
-
+/*
+	Shows stats on the current dice object.
+*/
 void Dice::showStats() {
 	double nominator;
 	double denominator;
