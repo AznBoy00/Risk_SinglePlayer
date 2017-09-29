@@ -4,24 +4,27 @@
 #include <vector>
 #include <sstream>
 #include "MapLoader.h"
-#include <algorithm>
+#include <algorithm>/
 using namespace std;
 
 MapLoader::MapLoader(std::string fileDirectory) {
-	std::ifstream inputfilestream;
+	ifstream inputfilestream;
 	inputfilestream.open(fileDirectory);
 
-	std::string line;
-	bool recordingTerritories = false;
+	string line;
+	bool hasTerritories = false;
+	bool hasMap = false;
+	bool hasContinents = false;
+
 	Map* m = new Map();
-	while (std::getline(inputfilestream, line)) {
-		if (recordingTerritories) {
+	while (getline(inputfilestream, line)) {
+		if (hasTerritories) {
 			if (!line.empty()) {
 				Country* territory = new Country();
 				stringstream ss(line);
-				std::string word;
+				string word;
 				vector<string> lineVector;
-				while (std::getline(ss, word, ',')) {
+				while (getline(ss, word, ',')) {
 					lineVector.push_back(word);
 				}
 				territory->setCountryName(lineVector.at(0));
@@ -55,13 +58,28 @@ MapLoader::MapLoader(std::string fileDirectory) {
 
 			}
 		}
-		if (line.find("[Territories]") != std::string::npos) {
-			recordingTerritories = true;
+		if (line.find("[Map]") != string::npos) {
+			hasMap = true;
+		}
+		if (line.find("[Continents]") != string::npos) {
+			hasContinents = true;
+		}
+		if (line.find("[Territories]") != string::npos && hasMap && hasContinents) {
+			hasTerritories = true;
 			
 		}
 	}
-	cout << "Number of countries: " << m->getContainedCountries().size();
-	//cout << "Neighbor check: " << m->getCountryFromMapByName("Alaska")->getNeighboringCountries.at(0)->getCountryName();
+	if (!hasMap && !hasContinents && !hasTerritories) {
+		cout << "Invalid map.";
+	}
+
+	cout << "Number of countries: " << m->getContainedCountries().size() << endl;
+	cout << "Enter a country to get its neighbors: ";
+	string neighborCheck;
+	cin >> neighborCheck;
+	vector<Country*> neighborCheckVector = m->getCountryFromMapByName(neighborCheck)->getNeighboringCountries();
+		string s = neighborCheckVector.at(0)->getCountryName();
+		cout << s << neighborCheckVector.size();
 	inputfilestream.close();
 
 
