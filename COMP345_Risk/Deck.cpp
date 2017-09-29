@@ -56,7 +56,7 @@ Hand::Hand(Deck d) {
 
 void Hand::exchange() {
 	for (int i = 0; i < 3; i++) {
-		string s = hand.front().getType();
+		string s = hand.back().getType();
 		if (s.compare("Infantry") == 0) {
 			cout << "1 army" << endl;
 		}
@@ -66,6 +66,7 @@ void Hand::exchange() {
 		else if (s.compare("Cavalry") == 0) {
 			cout << "10 army" << endl;
 		}
+		hand.pop_back();
 	}
 }
 

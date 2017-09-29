@@ -1,11 +1,9 @@
 #include "Player.h"
 #include "Dice.h"
+
 #include <iostream>
 using namespace std;
-/*
-	Player constructor
-	@param int newId
-*/
+
 Player::Player(int newId) {
 	dice = new Dice();
 	id = newId;
@@ -19,45 +17,30 @@ Player::Player(int newId) {
 	diceDistribution[5] = 0;
 	cout << "Player id: " << id << " created." << endl;//debug
 }
-/*
-	Player destructor.
-*/
+
 Player::~Player() {
 }
-/*
-	Getter for *dice.
-*/
+
 Dice Player::getDice() {
 	return *dice;
 }
-/*
-	Getter for player ID.
-*/
+
 int Player::getId() {
 	return id;
 }
-/*
-	Setter for player ID.
-*/
+
 void Player::setId(int newId) {
 	id = newId;
 }
-/*
-	Getter for the number of dices rolled by player.
-*/
+
 int Player::getDiceRolled() {
 	return diceRolled;
 }
-/*
-	Setter for the number of dices rolled by player.
-	@param int newDiceRolled
-*/
-void Player::setDiceRolled(int newDiceRolled) {
-	diceRolled = newDiceRolled;
+
+void Player::setDiceRolled(int dice) {
+	diceRolled = dice;
 }
-/*
-	Show player's stats.
-*/
+
 void Player::showStats() {
 	double nominator;
 	double denominator;
@@ -71,10 +54,7 @@ void Player::showStats() {
 		cout << "Number of " << i + 1 << " rolled: " << (double)(nominator / denominator) * 100 << "%" << endl;
 	}
 }
-/*
-	Player will roll the dice 'num' amount of time.
-	@param int num
-*/
+
 void Player::roll(int num) {
 	int result;
 	this->dice->rollDice(num);
@@ -86,21 +66,15 @@ void Player::roll(int num) {
 	}
 	this->diceRolled += num;
 }
-/*
-	Turn player reinforce method.
-*/
+
 void Player::reinforce() {
-	cout << "Player " << this->getId << " is reinforcing." << endl;
+	cout << "Player " << this->getId() << " is reinforcing." << endl;
 }
-/*
-Turn player attack method.
-*/
+
 void Player::attack() {
-	cout << "Player " << this->getId << " is attacking." << endl;
+	cout << "Player " << this->getId() << " is attacking." << endl;
 }
-/*
-Turn player fortify method.
-*/
+
 void Player::fortify() {
-	cout << "Player " << this->getId << " is fortifying." << endl;
+	cout << "Player " << this->getId() << " is fortifying." << endl;
 }
