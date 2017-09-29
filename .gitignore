@@ -4,5 +4,10 @@
 /COMP345_Risk/COMP345_Risk.vcxproj
 /COMP345_Risk/COMP345_Risk.vcxproj.filters
 /COMP345_Risk/COMP345_Risk.vcxproj.user
-/COMP345_Risk/x64/Debug/*
-/x64/Debug/*
+/COMP345_Risk/x64/Debug/
+/x64/Debug/
+/x64/Debug
+/Debug/COMP345_Risk.ilk
+/Debug/COMP345_Risk.pdb
+/COMP345_Risk/x64/Debug
+/COMP345_Risk/Debug
