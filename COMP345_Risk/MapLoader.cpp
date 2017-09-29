@@ -45,19 +45,22 @@ MapLoader::MapLoader(std::string fileDirectory) {
 						Country* neighboringCountry = new Country(lineVector.at(i));
 						territory->setNeighboringCountries(neighboringCountry);
 					}
-					else{
+					else {
 						//if country is already included in the map
 						territory->setNeighboringCountries(m->getCountryFromMapByName(lineVector[i]));
 					}
 				}
-				
-				/*cout << "Country name is: " << territory->getCountryName() << endl;
+
+				cout << "Country name is: " << territory->getCountryName() << endl;
 				cout << "X: " << territory->getX() << " Y: " << territory->getY() << endl;
 				cout << "Continent: " << territory->getContinent() << endl;
 				cout << "Neighbor countries: ";
 				//check neighbor countries
-				string vectorNeighbor = territory->getNeighboringCountries().at(0)->getCountryName();
-				cout << endl << endl;*/
+				for (int i = 0; i < territory->getNeighboringCountries().size(); i++) {
+					string vectorNeighbor = territory->getNeighboringCountries().at(i)->getCountryName();
+					cout << vectorNeighbor << ", ";
+				}
+				cout << endl << endl;
 
 			}
 		}
@@ -70,7 +73,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 		}
 		if (line.find("[Territories]") != string::npos && hasMap && hasContinents) {
 			hasTerritories = true;
-			
+
 		}
 	}
 	//If no checks are passed, map is invalid.
@@ -87,8 +90,8 @@ MapLoader::MapLoader(std::string fileDirectory) {
 	cin >> neighborCheck;
 	//Pulls neighbor countries from the actual neighboringCountries vector of that country
 	vector<Country*> neighborCheckVector = m->getCountryFromMapByName(neighborCheck)->getNeighboringCountries();
-		string s = neighborCheckVector.at(0)->getCountryName();
-		cout << s << neighborCheckVector.size();
+	string s = neighborCheckVector.at(0)->getCountryName();
+	cout << s << neighborCheckVector.size();
 
 	inputfilestream.close();
 
@@ -96,8 +99,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 }
 
 /*int main() {
-	MapLoader("World.map");
-	system("pause");
-	return 0;
+MapLoader("World.map");
+system("pause");
+return 0;
 }*/
-

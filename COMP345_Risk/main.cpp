@@ -118,5 +118,11 @@ void playerActions() {
 }
 
 void cardDeckMethods() {
-	Deck *playDeck = new Deck();
+	Deck playDeck = Deck();
+	Hand playHand = Hand(1);
+	for (size_t i = 0; i < playDeck.DECK_SIZE; i++) {
+		playDeck.draw(1);		
+	}
+	playDeck.showCardsInDeck();
+	playHand.showCardsInHand(1, playDeck);
 }

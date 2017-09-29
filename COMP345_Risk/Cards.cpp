@@ -1,5 +1,5 @@
 #include "Cards.h"
-
+#include "GameConstants.h"
 #include <iostream>
 using namespace std;
 
@@ -24,9 +24,12 @@ int Cards::getCardLocation() {
 	return this->location;
 }
 
+void Cards::setCardLocation(int handId) {
+	this->location = handId;
+}
 
 Deck::Deck() {
-	for (size_t i = 0; i < 3; i++) {
+	for (size_t i = 0; i < DECK_SIZE; i++) {
 		if (i < CARDS_PER_TYPE) {
 			cards[i] = Cards(1, i + 1, 0);
 		}
@@ -34,7 +37,7 @@ Deck::Deck() {
 			cards[i] = Cards(2, i + 1, 0);
 		}
 		else if (i < 3 * CARDS_PER_TYPE) {
-			cards[i] = Cards(3, i, 0);
+			cards[i] = Cards(3, i + 1, 0);
 		}
 	}
 	//debug display deck array
@@ -50,6 +53,25 @@ void Deck::showCardsInDeck() {
 	}
 }
 
-Hand::Hand() {
+void Hand::showCardsInHand(int handId, Deck deck) {
+	cout << "Player " << handId << "'s hand:" << endl;
+	for (size_t i = 0; i < 42; i++) {
+		if (deck.cards[i].getCardLocation() == handId) {
+			cout << "Card ID at position " << i << " (TYPE-ID): " << deck.cards[i].getType() << deck.cards[i].getId() << endl;
+		}
+	}
+}
 
+void Deck::draw(int handId) {
+	cout << "Drawing cards for player " << handId << endl;
+	for (int i = 0; i < DECK_SIZE; i++) {
+		if (this->cards[i].getCardLocation() == 0) {
+			this->cards[i].setCardLocation(handId);
+			break;
+		}
+	}
+}
+
+Hand::Hand(int id) {
+	this->id = id;
 }

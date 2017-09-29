@@ -3,5 +3,8 @@ using namespace std;
 
 class GameConstants {
 public:
-	int STARTING_NUMBER_OF_COUNTRY = 5;
+	int const STARTING_NUMBER_OF_COUNTRY = 5;
+	int const DECK_SIZE = 42;
+	int const CARDS_PER_TYPE = DECK_SIZE / 3;
+	int const CARD_TYPES = 3;
 };
