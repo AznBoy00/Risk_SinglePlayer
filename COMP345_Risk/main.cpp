@@ -47,9 +47,6 @@ void loadMenu() {
 	} while (selection != 5);
 }
 
-void readMaps() {
-}
-
 void loadMaps() {
 	MapLoader("World.map");
 	//system("pause");
@@ -90,6 +87,33 @@ void loadDice() {
 }
 
 void playerActions() {
+	int selection;
+	Player *p1 = new Player(1);
+
+	cout << "\n(Part 4)Player(1) action menu demo:" << endl;
+	cout << "Turn player action:" << endl;
+	cout << "1-Show player info" << endl;
+	cout << "2-Reinforce" << endl;
+	cout << "3-Attack" << endl;
+	cout << "4-Fortify" << endl;
+	cin >> selection;
+
+	switch (selection) {
+	case 1:
+		p1->showStats();
+		break;
+	case 2:
+		p1->reinforce();
+		break;
+	case 3:
+		p1->attack();
+		break;
+	case 4:
+		p1->fortify();
+		break;
+	default:
+		break;
+	}
 }
 
 void cardDeckMethods() {

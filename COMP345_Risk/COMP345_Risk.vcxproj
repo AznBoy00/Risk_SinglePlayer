@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Dice.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameConstants.cpp" />
@@ -29,7 +28,6 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Deck.h" />
     <ClInclude Include="Dice.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameConstants.h" />
