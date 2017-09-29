@@ -3,6 +3,7 @@
 #include "Time.h"
 #include "main.h"
 #include "MapLoader.h"
+#include "Cards.h"
 
 #include <iostream>
 using namespace std;
@@ -117,4 +118,5 @@ void playerActions() {
 }
 
 void cardDeckMethods() {
+	Deck *playDeck = new Deck();
 }
