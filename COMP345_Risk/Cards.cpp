@@ -24,8 +24,8 @@ int Cards::getCardLocation() {
 	return this->location;
 }
 
-void Cards::setCardLocation(int handId) {
-	this->location = handId;
+void Cards::setCardLocation(int value) {
+	this->location = value;
 }
 
 Deck::Deck() {
@@ -53,11 +53,11 @@ void Deck::showCardsInDeck() {
 	}
 }
 
-void Hand::showCardsInHand(int handId, Deck deck) {
-	cout << "Player " << handId << "'s hand:" << endl;
-	for (size_t i = 0; i < 42; i++) {
-		if (deck.cards[i].getCardLocation() == handId) {
-			cout << "Card ID at position " << i << " (TYPE-ID): " << deck.cards[i].getType() << deck.cards[i].getId() << endl;
+void Deck::showCardsInDiscarded() {
+	cout << "Discarded card content:" << endl;
+	for (size_t i = 0; i < DECK_SIZE; i++) {
+		if (this->cards[i].getCardLocation() == -1) {
+			cout << "Card ID at position " << i << " (TYPE-ID): " << this->cards[i].getType() << this->cards[i].getId() << endl;
 		}
 	}
 }
@@ -74,4 +74,24 @@ void Deck::draw(int handId) {
 
 Hand::Hand(int id) {
 	this->id = id;
+}
+
+void Hand::showCardsInHand(int handId, Deck deck) {
+	cout << "Player " << handId << "'s hand:" << endl;
+	for (size_t i = 0; i < 42; i++) {
+		if (deck.cards[i].getCardLocation() == handId) {
+			cout << "Card ID at position " << i << " (TYPE-ID): " << deck.cards[i].getType() << deck.cards[i].getId() << endl;
+		}
+	}
+}
+
+void Hand::exchange(int handId, Deck deck) {
+	int tradeValue = 0;
+	for (size_t i = 0; i < 3; i++) {
+		while (deck.cards[i].getCardLocation() == handId) {
+			deck.cards[i].setCardLocation(-1);
+			tradeValue += 3; //To be defined later (3 for hardcode)
+		}
+	}
+	cout << "Player " << handId << "'s traded army value is incremented by " << tradeValue << endl;
 }

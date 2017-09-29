@@ -125,4 +125,10 @@ void cardDeckMethods() {
 	}
 	playDeck.showCardsInDeck();
 	playHand.showCardsInHand(1, playDeck);
+	playHand.exchange(1, playDeck);
+
+	//debug
+	//playHand.showCardsInHand(1, playDeck);
+	//playDeck.showCardsInDeck();
+	//playDeck.showCardsInDiscarded();
 }
