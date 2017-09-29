@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
+#include <algorithm>
 #include <string>
 #include "deck.h"
 #include "GameConstants.h"
@@ -9,37 +10,37 @@
 // create all country cards here based on the map that is loaded.
 //do not know which countries are what type for now.
 Deck::Deck() {
-	//deck = new Card[numberOfCountry];
-	int currentCard = 0;
-	for (int count = 0; count < numberOfCountry; count++) {//create a deck with cards. 
-		//deck[count] = card(country[count], type[count]);
+	for (int count = 0; count < numberOfCards; count++) {//create a deck with cards. 
+		Card* c = new Card("Quebec", "Infantry");
+		cardDeck.push_back(*c);
 	}
 }
 
 Deck::~Deck() {
 }
 
-
-string Deck::card(string country, string type) {
-	countryCard = country;
-	cardType = type;
-	numberOfCountry;
-	for (int count = 0; count < numberOfCountry; count++) {
-		country[numberOfCountry];
-		type[numberOfCountry];
-	}
-	return NULL;
+Card Deck::draw() {
+	shuffle();
+	Card top = cardDeck.back();
+	cardDeck.pop_back();
+	return top;
 }
 
-string Deck::getType(int card) {
-	return cardType;
+void Deck::shuffle() {
+	std::random_shuffle(cardDeck.begin(), cardDeck.end());
 }
 
-string Deck::print() {
-	return (countryCard + ", " + cardType);
+Card::Card(string c, string t) {
+	country = c;
+	type = t;
 }
 
-void Deck::shuffle() {//shuffle created deck
+string Card::getType(int card) {
+	return type;
+}
+
+
+/*void Deck::shuffle() {//shuffle created deck
 	int currentCard;
 	Deck temp;
 	for (int first = 0; first < numberOfCountry; first++) {
@@ -49,7 +50,7 @@ void Deck::shuffle() {//shuffle created deck
 		deck[second] = temp;
 
 	}
-}
+}*/
 
 string Deck::hand() {
 	Deck();
@@ -60,12 +61,5 @@ string Deck::hand() {
 	//deck player4[];
 	//deck player5[];
 	//deck player6[];
-	return NULL;
-}
-
-string Deck::draw() {
-	int currentCard = 0;
-	//turnplayer[currentCard] = deck[currentCard]; // turnplayer to be define in player file. 
-	currentCard++;
 	return NULL;
 }
