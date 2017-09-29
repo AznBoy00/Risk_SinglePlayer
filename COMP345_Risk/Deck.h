@@ -12,8 +12,6 @@ public:
 	int numberOfCards;
 	vector<Card> cardDeck;
 	
-	string print();
-	string hand();
 	Card draw();
 	string driver();
 	void printdeck();
@@ -25,7 +23,7 @@ class Card
 public:
 	Card();
 	Card(string c, string t);
-	string getType(int card);
+	string getType();
 
 private:
 	string country;
@@ -36,10 +34,11 @@ private:
 class Hand
 {
 public:
-	Hand();
+	Hand(Deck d);
 	void exchange();
 private:
 	vector<Card> hand;
+
 
 };
 

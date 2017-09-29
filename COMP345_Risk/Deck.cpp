@@ -27,7 +27,8 @@ Deck::Deck() {
 Deck::~Deck() {
 }
 
-Card Deck::draw() {
+
+Card Deck::draw(){
 	shuffle();
 	Card top = cardDeck.back();
 	cardDeck.pop_back();
@@ -43,15 +44,28 @@ Card::Card(string c, string t) {
 	type = t;
 }
 
-string Card::getType(int card) {
+string Card::getType() {
 	return type;
 }
 
-Hand::Hand() {
-	hand.push_back(Deck::cardDeck.draw());
+Hand::Hand(Deck d) {
+	for (int i = 0; i < 6; i++) {
+		hand.push_back(d.draw());
+	}
 }
 
 void Hand::exchange() {
-	
+	for (int i = 0; i < 3; i++) {
+		string s = hand.front().getType();
+		if (s.compare("Infantry") == 0) {
+			cout << "1 army" << endl;
+		}
+		else if (s.compare("Artillery") == 0) {
+			cout << "5 army" << endl;
+		}
+		else if (s.compare("Cavalry") == 0) {
+			cout << "10 army" << endl;
+		}
+	}
 }
 
