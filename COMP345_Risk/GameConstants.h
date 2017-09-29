@@ -2,5 +2,6 @@
 using namespace std;
 
 class GameConstants {
-	int test;
+public:
+	int STARTING_NUMBER_OF_COUNTRY = 5;
 };
