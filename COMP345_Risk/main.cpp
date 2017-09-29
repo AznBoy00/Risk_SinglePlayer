@@ -1,4 +1,5 @@
 #include "Dice.h"
+#include "Deck.h"
 #include "Player.h"
 #include "Time.h"
 #include "main.h"
@@ -135,4 +136,65 @@ void playerActions() {
 	Create a deck object, then cards will be drawn and shown until the deck decks out.
 */
 void cardDeckMethods() {
+	Deck newDeck = Deck();
+	cout << "Deck created." << endl;
+	newDeck.shuffle();
+	cout << "Deck shuffled." << endl;
+
+	Deck infantryArray[14];
+	Deck artilleryArray[14];
+	Deck cavalryArray[14];
+	int infantrycounter, artillerycounter, cavalrycounter;
+
+	for (int i = 0; i < 42; i++) {// loop to identify each card type from the deck
+								 // and place them in a array of that said type
+		if (newDeck[i].getType().compare("Infantry") == 0) {
+			infantrycounter = 0;
+			infantryArray[infantrycounter] = newDeck[i];
+			infantrycounter++;
+		}
+
+		if (newDeck[i].getType().compare("Artillery") == 0) {
+			artillerycounter = 0;
+			artilleryArray[artillerycounter] = newDeck[i];
+			artillerycounter++;
+		}
+
+		if (newDeck[i].getType().compare("Cavalry") == 0) {
+			cavalrycounter = 0;
+			cavalryArray[cavalrycounter] = newDeck[i];
+			cavalrycounter++;
+		}
+
+	}
+
+	for (int i = 0; i < 14; i++)
+		infantryArray[i].print();
+	cout << infantrycounter + " infantry cards" << endl;
+
+	for (int i = 0; i < 14; i++)
+		artilleryArray[i].print();
+	cout << artillerycounter + " artillery cards" << endl;
+
+	for (int i = 0; i < 14; i++)
+		cavalryArray[i].print();
+	cout << infantrycounter + " cavalry cards" << endl;
+
+	Hand newHand = Hand();// create hand. 
+	int play;
+	cout << "Show me your moves." << endl;
+	cout << " Enter 1 to draw or 2 to exchange hand and 3 to quit." << endl;
+
+	cin >> play;
+	if (play == 1) {
+	newHand.draw();
+	play = 0;
+}
+if (play == 2) {
+	newHand.exchange();
+	play = 0;
+}
+else exit(0);
+
+
 }
