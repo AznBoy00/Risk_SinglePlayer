@@ -45,6 +45,8 @@ void Player::showStats() {
 	double nominator;
 	double denominator;
 	cout << "\nPlayer ID: " << getId() << endl;
+	cout << "Player hand: " << endl;
+	//insert player hand object description here
 	cout << "Number of dice rolled: " << diceRolled << endl;
 	for (size_t i = 0; i < 6; i++) {
 		nominator = diceDistribution[i];
@@ -63,4 +65,16 @@ void Player::roll(int num) {
 		this->diceDistribution[result - 1] += 1;
 	}
 	this->diceRolled += num;
+}
+
+void Player::reinforce() {
+	cout << "Player " << this->getId << " is reinforcing." << endl;
+}
+
+void Player::attack() {
+	cout << "Player " << this->getId << " is attacking." << endl;
+}
+
+void Player::fortify() {
+	cout << "Player " << this->getId << " is fortifying." << endl;
 }

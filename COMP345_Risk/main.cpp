@@ -55,6 +55,7 @@ void readMaps() {
 }
 
 void loadMaps() {
+	cout << "\n(Part 1 & 2)Map demo:" << endl;
 	MapLoader("World.map");
 	//system("pause");
 }
@@ -65,6 +66,8 @@ void loadDice() {
 
 	Player *p1 = new Player(1);
 	Player *p2 = new Player(2);
+
+	cout << "\n(Part 3)Dice methods demo:" << endl;
 
 	cout << "\nHow many dice(s) does Player 1 want to roll? (1-3)" << endl;
 	cin >> num;
@@ -85,12 +88,40 @@ void loadDice() {
 	cout << "P1 stats" << endl;
 	//p1->showStats();
 	p1->getDice().showStats();
-	cout << "P1 stats" << endl;
+
+	cout << "P2 stats" << endl;
 	p2->getDice().showStats();
 	//p2->showStats();
 }
 
 void playerActions() {
+	int selection;
+	Player *p1 = new Player(1);
+	
+	cout << "\n(Part 4)Player(1) action menu demo:" << endl;
+	cout << "Turn player action:" << endl;
+	cout << "1-Show player info" << endl;
+	cout << "2-Reinforce" << endl;
+	cout << "3-Attack" << endl;
+	cout << "4-Fortify" << endl;
+	cin >> selection;
+
+	switch (selection) {
+		case 1:
+			p1->showStats();
+			break;
+		case 2:
+			p1->reinforce();
+			break;
+		case 3:
+			p1->attack();
+			break;
+		case 4:
+			p1->fortify();
+			break;
+		default:
+			break;
+	}
 }
 
 void cardDeckMethods() {
