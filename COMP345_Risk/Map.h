@@ -1,74 +1,90 @@
-#pragma once
+#ifndef MAP_H
+#define MAP_H
 
 #include <string>
 #include <vector>
-#include <iostream>
+#include <algorithm>
+#include <iterator>
+
 class Continent;
 class Country;
 
-class Map
-{
+class Map {
 public:
-	Map();
-
-	void setContainedContinents(Continent* continent);
-	void setContainedCountries(Country* country);
-	std::vector <Country*> getContainedCountries();
-	Country* getCountryFromMapByName(std::string countryName);
-	bool containsCountry(std::string s);
-	bool isMapNotValid();
-	bool isCountryExist();
-	bool isContinentExist();
+    Map();
+    
+    void setContainedContinentInMap(Continent* continent);
+    void setContainedCountryInMap(Country* country);
+    
+    std::vector<Continent*> getContainedContinentsInMap();
+    std::vector<Country*> getContainedCountriesInMap();
+	Country* getCountryByName(std::string nameOfCountry);
+	Continent* getContinentByName(std::string nameOfContinent);
+	
+	bool isMapContainsCountry(std::string nameOfCountry);
+	bool isMapContainsContinent(std::string nameOfContinent);
+	bool isMapValid();
 
 private:
-	std::vector <Continent*> contained_continent;
-	std::vector <Country*> contained_country_map;
+    std::vector<Continent*> containedContinentsInMap;
+    std::vector<Country*> containedCountriesInMap ;
+	void depthFirstSearchForCountries(Country* country, std::vector<Country*> &visited);
+	void depthFirstSearchForContinents(Continent* continent, std::vector<Continent*> &visited);
+	bool isCountryInMultipleContinent();
+	bool isMapFullyConnected();
 };
 
-class Continent
-{
+class Continent{
 public:
-	Continent(std::string name);
+    Continent();
+    
+    void setNameOfContinent(std::string nameOfContinent);
+    void setNeighboringContinent(Continent* continent);
+    void setContainedCountryInContinent(Country* country);
+    
+    std::string getNameOfContinent();
+    std::vector<Continent*> getNeighboringContinents();
+    std::vector<Country*> getContainedCountriesInContinent();
+    
+	friend Map;
 
-	void setContainedCountries(Country *country);
-	void setNeighboringContinents(Continent *continent);
-	bool isContinentNotValid();
-	std::string getContinentName();
 private:
-	std::string continent_name;
-	std::vector<Country*> contained_country_cont;
-	std::vector<Continent*> neighboring_continent;
+    std::string nameOfContinent;
+    std::vector<Continent*> neighboringContinents;
+    std::vector<Country*> containedCountriesInContinent;
 };
 
-class Country
-{
+class Country{
 public:
-	Country();
-	Country(std::string name);
-
-	void setNeighboringCountries(Country* neighbor);
-	void setCountryName(std::string name);
-	void setTroopNumber(int numberOfTroops);
-	void setOwner(std::string ownerOfCountry);
-	void setContinent(std::string insideContinent);
-	void setX(int xCoord);
-	void setY(int yCoord);
-
-	std::vector<Country*> getNeighboringCountries();
-	std::string getCountryName();
-	int getTroopNumber();
-	std::string getOwner();
+    Country();
+	Country::Country(std::string nameOfCountry);
+    
+    void setNumberOfTroops(int numberOfTroops);
+    void setNameOfCountry(std::string nameOfCountry);
+    void setNeighboringCountry(Country* country);
+    void setOwner(std::string owner);
+	void setCoordinateX(int coordinateX);
+	void setCoordinateY(int coordinateY);
+	void setContinent(std::string continent);
+    
+    int getNumberOfTroops();
+    std::string getNameOfCountry();
+    std::vector<Country*> getNeighboringCountries();
+    std::string getOwner();
+	int getCoordinateX();
+	int getCoordinateY();
 	std::string getContinent();
-	int getX();
-	int getY();
-	bool isCountryNotValid();
-private:
-	int troopNumber;
-	std::string owner;
-	std::string continent;
-	std::string country_name;
-	std::vector<Country*> neighboring_countries;
-	int x;
-	int y;
-};
 
+	friend Map;
+	friend Continent;
+
+private:
+    int numberOfTroops;
+    std::string nameOfCountry;
+	std::string continentName;
+    std::vector<Country*> neighboringCountries;
+    std::string owner;
+	int coordinateX;
+	int coordinateY;
+};
+#endif

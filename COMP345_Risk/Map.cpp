@@ -1,135 +1,215 @@
 #include "Map.h"
-#include <algorithm>
-/*Default constructor*/
-Map::Map()
-{
+
+//Map Initialization
+Map::Map() {
 }
-/*Setter for containing continent object*/
-void Map::setContainedContinents(Continent* continent) {
-	Map::contained_continent.push_back(continent);
+
+void Map::setContainedContinentInMap(Continent* continent){
+    containedContinentsInMap.push_back(continent);
 }
-/*Setter for containing country*/
-void Map::setContainedCountries(Country* country) {
-	Map::contained_country_map.push_back(country);
+
+void Map::setContainedCountryInMap(Country* country){
+    containedCountriesInMap.push_back(country);
 }
-/*Getter for containing continent object*/
-std::vector<Country*> Map::getContainedCountries() {
-	return Map::contained_country_map;
+    
+std::vector<Continent*> Map::getContainedContinentsInMap(){
+    return containedContinentsInMap;
 }
-/*Getter for country from map by name*/
-Country* Map::getCountryFromMapByName(std::string countryName){
-	int i = 0;
-	while(i < contained_country_map.size()){
-		if (contained_country_map[i]->getCountryName().compare(countryName) == 0){
-			return contained_country_map[i];
+
+std::vector<Country*> Map::getContainedCountriesInMap(){
+    return containedCountriesInMap;
+}
+
+Country* Map::getCountryByName(std::string nameOfCountry){
+	for (unsigned int i = 0; i < containedCountriesInMap.size(); i++){
+		if (containedCountriesInMap[i]->nameOfCountry == nameOfCountry){
+			return containedCountriesInMap[i];
 		}
-		i++;
 	}
+	return NULL;
 }
-/*Returns Boolean for an invalid map*/
-bool Map::isMapNotValid(){
-	if (contained_continent.empty()){
-		return true;
+
+Continent* Map::getContinentByName(std::string nameOfContinent) {
+	for (unsigned int i = 0; i < containedContinentsInMap.size(); i++) {
+		if (containedContinentsInMap[i]->nameOfContinent == nameOfContinent) {
+			return containedContinentsInMap[i];
+		}
 	}
-	return false;
+	return NULL;
 }
-/*Returns boolean if a map contains s country*/
-bool Map::containsCountry(std::string s){ //rewrite this function
-	for (int i = 0; i < contained_country_map.size(); i++) {
-		if (contained_country_map[i]->getCountryName().compare(s) == 0) {
+
+bool Map::isMapContainsCountry(std::string nameOfCountry){
+	for (unsigned int i = 0; i < containedCountriesInMap.size(); i++){
+		if (containedCountriesInMap[i]->nameOfCountry == nameOfCountry){
 			return true;
 		}
 	}
 	return false;
 }
-/*Constructor Continent*/
-Continent::Continent(std::string name)
-{
-	continent_name = name;
-}
-/*Setter for contained countries*/
-void Continent::setContainedCountries(Country* country) {
-	contained_country_cont.push_back(country);
-}
-/*Setter for neighboring continents*/
-void Continent::setNeighboringContinents(Continent* continent) {
-	neighboring_continent.push_back(continent);
-}
-/*Returns a boolean for an invalid continent*/
-bool Continent::isContinentNotValid() {
-	return contained_country_cont.empty() || neighboring_continent.empty();
-}
-/*Getter of continent name*/
-std::string Continent::getContinentName() {
-	return continent_name;
+
+bool Map::isMapContainsContinent(std::string nameOfContinent) {
+	for (unsigned int i = 0; i < containedContinentsInMap.size(); i++) {
+		if (containedContinentsInMap[i]->nameOfContinent == nameOfContinent) {
+			return true;
+		}
+	}
+	return false;
 }
 
-/*Default constructor for Country*/
-Country::Country()
-{
+bool Map::isMapValid(){
+	return (!isCountryInMultipleContinent() && isMapFullyConnected());
 }
-/*Constructor accepting string name*/
-Country::Country(std::string name){
-	country_name = name;
+
+bool Map::isCountryInMultipleContinent(){
+    for(unsigned int i = 0; i < containedContinentsInMap.size(); i++){
+        for(unsigned int j = i+1; j < containedContinentsInMap.size(); j++){
+            for(unsigned int k = 0; k < containedContinentsInMap[i]->containedCountriesInContinent.size(); k++){
+                for(unsigned int l = 0; l < containedContinentsInMap[j]->containedCountriesInContinent.size(); l++){
+                    if((containedContinentsInMap[i]->containedCountriesInContinent[k]->nameOfCountry) 
+						== (containedContinentsInMap[j]->containedCountriesInContinent[l]->nameOfCountry)){
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
-/*Setter for neighboring country*/
-void Country::setNeighboringCountries(Country * neighbor)
-{
-	Country::neighboring_countries.push_back(neighbor);
+
+bool Map::isMapFullyConnected() {
+	
+	if (containedContinentsInMap.size() == 0 || containedCountriesInMap.size() == 0) {
+		return false;
+	}
+	
+	std::vector<Country*> visitedCountries;
+	depthFirstSearchForCountries(containedCountriesInMap[0], visitedCountries);
+
+	std::vector<Continent*> visitedContinents;
+	depthFirstSearchForContinents(containedContinentsInMap[0], visitedContinents);
+
+	if (visitedContinents.size() == containedContinentsInMap.size() && visitedCountries.size() == containedCountriesInMap.size()) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
-/*Setter for country name*/
-void Country::setCountryName(std::string name) {
-	country_name = name;
+
+void Map::depthFirstSearchForCountries(Country* country, std::vector<Country*> &visited) {
+	visited.push_back(country);
+
+	for (unsigned int i = 0; i < country->neighboringCountries.size(); i++) {
+		if (std::find(std::begin(visited), std::end(visited), country->neighboringCountries[i])
+			== std::end(visited)) {
+			depthFirstSearchForCountries(country->neighboringCountries[i], visited);
+		}
+		else{
+
+		}
+	}
+
 }
-/*Setter for troop number*/
-void Country::setTroopNumber(int numberOfTroops) {
-	troopNumber = numberOfTroops;
+
+void Map::depthFirstSearchForContinents(Continent* continent, std::vector<Continent*> &visited) {
+	visited.push_back(continent);
+
+	for (unsigned int i = 0; i < continent->neighboringContinents.size(); i++) {
+		if (std::find(std::begin(visited), std::end(visited), continent->neighboringContinents[i])
+			== std::end(visited)) {
+			depthFirstSearchForContinents(continent->neighboringContinents[i], visited);
+		}
+	}
 }
-/*Setter for owner of country*/
-void Country::setOwner(std::string ownerOfCountry) {
-	owner = ownerOfCountry;
+
+//Continent Initialization
+Continent::Continent(){
 }
-/*Setter for continent*/
-void Country::setContinent(std::string insideContinent) {
-	continent = insideContinent;
+
+void Continent::setNameOfContinent(std::string nameOfContinent){
+    this->nameOfContinent = nameOfContinent;
 }
-/*Setter for coordinate X*/
-void Country::setX(int coordX) {
-	x = coordX;
+
+void Continent::setNeighboringContinent(Continent* continent){
+    neighboringContinents.push_back(continent);
 }
-/*Setter for coordinate Y*/
-void Country::setY(int coordY) {
-	y = coordY;
+
+void Continent::setContainedCountryInContinent(Country* country){
+    containedCountriesInContinent.push_back(country);
 }
-/*Getter for a vector of neighboring country*/
+    
+std::string Continent::getNameOfContinent(){
+    return nameOfContinent;
+}
+    
+std::vector<Continent*> Continent::getNeighboringContinents(){
+    return neighboringContinents;
+}
+
+std::vector<Country*> Continent::getContainedCountriesInContinent(){
+    return containedCountriesInContinent;
+}
+
+//Country Initialization
+Country::Country(){
+}
+
+Country::Country(std::string nameOfCountry){
+	this->nameOfCountry = nameOfCountry;
+}
+
+void Country::setNumberOfTroops(int numberOfTroops){
+    this->numberOfTroops = numberOfTroops;
+}
+
+void Country::setNameOfCountry(std::string nameOfCountry){
+    this->nameOfCountry = nameOfCountry;
+}
+
+void Country::setNeighboringCountry(Country* country){
+    neighboringCountries.push_back(country);
+}
+
+void Country::setOwner(std::string owner){
+    this->owner = owner;
+}
+
+void Country::setCoordinateX(int coordinateX){
+	this->coordinateX = coordinateX;
+}
+
+void Country::setCoordinateY(int coordinateY){
+	this->coordinateY = coordinateY;
+}
+
+void Country::setContinent(std::string continent) {
+	this->continentName = continent;
+}
+
+int Country::getNumberOfTroops(){
+    return numberOfTroops;
+}
+
+std::string Country::getNameOfCountry(){
+    return nameOfCountry;
+}
+
 std::vector<Country*> Country::getNeighboringCountries(){
-	return neighboring_countries;
+    return neighboringCountries;
 }
-/*Getter for country name*/
-std::string Country::getCountryName() {
-	return country_name;
+
+std::string Country::getOwner(){
+    return owner;
 }
-/*Getter for troop number*/
-int Country::getTroopNumber() {
-	return troopNumber;
+
+int Country::getCoordinateX(){
+	return coordinateX;
 }
-/*Getter of owner*/
-std::string Country::getOwner() {
-	return owner;
+
+int Country::getCoordinateY(){
+	return coordinateY;
 }
-/*Getter for continent*/
+
 std::string Country::getContinent() {
-	return continent;
-}
-/*Returns boolean for valid country*/
-bool Country::isCountryNotValid() {
-	return neighboring_countries.empty();
-}
-/*Getter for x coordinate for a country*/
-int Country::getX() {
-	return x;
-}
-/*Getter for y coordinate for a country*/
-int Country::getY() {
-	return y;
+	return continentName;
 }
