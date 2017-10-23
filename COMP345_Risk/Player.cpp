@@ -78,3 +78,11 @@ void Player::attack() {
 void Player::fortify() {
 	cout << "Player " << this->getId() << " is fortifying." << endl;
 }
+
+void Player::setTurnNumber(int t) {
+	turnNumber = t;
+}
+
+int Player::getTurnNumber() {
+	return turnNumber;
+}

@@ -1,6 +1,8 @@
 #pragma once
 #include "Dice.h"
+#include <vector>
 #include <iostream>
+#include "Map.h"
 using namespace std;
 
 class Player {
@@ -14,7 +16,7 @@ public:
 	Dice getDice();
 
 	//Platyer Variables
-	string countries;
+	
 	
 	//Getters and Setters
 	int getId();
@@ -28,10 +30,16 @@ public:
 	void attack();
 	void fortify();
 	void showStats();
+	void setTurnNumber(int t);
+	int getTurnNumber();
+	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }
+	vector<Country*> getOwnedCountries() { return ownedCountries; }
 private:
 	//Player Variables
 	int id;
 	int diceRolled;
 	int diceDistribution[6];
+	int turnNumber = 0;
+	vector<Country*> ownedCountries;
 };
 

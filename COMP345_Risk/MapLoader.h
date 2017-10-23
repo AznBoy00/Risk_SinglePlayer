@@ -1,14 +1,9 @@
-#ifndef MAPLOADER_H
-#define MAPLOADER_H
-
-#include "Map.h";
+#include "Map.h"
 
 class MapLoader {
 public:
-    MapLoader(std::string directory);
+	MapLoader(std::string fileDirectory);
+	Map* getMap();
 private:
 	Map* map;
 };
-
-#endif 
-

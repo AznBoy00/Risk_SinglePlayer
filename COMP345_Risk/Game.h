@@ -1,7 +1,13 @@
 #include <iostream>
+#include "Player.h"
 using namespace std;
 
 class Game {
-	int playerInGame;
-	int turnPlayer;
+public:
+	Game();
+	vector<Player*> playerVector;
+
+private:
+	int numOfPlayers;
+
 };
