@@ -9,5 +9,5 @@ public:
 
 private:
 	int numOfPlayers;
-
+	int winnerId; // -1 = No winner, x = playerId is the winner.
 };

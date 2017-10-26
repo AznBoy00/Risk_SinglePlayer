@@ -2,7 +2,7 @@
 #include <vector>
 #include "Game.h"
 #include "Player.h"
-#include <dirent.h>
+#include "dirent.h""
 #include "MapLoader.h"
 
 Game::Game() {
@@ -12,6 +12,8 @@ Game::Game() {
 	DIR* mapDir = opendir("./Map Files/");
 	int mapNumber = 0;
 	vector<string> mapList;
+	winnerId = -1;
+
 	if (mapDir) {
 		while ((directory = readdir(mapDir)) != NULL) {
 			mapList.push_back(directory->d_name);
@@ -69,12 +71,11 @@ Game::Game() {
 	for (int i = 0; i < numOfPlayers; i++) {
 		cout << "Player " << i << " :";
 	}
-	
 
+	// Run every steps of the game here.
+	while (winnerId == -1) {
+		
+	}
 
-
-
-
-	
-
+	cout << "The winner is Player: " << winnerId << ". Congratulations!" << endl;
 }
