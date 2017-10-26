@@ -74,7 +74,9 @@ Game::Game() {
 
 	// Run every steps of the game here.
 	while (winnerId == -1) {
-		
+		for (size_t i = 0; i < numOfPlayers; i++) {
+
+		}
 	}
 
 	cout << "The winner is Player: " << winnerId << ". Congratulations!" << endl;
