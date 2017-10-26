@@ -30,7 +30,7 @@ Game::Game() {
 		cout << "How many players are in the game? (2-6)";
 		cin >> numOfPlayers;
 		if (numOfPlayers < 2 || numOfPlayers > 6) {
-			cout << "Entered number of players not within accept range." << endl;
+			cout << "Entered number of players not within accepted range." << endl;
 		}
 	} while (numOfPlayers < 2 || numOfPlayers > 6);
 
@@ -46,7 +46,7 @@ Game::Game() {
 			rando = rand() % numOfPlayers;
 		}
 		playerVector.at(rando)->setTurnNumber(i); //assign that turn number to the player
-		cout << "Player " << rando + 1 << " with turn number " << i;
+		cout << "\nPlayer " << rando + 1 << " with turn number " << i;
 	}
 
 	//country assignment
@@ -98,9 +98,13 @@ Game::Game() {
   
 	// Run every steps of the game here.
 	while (winnerId == -1) {
-		winnerId = 1;
+		int randomCountry;
+		//winnerId = 1;
 		for (size_t i = 0; i < numOfPlayers; i++) {
-
+			cout << "Reinforment phase for player " << i + 1 << endl;
+			//playerVector.at(i)->reinforce();
+			cout << "Attack phase for player " << i + 1 << endl;
+			cout << "Fortification phase for player " << i + 1 << endl;
 		}
 	}
 

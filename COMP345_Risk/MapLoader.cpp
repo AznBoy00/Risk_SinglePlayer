@@ -47,7 +47,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 
 		}
 
-		if (hasContinents && !line.empty()) {
+		/*if (hasContinents && !line.empty()) {
 			Continent* continent = new Continent();
 			stringstream ss(line);
 			string word;
@@ -62,24 +62,24 @@ MapLoader::MapLoader(std::string fileDirectory) {
 
 			map->setContainedContinentInMap(continent);
 
-		}
+		}*/
 
 		//Checks for Map, Continent and Territories headers to validate map
 		if (line.find("[Map]") != string::npos) {
 			hasMap = true;
-			hasContinents = false;
-			hasTerritories = false;
+			//hasContinents = false;
+			//hasTerritories = false;
 		}
 		if (line.find("[Continents]") != string::npos) {
 			hasContinents = true;
-			hasMap = false;
-			hasTerritories = false;
+			//hasMap = false;
+			//hasTerritories = false;
 
 		}
 		if (line.find("[Territories]") != string::npos && hasMap && hasContinents) {
 			hasTerritories = true;
-			hasContinents = false;
-			hasMap = false;
+			//hasContinents = false;
+			//hasMap = false;
 		}
 	}
 	hasTerritories = false;
