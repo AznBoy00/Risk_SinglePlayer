@@ -15,7 +15,7 @@ public:
 	Dice* dice;
 	Dice getDice();
 
-	//Platyer Variables
+	//Player Variables
 	
 	
 	//Getters and Setters
@@ -26,7 +26,7 @@ public:
 
 	//Player Actions & MISC
 	void roll(int num);
-	void reinforce();
+	void reinforce(Map map);
 	void attack();
 	void fortify();
 	void showStats();

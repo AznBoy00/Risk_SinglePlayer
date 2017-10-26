@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Dice.h"
+#include <algorithm>
 
 #include <iostream>
 using namespace std;
@@ -67,8 +68,25 @@ void Player::roll(int num) {
 	this->diceRolled += num;
 }
 
-void Player::reinforce() {
+void Player::reinforce(Map map) {
 	cout << "Player " << this->getId() << " is reinforcing." << endl;
+
+	unsigned int addArmies = 0;
+
+	addArmies += ownedCountries.size() < 12 ? 3 : (int)(ownedCountries.size() / 3);
+
+	for (unsigned int i = 0; i < map.getContainedContinentsInMap().size(); i++) {
+		if (includes(ownedCountries.begin(),
+			ownedCountries.end(),
+			map.getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
+			map.getContainedContinentsInMap()[i]->getContainedCountriesInContinent().end())) {
+			addArmies += map.getContainedContinentsInMap()[i]->getContinentValue();
+		}
+	}
+
+	//Need to add armies when exchange
+	//Need help with this one
+
 }
 
 void Player::attack() {
@@ -77,6 +95,35 @@ void Player::attack() {
 
 void Player::fortify() {
 	cout << "Player " << this->getId() << " is fortifying." << endl;
+
+	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
+	for (unsigned int i = 0; i < ownedCountries.size(); i++) {
+		cout << i + 1 << ": " << ownedCountries[i] << " - " << ownedCountries[i]->getNumberOfTroops() << "Armies." << endl;
+	}
+	unsigned int fromCountry, toCountry;
+	cin >> fromCountry;
+	cout << "Select a country to transfer those armies by their respective number shown." << endl;
+	cin >> toCountry;
+
+	if (fromCountry < 1 || fromCountry > ownedCountries.size()
+		|| toCountry < 1 || toCountry > ownedCountries.size()) {
+		cout << "Invalid countries!" << endl;
+		exit(0);
+	}
+
+	cout << "Select a the number of armies you want to move." << endl;
+	unsigned int movingArmies;
+	cin >> movingArmies;
+
+	if (movingArmies < 0 || movingArmies >(ownedCountries[fromCountry - 1]->getNumberOfTroops() - 1)) {
+		cout << "Invalid number!" << endl;
+		exit(0);
+	}
+	int ArmiesFrom = ownedCountries[fromCountry - 1]->getNumberOfTroops();
+	int ArmiesTo = ownedCountries[toCountry - 1]->getNumberOfTroops();
+	ownedCountries[fromCountry]->setNumberOfTroops(ArmiesFrom - movingArmies);
+	ownedCountries[toCountry]->setNumberOfTroops(ArmiesTo + movingArmies);
+
 }
 
 void Player::setTurnNumber(int t) {

@@ -39,10 +39,12 @@ public:
 	void setNameOfContinent(std::string nameOfContinent);
 	void setNeighboringContinent(Continent* continent);
 	void setContainedCountryInContinent(Country* country);
+	void setContinentValue(int value);
 
 	std::string getNameOfContinent();
 	std::vector<Continent*> getNeighboringContinents();
 	std::vector<Country*> getContainedCountriesInContinent();
+	int getContinentValue();
 
 	friend Map;
 
@@ -50,6 +52,7 @@ private:
 	std::string nameOfContinent;
 	std::vector<Continent*> neighboringContinents;
 	std::vector<Country*> containedCountriesInContinent;
+	int continentValue;
 };
 
 class Country
@@ -88,4 +91,3 @@ private:
 	int coordinateY;
 	bool visited;
 };
-

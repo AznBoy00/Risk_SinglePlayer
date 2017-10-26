@@ -105,7 +105,7 @@ void Map::depthFirstSearchForContinents(Continent* continent, std::vector<Contin
 	}
 }
 
-bool Map::containsCountry(std::string s){ //rewrite this function
+bool Map::containsCountry(std::string s) { //rewrite this function
 	for (int i = 0; i < containedCountriesInMap.size(); i++) {
 		if (containedCountriesInMap[i]->getNameOfCountry().compare(s) == 0) {
 			return true;
@@ -132,6 +132,10 @@ void Continent::setContainedCountryInContinent(Country* country) {
 	containedCountriesInContinent.push_back(country);
 }
 
+void Continent::setContinentValue(int value) {
+	continentValue = value;
+}
+
 std::string Continent::getNameOfContinent() {
 	return nameOfContinent;
 }
@@ -142,6 +146,10 @@ std::vector<Continent*> Continent::getNeighboringContinents() {
 
 std::vector<Country*> Continent::getContainedCountriesInContinent() {
 	return containedCountriesInContinent;
+}
+
+int Continent::getContinentValue() {
+	return continentValue;
 }
 
 //Nope
@@ -184,7 +192,7 @@ void Country::setContinent(std::string continent) {
 }
 
 
-std::vector<Country*> Country::getNeighboringCountries(){
+std::vector<Country*> Country::getNeighboringCountries() {
 	return neighboringCountries;
 }
 
@@ -232,5 +240,5 @@ void Country::visitCountry(Map m) {
 	if (visits == m.getContainedCountriesInMap().size()) {
 		std::cout << "Map connectivity validated." << std::endl;
 	}
-	
+
 }
