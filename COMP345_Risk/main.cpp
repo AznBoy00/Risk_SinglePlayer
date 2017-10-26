@@ -18,7 +18,7 @@ void loadMenu() {
 	cout << "Welcome to Team18's COMP345 Risk Game!" << endl;
 	
 	do {
-		cout << "\n\nAssignment 1 Debug Menu" << endl;
+		cout << "\n\nAssignment 2 Debug Menu" << endl;
 		cout << "1- Start Game" << endl;
 		cout << "2- Load Map" << endl;
 		cout << "3- Roll Dice" << endl;
@@ -29,7 +29,7 @@ void loadMenu() {
 		cin >> selection;
 		switch (selection) {
 		case 1://Read map
-			readMaps();
+			startGame();
 			break;
 		case 2://Load map
 			loadMaps();
@@ -52,7 +52,9 @@ void loadMenu() {
 	} while (selection != 6);
 }
 
-void readMaps() {
+void startGame() {
+	//start game here.
+	Game::Game();
 }
 
 void loadMaps() {
@@ -96,33 +98,6 @@ void loadDice() {
 }
 
 void playerActions() {
-	int selection;
-	Player *p1 = new Player(1);
-	
-	cout << "\n(Part 4)Player(1) action menu demo:" << endl;
-	cout << "Turn player action:" << endl;
-	cout << "1-Show player info" << endl;
-	cout << "2-Reinforce" << endl;
-	cout << "3-Attack" << endl;
-	cout << "4-Fortify" << endl;
-	cin >> selection;
-
-	switch (selection) {
-		case 1:
-			p1->showStats();
-			break;
-		case 2:
-			p1->reinforce();
-			break;
-		case 3:
-			p1->attack();
-			break;
-		case 4:
-			p1->fortify();
-			break;
-		default:
-			break;
-	}
 }
 
 void cardDeckMethods() {

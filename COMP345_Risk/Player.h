@@ -17,7 +17,6 @@ public:
 
 	//Player Variables
 	
-	
 	//Getters and Setters
 	int getId();
 	void setId(int newId);

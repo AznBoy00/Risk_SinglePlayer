@@ -2,8 +2,9 @@
 #include <vector>
 #include "Game.h"
 #include "Player.h"
-#include "dirent.h""
+#include <dirent.h>
 #include "MapLoader.h"
+#include "Cards.h"
 
 Game::Game() {
 	MapLoader* loadedMap = NULL;
@@ -25,12 +26,14 @@ Game::Game() {
 		loadedMap = new MapLoader(mapList.at(mapChoice-1));
 		closedir(mapDir);
 	}
+	do {
+		cout << "How many players are in the game? (2-6)";
+		cin >> numOfPlayers;
+		if (numOfPlayers < 2 || numOfPlayers > 6) {
+			cout << "Entered number of players not within accept range." << endl;
+		}
+	} while (numOfPlayers < 2 || numOfPlayers > 6);
 
-	cout << "How many players are in the game? (2-6)";
-	cin >> numOfPlayers;
-	if (numOfPlayers < 2 || numOfPlayers > 6) {
-		cout << "Entered number of players not within accept range." << endl;
-	}
 	for (int i = 0; i < numOfPlayers; i++) {
 		playerVector.push_back(new Player(i + 1));
 	}
@@ -89,15 +92,17 @@ Game::Game() {
 		}
 		cout << "Player " << i+1 << " has placed " << troopsPerPlayer << " troops." << endl;
 	}
+
+	// Create deck and cards
+	Deck playDeck = Deck();
   
 	// Run every steps of the game here.
 	while (winnerId == -1) {
+		winnerId = 1;
 		for (size_t i = 0; i < numOfPlayers; i++) {
 
 		}
 	}
 
-	cout << "The winner is Player: " << winnerId << ". Congratulations!" << endl;
-
-	//TEST COMMIT THIS.
+	cout << "The winner is Player " << winnerId << ". Congratulations!" << endl;
 }

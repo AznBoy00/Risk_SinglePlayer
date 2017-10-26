@@ -41,7 +41,8 @@ Deck::Deck() {
 		}
 	}
 	//debug display deck array
-	showCardsInDeck();
+	//showCardsInDeck();
+	cout << "Deck created." << endl;
 }
 
 void Deck::showCardsInDeck() {
