@@ -18,6 +18,27 @@ MapLoader::MapLoader(std::string fileDirectory) {
 
 	map = new Map();
 	while (getline(inputfilestream, line)) {
+
+		if (hasContinents && !line.empty() && !hasTerritories) {
+			if (line.find("[Territories]") != string::npos) {
+				hasTerritories = true;
+				continue;
+			}
+			Continent* continent = new Continent();
+			stringstream ss(line);
+			string word;
+			vector<string> lineVector;
+
+			while (getline(ss, word, '=')) {
+				lineVector.push_back(word);
+			}
+
+			continent->setNameOfContinent(lineVector.at(0));
+			continent->setContinentValue(stoi(lineVector.at(1)));
+			map->setContainedContinentInMap(continent);
+
+		}
+
 		//if the [Territory] header is found and line is not empty, start reading
 		if (hasTerritories && !line.empty()) {
 			//create a country based on the info read on that line
@@ -37,49 +58,24 @@ MapLoader::MapLoader(std::string fileDirectory) {
 				territory->setCoordinateY(stoi(lineVector.at(2))); //converting Y to int
 				territory->setContinent(lineVector.at(3));
 				map->setContainedCountryInMap(territory); //add that country to the list of countries in the map
-
 			}
 			else {
-				cout << "Error: Duplicate country.";
+				std::cout << "Error: Duplicate country.";
 				exit(0);
 			}
-
-
 		}
 
-		/*if (hasContinents && !line.empty()) {
-			Continent* continent = new Continent();
-			stringstream ss(line);
-			string word;
-			vector<string> lineVector;
-
-			while (getline(ss, word, '=')) {
-				lineVector.push_back(word);
-			}
-
-			continent->setNameOfContinent(lineVector.at(0));
-			continent->setContinentValue(stoi(lineVector.at(1)));
-
-			map->setContainedContinentInMap(continent);
-
-		}*/
 
 		//Checks for Map, Continent and Territories headers to validate map
 		if (line.find("[Map]") != string::npos) {
 			hasMap = true;
-			//hasContinents = false;
-			//hasTerritories = false;
 		}
 		if (line.find("[Continents]") != string::npos) {
 			hasContinents = true;
-			//hasMap = false;
-			//hasTerritories = false;
 
 		}
 		if (line.find("[Territories]") != string::npos && hasMap && hasContinents) {
 			hasTerritories = true;
-			//hasContinents = false;
-			//hasMap = false;
 		}
 	}
 	hasTerritories = false;
@@ -99,14 +95,25 @@ MapLoader::MapLoader(std::string fileDirectory) {
 			for (int i = 4; i < lineVector.size(); i++) {
 				territory->setNeighboringCountry(map->getCountryByName(lineVector.at(i)));
 			}
-			cout << "Country name is: " << territory->getNameOfCountry() << endl;
-			cout << "X: " << territory->getCoordinateX() << " Y: " << territory->getCoordinateY() << endl;
-			cout << "Continent: " << territory->getContinent() << endl;
-			cout << "Neighbors: ";
-			for (int i = 0; i<territory->getNeighboringCountries().size(); i++) {
-				cout << territory->getNeighboringCountries().at(i)->getNameOfCountry() << " ";
+			for (int i = 0; i < map->getContainedCountriesInMap().size(); i++) {
+				for (int j = 0; j < territory->getNeighboringCountries().size(); j++) {
+					Continent* currentCont = map->getContinentByName(territory->getContinent());
+					Continent* neighborCont = map->getContinentByName(territory->getNeighboringCountries().at(j)->getContinent());
+					if (territory->getContinent().compare(territory->getNeighboringCountries().at(j)->getContinent()) != 0) {
+						currentCont->setNeighboringContinent(neighborCont);
+						cout << currentCont->getNameOfContinent() << " is neighbors with " << neighborCont->getNameOfContinent() << endl;
+					}
+				}
 			}
-			cout << endl;
+
+			std::cout << "Country name is: " << territory->getNameOfCountry() << endl;
+			std::cout << "X: " << territory->getCoordinateX() << " Y: " << territory->getCoordinateY() << endl;
+			std::cout << "Continent: " << territory->getContinent() << endl;
+			std::cout << "Neighbors: ";
+			for (int i = 0; i<territory->getNeighboringCountries().size(); i++) {
+				std::cout << territory->getNeighboringCountries().at(i)->getNameOfCountry() << " ";
+			}
+			std::cout << endl;
 		}
 
 		if (line.find("[Territories]") != string::npos && hasMap && hasContinents) {
@@ -117,15 +124,16 @@ MapLoader::MapLoader(std::string fileDirectory) {
 
 	//If no checks are passed, map is invalid.
 	if (!hasMap || !hasContinents || !hasTerritories) {
-		cout << "Invalid map.";
+		std::cout << "Invalid map.";
 		exit(0);
 	}
 
 	//Check for number of countries
-	cout << "Number of countries: " << map->getContainedCountriesInMap().size() << endl;
+	std::cout << "Number of countries: " << map->getContainedCountriesInMap().size() << endl;
 	//Check neighbors to check graph connectivity
 	map->getContainedCountriesInMap().at(0)->visitCountry(*map);
-
+	//map->depthFirstSearchForCountries(map->getContainedCountriesInMap().at(0), map->getContainedCountriesInMap());
+	cout << map->isMapFullyConnected();
 	//delete m;
 
 }

@@ -99,7 +99,7 @@ Game::Game() {
 	// Run every steps of the game here.
 	while (winnerId == -1) {
 		int randomCountry;
-		//winnerId = 1;
+		winnerId = 1;
 		for (size_t i = 0; i < numOfPlayers; i++) {
 			cout << "Reinforment phase for player " << i + 1 << endl;
 			//playerVector.at(i)->reinforce();

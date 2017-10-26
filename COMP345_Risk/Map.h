@@ -21,6 +21,7 @@ public:
 	bool containsCountry(std::string nameOfCountry);
 	bool isMapContainsContinent(std::string nameOfContinent);
 	bool isMapValid();
+	bool isMapFullyConnected();
 
 private:
 	std::vector<Continent*> containedContinentsInMap;
@@ -28,7 +29,6 @@ private:
 	void depthFirstSearchForCountries(Country* country, std::vector<Country*> &visited);
 	void depthFirstSearchForContinents(Continent* continent, std::vector<Continent*> &visited);
 	bool isCountryInMultipleContinent();
-	bool isMapFullyConnected();
 };
 
 class Continent
