@@ -49,7 +49,7 @@ void Deck::showCardsInDeck() {
 	cout << "Deck card content:" << endl;
 	for (size_t i = 0; i < DECK_SIZE; i++) {
 		if (this->cards[i].getCardLocation() == 0) {
-			cout << "Card ID at position " << i << " (TYPE-ID): " << this->cards[i].getType() << this->cards[i].getId() << endl;
+			cout << "Card ID at position " << i << " (TYPE-ID): " << this->cards[i].getType() << "-" << this->cards[i].getId() << endl;
 		}
 	}
 }

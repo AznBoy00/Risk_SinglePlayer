@@ -99,21 +99,29 @@ Game::Game() {
   
 	// Run every steps of the game here.
 	while (winnerId == -1) {
-		int randomCountry;
-		for (int i = 1; i <= playerVector.size(); i++) {
+		//int randomCountry;
+		/*for (int i = 1; i <= playerVector.size(); i++) {
 			for (int j = 0; j < playerVector.size(); j++) {
 				if (playerVector.at(j)->getTurnNumber() == i) {
 					cout << "Reinforment phase for player " << i + 1 << endl;
 					//playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
 					cout << "Attack phase for player " << i + 1 << endl;
-					playerVector.at(i)->attack(loadedMap->getMap());
+					playerVector.at(i)->attack(loadedMap->getMap(), playerVector);
 					cout << "Fortification phase for player " << i + 1 << endl;
 					//playerVector.at(i)->fortify();
 				}
 			}
+		}*/
+		for (int i = 0; i < playerVector.size(); i++) {
+			cout << "Reinforment phase for player " << i + 1 << endl;
+			//playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
+			cout << "Attack phase for player " << i + 1 << endl;
+			playerVector.at(i)->attack(loadedMap->getMap(), playerVector);
+			cout << "Fortification phase for player " << i + 1 << endl;
+			//playerVector.at(i)->fortify();
 		}
 		winnerId = 1;
 	}
 
-	cout << "The winner is Player " << winnerId << ". Congratulations!" << endl;
+	cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
 }

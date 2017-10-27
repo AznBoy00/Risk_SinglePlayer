@@ -26,7 +26,7 @@ public:
 	//Player Actions & MISC
 	void roll(int num);
 	void reinforce(Map* map, Deck* deck);
-	void attack(Map * map);
+	void attack(Map * map, vector<Player*> playerVector);
 	void fortify();
 	void showStats();
 	void setTurnNumber(int t);
@@ -40,7 +40,8 @@ private:
 	int diceDistribution[6];
 	int turnNumber = 0;
 	vector<Country*> ownedCountries;
-	void attackDo(Country* atkFrom, Country* atkTarget, Map* map);
+	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);
+	void attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector);
 	Dice* dice;
 	Hand* hand;
 };

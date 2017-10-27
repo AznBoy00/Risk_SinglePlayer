@@ -119,12 +119,24 @@ void Player::reinforce(Map* map, Deck* deck) {
 	}
 }
 
-void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
+Player*::Player::findTarget(vector<Player*> playerVector, Country* atkTarget) {
+	for (int i = 0; i < playerVector.size(); i++) {
+		if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
+			return playerVector.at(i);
+		}
+	}
+	cout << "Player not found, error! Program will exit." << endl;
+	exit(1);
+}
+
+void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
 	srand(time(0));
 	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
 	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
 	int atkRollValue = 0, defRollValue = 0;
 	int temp;
+
+	cout << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
 
 	// Sets dice roll.
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
@@ -137,13 +149,17 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
 		atkRollValue += this->getDice().rollDiceOnce();
 	}
 	for (size_t i = 0; i < defDiceRoll; i++) {
-		defRollValue += this->getDice().rollDiceOnce(); //fix this
+		defRollValue += this->findTarget(playerVector, atkTarget)->getDice().rollDefenseDice(); //fix this
 	}
 	if (atkRollValue <= defRollValue) {
-		cout << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << endl;
+		cout << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+		cout << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+		cout << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
 	} else {
-		cout << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << endl;
+		cout << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+		cout << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+		cout << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
 	}
 	//Conquered territory process.
@@ -155,18 +171,18 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
 	}
 }
 
-void Player::attack(Map* map) {
+void Player::attack(Map* map, vector<Player*> playerVector) {
 	int atk, attackableCountries, atkSelection;
-	Country* from, target;
+	Country *from, *target;
 
 	for (int i = 0; i < this->ownedCountries.size(); i++) {
 		from = this->getOwnedCountries().at(i);
 		if (this->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
 			attackableCountries = (int)(map->getContainedCountriesInMap().at(i)->getEnemies().size());
 			atkSelection = (int)((attackableCountries * rand() / (RAND_MAX + 1.0)) + 1);
-			target = *map->getContainedCountriesInMap().at(i)->getEnemies().at(atkSelection);
-			cout << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target.getNameOfCountry() << " belonging to Player " << map->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
-			attackDo(from, &target, map);
+			target = map->getContainedCountriesInMap().at(i)->getEnemies().at(atkSelection);
+			cout << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target->getNameOfCountry() << " belonging to Player " << map->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
+			attackDo(from, target, map, playerVector);
 		}
 	}
 }
