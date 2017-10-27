@@ -101,7 +101,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 					Continent* neighborCont = map->getContinentByName(territory->getNeighboringCountries().at(j)->getContinent());
 					if (territory->getContinent().compare(territory->getNeighboringCountries().at(j)->getContinent()) != 0) {
 						currentCont->setNeighboringContinent(neighborCont);
-						cout << currentCont->getNameOfContinent() << " is neighbors with " << neighborCont->getNameOfContinent() << endl;
+						//cout << currentCont->getNameOfContinent() << " is neighbors with " << neighborCont->getNameOfContinent() << endl;
 					}
 				}
 			}

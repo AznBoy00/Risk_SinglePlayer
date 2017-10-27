@@ -69,33 +69,34 @@ void Player::roll(int num) {
 }
 
 void Player::reinforce(Map* map, Deck* deck) {
-	cout << "Player " << this->getId() << " is reinforcing." << endl;
+	srand(time(0));
+	//cout << "Player " << this->getId() << " is reinforcing." << endl;
 
 	unsigned int addArmies = 0;
 
 	addArmies += ownedCountries.size() < 12 ? 3 : (int)(ownedCountries.size() / 3);
 
 	for (unsigned int i = 0; i < map->getContainedContinentsInMap().size(); i++) {
-		if (includes(ownedCountries.begin(),
+		/*if (includes(ownedCountries.begin(),
 			ownedCountries.end(),
 			map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
 			map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().end())) {
 			addArmies += map->getContainedContinentsInMap()[i]->getContinentValue();
-		}
+		}*/
+		addArmies += map->getContainedContinentsInMap()[i]->getContinentValue();
 	}
 
 	if (hand->cardsInHand(this->id, deck) > 5) {
 		cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
 		addArmies += hand->exchange(this->id, deck);
-	}
-	else {
+	} else {
 		cout << "Try to exchange? (y/n)" << endl;
 		string confirm;
-		cin >> confirm;
+		//cin >> confirm;
+		confirm = "y"; // hardcoded
 		if (confirm == "y") {
 			addArmies += hand->exchange(this->id, deck);
-		}
-		else {
+		} else {
 			return;
 		}
 	}
@@ -110,7 +111,8 @@ void Player::reinforce(Map* map, Deck* deck) {
 	while (addArmies != 0) {
 		cout << addArmies << " armies remaining." << endl;
 		cout << "Please select a country by their number above." << endl;
-		cin >> country;
+		//cin >> country;
+		country = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)) + 1);
 		ownedCountries[country - 1]->setNumberOfTroops(ownedCountries[country - 1]->getNumberOfTroops() + 1);
 		addArmies--;
 
@@ -168,6 +170,7 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Pl
 		atkTarget->setNumberOfTroops(temp - 1);
 		atkFrom->setNumberOfTroops(1);
 		atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
+		cout << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
 	}
 }
 
@@ -178,16 +181,17 @@ void Player::attack(Map* map, vector<Player*> playerVector) {
 	for (int i = 0; i < this->ownedCountries.size(); i++) {
 		from = this->getOwnedCountries().at(i);
 		if (this->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
-			attackableCountries = (int)(map->getContainedCountriesInMap().at(i)->getEnemies().size());
-			atkSelection = (int)((attackableCountries * rand() / (RAND_MAX + 1.0)) + 1);
-			target = map->getContainedCountriesInMap().at(i)->getEnemies().at(atkSelection);
-			cout << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target->getNameOfCountry() << " belonging to Player " << map->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
+			attackableCountries = from->getEnemies().size();
+			atkSelection = attackableCountries * rand() / (RAND_MAX + 1.0);
+			target = from->getEnemies().at(atkSelection);
+			cout << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target->getNameOfCountry() << /*" belonging to Player " << target->getOwnerNumber() <<*/ endl;
 			attackDo(from, target, map, playerVector);
 		}
 	}
 }
 
 void Player::fortify() {
+	srand(time(0));
 	cout << "Player " << this->getId() << " is fortifying." << endl;
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
@@ -195,9 +199,13 @@ void Player::fortify() {
 		cout << i + 1 << ": " << ownedCountries[i]->getNameOfCountry() << " - " << ownedCountries[i]->getNumberOfTroops() << " Armies." << endl;
 	}
 	unsigned int fromCountry, toCountry;
-	cin >> fromCountry;
+	//cin >> fromCountry; rng coded
+	fromCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)) + 1);
 	cout << "Select a country to transfer those armies by their respective number shown." << endl;
-	cin >> toCountry;
+	//cin >> toCountry; rng coded
+	toCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)) + 1);
+
+	cout << "Transferring from country: " << ownedCountries.at(fromCountry)->getNameOfCountry() << " to " << ownedCountries.at(toCountry)->getNameOfCountry() << endl;
 
 	if (fromCountry < 1 || fromCountry > ownedCountries.size()
 		|| toCountry < 1 || toCountry > ownedCountries.size()) {
@@ -207,11 +215,13 @@ void Player::fortify() {
 
 	cout << "Select a the number of armies you want to move." << endl;
 	int movingArmies;
-	cin >> movingArmies;
+	//cin >> movingArmies; rng coded
+	movingArmies = 0;
+	cout << "Moving " << movingArmies << "armies" << endl;
 
 	if (movingArmies < 0 || movingArmies >(ownedCountries[fromCountry - 1]->getNumberOfTroops() - 1)) {
 		cout << "Invalid number!" << endl;
-		exit(0);
+		exit(1);
 	}
 	ownedCountries[fromCountry - 1]->setNumberOfTroops(ownedCountries[fromCountry - 1]->getNumberOfTroops() - movingArmies);
 	ownedCountries[toCountry - 1]->setNumberOfTroops(ownedCountries[toCountry - 1]->getNumberOfTroops() + movingArmies);
