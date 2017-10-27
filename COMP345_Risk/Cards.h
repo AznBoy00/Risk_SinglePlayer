@@ -41,6 +41,6 @@ public:
 	int id;
 
 	void showCardsInHand(int handId, Deck deck);
-	int exchange(int handId, Deck deck);
-	int Hand::cardsInHand(int handId, Deck deck);
+	int exchange(int handId, Deck* deck);
+	int Hand::cardsInHand(int handId, Deck* deck);
 };

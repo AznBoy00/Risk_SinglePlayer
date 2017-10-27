@@ -67,38 +67,85 @@ void Player::roll(int num) {
 	this->diceRolled += num;
 }
 
-void Player::reinforce(Map map, Deck deck) {
+void Player::reinforce(Map* map, Deck* deck) {
 	cout << "Player " << this->getId() << " is reinforcing." << endl;
 
 	unsigned int addArmies = 0;
 
 	addArmies += ownedCountries.size() < 12 ? 3 : (int)(ownedCountries.size() / 3);
 
-	for (unsigned int i = 0; i < map.getContainedContinentsInMap().size(); i++) {
+	for (unsigned int i = 0; i < map->getContainedContinentsInMap().size(); i++) {
 		if (includes(ownedCountries.begin(),
 			ownedCountries.end(),
-			map.getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
-			map.getContainedContinentsInMap()[i]->getContainedCountriesInContinent().end())) {
-			addArmies += map.getContainedContinentsInMap()[i]->getContinentValue();
+			map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
+			map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().end())) {
+			addArmies += map->getContainedContinentsInMap()[i]->getContinentValue();
 		}
 	}
 
-	//addArmies += hand->exchange(this->id, deck);
+	if (hand->cardsInHand(this->id, deck) > 5) {
+		cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
+		addArmies += hand->exchange(this->id, deck);
+	}
+	else {
+		cout << "Try to exchange? (y/n)" << endl;
+		string confirm;
+		cin >> confirm;
+		if (confirm == "y") {
+			addArmies += hand->exchange(this->id, deck);
+		}
+		else {
+			return;
+		}
+	}
 
+	cout << "Here's a list of countries." << endl;
+	for (unsigned int i = 0; i < ownedCountries.size(); i++) {
+		cout << i + 1 << ": " << ownedCountries[i]->getNameOfCountry() << endl;
+	}
+
+	int country;
+
+	while (addArmies != 0) {
+		cout << addArmies << " armies remaining." << endl;
+		cout << "Please select a country by their number above." << endl;
+		cin >> country;
+		ownedCountries[country - 1]->setNumberOfTroops(ownedCountries[country - 1]->getNumberOfTroops() + 1);
+		addArmies--;
+
+		cout << "Adding an army to " << ownedCountries[country - 1]->getNameOfCountry() << endl;
+		cout << ownedCountries[country - 1]->getNameOfCountry() << " has " << ownedCountries[country - 1]->getNumberOfTroops() << " armies." << endl;
+	}
 }
 
 void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
 	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
-	int defendDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
-	int atkRollValue, defRollValue;
+	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
+	int atkRollValue = 0, defRollValue = 0;
+	int temp;
 
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
 		atkDiceRoll = atkFrom->getNumberOfTroops() - 1;
 	}
-	if (atkTarget->getNumberOfTroops() < defendDiceRoll) {
-		defendDiceRoll = atkTarget->getNumberOfTroops();
+	if (atkTarget->getNumberOfTroops() < defDiceRoll) {
+		defDiceRoll = atkTarget->getNumberOfTroops();
 	}
-	
+	for (size_t i = 0; i < atkDiceRoll; i++) {
+		atkRollValue += this->getDice().rollDiceOnce();
+	}
+	for (size_t i = 0; i < defDiceRoll; i++) {
+		defRollValue += this->getDice().rollDiceOnce(); //fix this
+	}
+	if (atkRollValue <= defRollValue) {
+		atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
+	} else {
+		atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
+	}
+	if (atkTarget->getNumberOfTroops() == 0) {
+		temp = atkFrom->getNumberOfTroops();
+		atkTarget->setNumberOfTroops = temp - 1;
+		atkFrom->setNumberOfTroops = 1;
+	}
 }
 
 void Player::attack(Map* map) {
@@ -111,100 +158,10 @@ void Player::attack(Map* map) {
 			attackableCountries = map->getContainedCountriesInMap().at(i)->getEnemies().size;
 			atkSelection = (int)((attackableCountries * rand() / (RAND_MAX + 1.0)) + 1);
 			target = *map->getContainedCountriesInMap().at(i)->getEnemies().at(atkSelection);
-			cout << "Player " << this->getId << "'s country: " << from->getNameOfCountry() << " is attacking " << target.getNameOfCountry() << " belonging to Player " << map->getMap()->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
-			attackDo(from, target, map);
+			cout << "Player " << this->getId << "'s country: " << from->getNameOfCountry() << " is attacking " << target.getNameOfCountry() << " belonging to Player " << map->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
+			attackDo(from, &target, map);
 		}
 	}
-	/**do {
-		string attackingCountry;
-		string attackTarget;
-
-		cout << "Select which country is attacking." << endl; //player chooses which country is attacking.  
-		cin >> attackingCountry;
-		while (attackingCountry.getNumberOfTroops() < 2)
-		{
-			cout << "This country does not have enough armies to declare an attack. Choose another Country." << endl; // in case the player enters a country that does not have 2 armies
-			cin >> attackingCountry;
-
-		}if (attackingCountry.getNumberOfTroops() > 2) { // player selects which neighboring country he is attacking.
-			cout << "Select which country " + attackingCountry + " is attacking." << endl;
-			cin >> attackTarget;
-
-			while (attackTargetisnotvalid)// checks if that country is a neighboring country. 
-				cout << "You must choose a neighboring country" << endl;
-			cin >> attackTarget;
-		} if (attackTargetisvalid) {
-
-			// this is where the dice function starts. 
-
-			int dice1;
-			int dice2;
-			int maxDice1;
-			int maxDice2;
-			string siege;
-			// calculate how many dice the attacking player is allowed to roll. 
-
-			if (attackingCountry.getNumberOfTroops() > 3)
-				maxDice1 = 3;
-			else maxDice1 = attackingCountry.getNumberOfTroops() - 1;
-
-			// calculate how many dice the defending player is allowed to roll. 
-
-			if (attackedCountry.getNumberOfTroops < 2)
-				maxDice2 = 1;
-			else maxDice2 = 2;
-
-			cout << "Choose the number of dice for the attacking country. 1 to " + maxDice1 << endl;
-
-			cin >> dice1;
-			while (dice1 <1 || dice1 >maxDice1) { // check if number of dice chosen is a valid number within the max number of dices allowed. 
-				cout << "This is not a valid number of dice. Enter the number of dice for the attacking country." << endl;
-				cin >> dice1;
-			}
-
-			cout << "choose the number of dice for the defending country. " << endl;
-			cin >> dice2;
-			while (dice2 <1 || dice2>maxDice2) {
-				cout << "This is not a valid number of dice. Enter the number of dice for the defending country." << endl;
-			}
-
-			//rolling the dice 
-			int dice1Results[3];
-			int dice2Results[2];
-
-			for (int i = 0; i < maxDice1; i++) {// attacker rolls the dice and puts results in the array, which then will be sorted from highest to lowest.
-				dice1Results[i] = rollDiceOnce(); //randomly generate a number from 1 to 6 and store in the array. 
-			}
-			// sorting the results from the attack dice roll. 
-			for (int i = 0; i < maxDice1 - 1; i++) {
-				if (dice1Results[i] < dice1Results[i + 1]) {
-					int temp;
-					temp = dice1Results[i];
-					dice1Results[i] = dice1Results[i + 1];
-					dice1Results[i + 1] = temp;
-				}
-			}if (dice1Results[0] < dice1Results[1]) {
-				int temp;
-				temp = dice1Results[0];
-				dice1Results[0] = dice1Results[1];
-				dice1Results[1] = temp;
-			}
-			// sorting the results from the defence dice roll.
-			if (dice2Results[0] < dice2Results[1]) {
-				int temp;
-				temp = dice2Results[0];
-				dice2Results[0] = dice2Results[1];
-				dice2Results[1] = temp;
-			}
-			//comparing the winner
-			for (int i = 0; i < maxDice2; i++) {
-
-
-			}
-
-		}
-
-	} while (atk == 1);*/
 }
 
 void Player::fortify() {
@@ -212,7 +169,7 @@ void Player::fortify() {
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
 	for (unsigned int i = 0; i < ownedCountries.size(); i++) {
-		cout << i + 1 << ": " << ownedCountries[i] << " - " << ownedCountries[i]->getNumberOfTroops() << "Armies." << endl;
+		cout << i + 1 << ": " << ownedCountries[i]->getNameOfCountry() << " - " << ownedCountries[i]->getNumberOfTroops() << " Armies." << endl;
 	}
 	unsigned int fromCountry, toCountry;
 	cin >> fromCountry;
@@ -233,11 +190,11 @@ void Player::fortify() {
 		cout << "Invalid number!" << endl;
 		exit(0);
 	}
-	int ArmiesFrom = ownedCountries[fromCountry - 1]->getNumberOfTroops();
-	int ArmiesTo = ownedCountries[toCountry - 1]->getNumberOfTroops();
-	ownedCountries[fromCountry]->setNumberOfTroops(ArmiesFrom - movingArmies);
-	ownedCountries[toCountry]->setNumberOfTroops(ArmiesTo + movingArmies);
+	ownedCountries[fromCountry - 1]->setNumberOfTroops(ownedCountries[fromCountry - 1]->getNumberOfTroops() - movingArmies);
+	ownedCountries[toCountry - 1]->setNumberOfTroops(ownedCountries[toCountry - 1]->getNumberOfTroops() + movingArmies);
 
+	cout << ownedCountries[fromCountry - 1]->getNameOfCountry() << " has " << ownedCountries[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
+	cout << ownedCountries[toCountry - 1]->getNameOfCountry() << " has " << ownedCountries[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
 }
 
 void Player::setTurnNumber(int t) {
