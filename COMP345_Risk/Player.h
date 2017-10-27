@@ -2,7 +2,6 @@
 #include "Dice.h"
 #include "Map.h"
 #include "Cards.h"
-#include "MapLoader.h"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -14,7 +13,6 @@ public:
 	~Player();
 
 	//Object Variables
-	Dice* dice;
 	Dice getDice();
 
 	//Player Variables

@@ -143,8 +143,8 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
 	}
 	if (atkTarget->getNumberOfTroops() == 0) {
 		temp = atkFrom->getNumberOfTroops();
-		atkTarget->setNumberOfTroops = temp - 1;
-		atkFrom->setNumberOfTroops = 1;
+		atkTarget->setNumberOfTroops(temp - 1);
+		atkFrom->setNumberOfTroops(1);
 	}
 }
 
@@ -152,13 +152,13 @@ void Player::attack(Map* map) {
 	int atk, attackableCountries, atkSelection;
 	Country* from, target;
 
-	for (size_t i = 0; i < this->ownedCountries.size; i++) {
+	for (size_t i = 0; i < this->ownedCountries.size(); i++) {
 		from = this->getOwnedCountries().at(i);
 		if (this->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
-			attackableCountries = map->getContainedCountriesInMap().at(i)->getEnemies().size;
+			attackableCountries = map->getContainedCountriesInMap().at(i)->getEnemies().size();
 			atkSelection = (int)((attackableCountries * rand() / (RAND_MAX + 1.0)) + 1);
 			target = *map->getContainedCountriesInMap().at(i)->getEnemies().at(atkSelection);
-			cout << "Player " << this->getId << "'s country: " << from->getNameOfCountry() << " is attacking " << target.getNameOfCountry() << " belonging to Player " << map->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
+			cout << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target.getNameOfCountry() << " belonging to Player " << map->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
 			attackDo(from, &target, map);
 		}
 	}
