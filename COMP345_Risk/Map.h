@@ -81,6 +81,8 @@ public:
 	bool getVisited();
 	void visitCountry(Map m);
 
+	std::vector<Country*> getEnemies();
+
 private:
 	int numberOfTroops;
 	int ownerNumber = 0;

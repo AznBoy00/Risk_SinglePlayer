@@ -1,8 +1,9 @@
 #pragma once
 #include "Dice.h"
+#include "Map.h"
+#include "Cards.h"
 #include <vector>
 #include <iostream>
-#include "Map.h"
 using namespace std;
 
 class Player {
@@ -25,7 +26,7 @@ public:
 
 	//Player Actions & MISC
 	void roll(int num);
-	void reinforce(Map map);
+	void reinforce(Map map, Deck deck);
 	void attack();
 	void fortify();
 	void showStats();
@@ -40,5 +41,6 @@ private:
 	int diceDistribution[6];
 	int turnNumber = 0;
 	vector<Country*> ownedCountries;
+	void attackDo();
 };
 

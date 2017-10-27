@@ -242,3 +242,14 @@ void Country::visitCountry(Map m) {
 	}
 
 }
+
+std::vector<Country*> Country::getEnemies() {
+	std::vector<Country*> enemies;
+	for (int i = 0; i < this->getNeighboringCountries().size(); i++) {
+		Country* neighbor = this->getNeighboringCountries().at(i);
+		if (neighbor->getOwnerNumber() != this->getOwnerNumber()) {
+			enemies.push_back(neighbor);
+		}
+	}
+	return enemies;
+}

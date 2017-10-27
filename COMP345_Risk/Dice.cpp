@@ -15,11 +15,11 @@ Dice::Dice() {
 	diceRollDistribution[3] = 0;
 	diceRollDistribution[4] = 0;
 	diceRollDistribution[5] = 0;
-	cout << "DICE.CPP::DICE OBJECT CREATED!" << endl;
-	cout << "DICE.CPP::totalDiceRolled: " << totalDiceRolled << endl;
+	cout << "DICE OBJECT CREATED!" << endl;
+	/*cout << "DICE.CPP::totalDiceRolled: " << totalDiceRolled << endl;
 	for (size_t i = 0; i < 6; i++) {
 		cout << "DICE.CPP::diceRollDistribution: " << i << ": " << diceRollDistribution[i] << endl;
-	}
+	}*/
 }
 /*
 	Dice destructor.

@@ -1,4 +1,6 @@
 #pragma once
+//Added
+static int exchangeArmies = 0;
 class Cards {
 public:
 	Cards();
@@ -39,5 +41,6 @@ public:
 	int id;
 
 	void showCardsInHand(int handId, Deck deck);
-	void exchange(int handId, Deck deck);
+	int exchange(int handId, Deck deck);
+	int Hand::cardsInHand(int handId, Deck deck);
 };

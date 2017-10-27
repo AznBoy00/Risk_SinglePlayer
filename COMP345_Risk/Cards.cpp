@@ -1,6 +1,7 @@
 #include "Cards.h"
 #include "GameConstants.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 
 Cards::Cards() {
@@ -41,15 +42,14 @@ Deck::Deck() {
 		}
 	}
 	//debug display deck array
-	//showCardsInDeck();
-	cout << "Deck created." << endl;
+	showCardsInDeck();
 }
 
 void Deck::showCardsInDeck() {
 	cout << "Deck card content:" << endl;
 	for (size_t i = 0; i < DECK_SIZE; i++) {
 		if (this->cards[i].getCardLocation() == 0) {
-			cout << "Card ID at position " << i << " (TYPE-ID): " << this->cards[i].getType() << this->cards[i].getId() << endl;
+			cout << "Card ID at position " << i << " (TYPE-ID): " << this->cards[i].getType() << "-" << this->cards[i].getId() << endl;
 		}
 	}
 }
@@ -86,13 +86,94 @@ void Hand::showCardsInHand(int handId, Deck deck) {
 	}
 }
 
-void Hand::exchange(int handId, Deck deck) {
-	int tradeValue = 0;
-	for (size_t i = 0; i < 3; i++) {
-		while (deck.cards[i].getCardLocation() == handId) {
-			deck.cards[i].setCardLocation(-1);
-			tradeValue += 3; //To be defined later (3 for hardcode)
+//Bottom Added
+
+int Hand::cardsInHand(int handId, Deck deck) {
+	int cardsInHand = 0;
+	for (unsigned int i = 0; i < 42; i++) {
+		if (deck.cards[i].getCardLocation() == handId) {
+			cardsInHand++;
 		}
 	}
-	cout << "Player " << handId << "'s traded army value is incremented by " << tradeValue << endl;
+	return cardsInHand;
+}
+
+int Hand::exchange(int handId, Deck deck) {
+	vector<Cards> CardHand;
+
+	for (unsigned int i = 0; i < 42; i++) {
+		if (deck.cards[i].getCardLocation() == handId) {
+			CardHand.push_back(deck.cards[i]);
+		}
+	}
+
+	int infantry = 0, artillery = 0, cavalry = 0;
+
+	for (unsigned int i = 0; i < CardHand.size(); i++) {
+		if (deck.cards[i].type == 1) {
+			infantry++;
+		}
+		else if (deck.cards[i].type == 2) {
+			artillery++;
+		}
+		else {
+			cavalry++;
+		}
+	}
+
+	int discardInfantry = 0, discardArtillery = 0, discardCavalry = 0;
+
+	if (infantry > 3) {
+		for (unsigned int i = 0; i < CardHand.size() && discardInfantry < 3; i++) {
+			if (deck.cards[i].type == 1) {
+				deck.cards[i].setCardLocation(-1);
+				discardInfantry++;
+			}
+		}
+		exchangeArmies += 5;
+		return exchangeArmies;
+	}
+	else if (artillery > 3) {
+		for (unsigned int i = 0; i < CardHand.size() && discardArtillery < 3; i++) {
+			if (deck.cards[i].type == 2) {
+				deck.cards[i].setCardLocation(-1);
+				discardArtillery++;
+			}
+		}
+		exchangeArmies += 5;
+		return exchangeArmies;
+	}
+	else if (cavalry > 3) {
+		for (unsigned int i = 0; i < CardHand.size() && discardCavalry < 3; i++) {
+			if (deck.cards[i].type == 3) {
+				deck.cards[i].setCardLocation(-1);
+				discardCavalry++;
+			}
+		}
+		exchangeArmies += 5;
+		return exchangeArmies;
+	}
+	else if (infantry > 1 || artillery > 1 || cavalry > 1) {
+		for (unsigned int i = 0; i < CardHand.size(); i++) {
+			if (deck.cards[i].type == 1 && discardInfantry == 0) {
+				deck.cards[i].setCardLocation(-1);
+				discardInfantry++;
+			}
+			else if (deck.cards[i].type == 2 && discardArtillery == 0) {
+				deck.cards[i].setCardLocation(-1);
+				discardArtillery++;
+			}
+			else if (deck.cards[i].type == 3 && discardCavalry == 0) {
+				deck.cards[i].setCardLocation(-1);
+				discardCavalry++;
+			}
+		}
+		exchangeArmies += 5;
+		return exchangeArmies;
+	}
+	else {
+		cout << "You can't exchange yet" << endl;
+		return 0;
+	}
+
 }

@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "Dice.h"
 #include <algorithm>
-
 #include <iostream>
 using namespace std;
 
@@ -68,7 +67,7 @@ void Player::roll(int num) {
 	this->diceRolled += num;
 }
 
-void Player::reinforce(Map map) {
+void Player::reinforce(Map map, Deck deck) {
 	cout << "Player " << this->getId() << " is reinforcing." << endl;
 
 	unsigned int addArmies = 0;
@@ -84,13 +83,25 @@ void Player::reinforce(Map map) {
 		}
 	}
 
-	//Need to add armies when exchange
-	//Need help with this one
+	//addArmies += hand->exchange(this->id, deck);
+
+}
+
+void::Player::attackDo() {
 
 }
 
 void Player::attack() {
-	/*do {
+	int atk;
+	/**do {
+		cout << "Do you want to attack?" << endl;
+		cin >> atk;
+	} while (atk != 1, atk != 2);**/
+	atk = 1;
+	do {
+
+	} while(atk == 1);
+	/**do {
 		string attackingCountry;
 		string attackTarget;
 
@@ -179,7 +190,7 @@ void Player::attack() {
 
 		}
 
-	} while (attack == "yes");*/
+	} while (atk == 1);*/
 }
 
 void Player::fortify() {
@@ -201,10 +212,10 @@ void Player::fortify() {
 	}
 
 	cout << "Select a the number of armies you want to move." << endl;
-	unsigned int movingArmies;
+	int movingArmies;
 	cin >> movingArmies;
 
-	if (movingArmies < 0 || movingArmies > (ownedCountries[fromCountry - 1]->getNumberOfTroops() - 1)) {
+	if (movingArmies < 0 || movingArmies >(ownedCountries[fromCountry - 1]->getNumberOfTroops() - 1)) {
 		cout << "Invalid number!" << endl;
 		exit(0);
 	}

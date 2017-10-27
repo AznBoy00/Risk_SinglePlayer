@@ -104,7 +104,9 @@ Game::Game() {
 			cout << "Reinforment phase for player " << i + 1 << endl;
 			//playerVector.at(i)->reinforce();
 			cout << "Attack phase for player " << i + 1 << endl;
+			playerVector.at(i)->attack();
 			cout << "Fortification phase for player " << i + 1 << endl;
+			playerVector.at(i)->fortify();
 		}
 	}
 
