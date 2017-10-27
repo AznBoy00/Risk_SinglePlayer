@@ -200,10 +200,10 @@ void Player::fortify() {
 	}
 	unsigned int fromCountry, toCountry;
 	//cin >> fromCountry; rng coded
-	fromCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)) + 1);
+	fromCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)));
 	cout << "Select a country to transfer those armies by their respective number shown." << endl;
 	//cin >> toCountry; rng coded
-	toCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)) + 1);
+	toCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)));
 
 	cout << "Transferring from country: " << ownedCountries.at(fromCountry)->getNameOfCountry() << " to " << ownedCountries.at(toCountry)->getNameOfCountry() << endl;
 

@@ -86,6 +86,7 @@ Game::Game() {
 			if (j == playerVector.at(i)->getOwnedCountries().size() - 1) {
 				playerVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(numberOfArmies - j);
 				troopsPerPlayer += numberOfArmies - j;
+				cout << "Country " << playerVector.at(i)->getOwnedCountries().at(j)->getNameOfCountry() << " has " << playerVector.at(i)->getOwnedCountries().at(j)->getNumberOfTroops() << endl;
 			} else {
 				playerVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(1);
 				troopsPerPlayer += 1;
@@ -99,10 +100,13 @@ Game::Game() {
   
 	// Run every steps of the game here.
 	while (winnerId == -1) {
-		/**
+
 		for (int i = 0; i < playerVector.size(); i++) {
 			for (int j = 0; j < playerVector.size(); j++) {
 				if (playerVector.at(j)->getTurnNumber() == i) {
+					cout << "------------------------------------------" << endl;
+					cout << "ITS PLAYER " << j + 1 << "'S TURN!" << endl;
+					cout << "------------------------------------------" << endl;
 					cout << "Reinforment phase for player " << i + 1 << endl;
 					playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
 					cout << "Attack phase for player " << i + 1 << endl;
@@ -111,7 +115,8 @@ Game::Game() {
 					playerVector.at(i)->fortify();
 				}
 			}
-		}*/
+		}
+		/*
 		for (int i = 0; i < playerVector.size(); i++) {
 			cout << "Reinforment phase for player " << i + 1 << endl;
 			//playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
@@ -119,7 +124,7 @@ Game::Game() {
 			playerVector.at(i)->attack(loadedMap->getMap(), playerVector);
 			cout << "Fortification phase for player " << i + 1 << endl;
 			//playerVector.at(i)->fortify();
-		}
+		}*/
 		winnerId = 1;
 	}
 
