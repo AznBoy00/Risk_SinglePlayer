@@ -2,8 +2,10 @@
 #include <vector>
 #include "Game.h"
 #include "Player.h"
-#include "dirent.h""
 #include "MapLoader.h"
+#include "Cards.h"
+#include "time.h"
+#include <dirent.h>
 
 Game::Game() {
 	MapLoader* loadedMap = NULL;
@@ -13,6 +15,7 @@ Game::Game() {
 	int mapNumber = 0;
 	vector<string> mapList;
 	winnerId = -1;
+	srand(time(0));
 
 	if (mapDir) {
 		while ((directory = readdir(mapDir)) != NULL) {
@@ -25,12 +28,14 @@ Game::Game() {
 		loadedMap = new MapLoader(mapList.at(mapChoice-1));
 		closedir(mapDir);
 	}
+	do {
+		cout << "How many players are in the game? (2-6)";
+		cin >> numOfPlayers;
+		if (numOfPlayers < 2 || numOfPlayers > 6) {
+			cout << "Entered number of players not within accepted range." << endl;
+		}
+	} while (numOfPlayers < 2 || numOfPlayers > 6);
 
-	cout << "How many players are in the game? (2-6)";
-	cin >> numOfPlayers;
-	if (numOfPlayers < 2 || numOfPlayers > 6) {
-		cout << "Entered number of players not within accept range." << endl;
-	}
 	for (int i = 0; i < numOfPlayers; i++) {
 		playerVector.push_back(new Player(i + 1));
 	}
@@ -43,7 +48,7 @@ Game::Game() {
 			rando = rand() % numOfPlayers;
 		}
 		playerVector.at(rando)->setTurnNumber(i); //assign that turn number to the player
-		cout << "Player " << rando + 1 << " with turn number " << i;
+		cout << "\nPlayer " << rando + 1 << " with turn number " << i;
 	}
 
 	//country assignment
@@ -81,21 +86,47 @@ Game::Game() {
 			if (j == playerVector.at(i)->getOwnedCountries().size() - 1) {
 				playerVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(numberOfArmies - j);
 				troopsPerPlayer += numberOfArmies - j;
-			}
-			else {
+				cout << "Country " << playerVector.at(i)->getOwnedCountries().at(j)->getNameOfCountry() << " has " << playerVector.at(i)->getOwnedCountries().at(j)->getNumberOfTroops() << endl;
+			} else {
 				playerVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(1);
 				troopsPerPlayer += 1;
 			}
 		}
 		cout << "Player " << i+1 << " has placed " << troopsPerPlayer << " troops." << endl;
 	}
+
+	// Create deck and cards
+	Deck* playDeck = new Deck();
   
 	// Run every steps of the game here.
 	while (winnerId == -1) {
-		for (size_t i = 0; i < numOfPlayers; i++) {
 
+		for (int i = 0; i < playerVector.size(); i++) {
+			for (int j = 0; j < playerVector.size(); j++) {
+				if (playerVector.at(j)->getTurnNumber() == i) {
+					cout << "------------------------------------------" << endl;
+					cout << "ITS PLAYER " << j + 1 << "'S TURN!" << endl;
+					cout << "------------------------------------------" << endl;
+					cout << "Reinforment phase for player " << i + 1 << endl;
+					playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
+					cout << "Attack phase for player " << i + 1 << endl;
+					playerVector.at(i)->attack(loadedMap->getMap(), playerVector);
+					cout << "Fortification phase for player " << i + 1 << endl;
+					playerVector.at(i)->fortify();
+				}
+			}
 		}
+		/*
+		for (int i = 0; i < playerVector.size(); i++) {
+			cout << "Reinforment phase for player " << i + 1 << endl;
+			//playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
+			cout << "Attack phase for player " << i + 1 << endl;
+			playerVector.at(i)->attack(loadedMap->getMap(), playerVector);
+			cout << "Fortification phase for player " << i + 1 << endl;
+			//playerVector.at(i)->fortify();
+		}*/
+		winnerId = 1;
 	}
 
-	cout << "The winner is Player: " << winnerId << ". Congratulations!" << endl;
+	cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
 }

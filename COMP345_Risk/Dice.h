@@ -6,6 +6,7 @@ public:
 	~Dice();
 	void rollDice(int num);
 	int rollDiceOnce();
+	int rollDefenseDice();
 	void showStats();
 private:
 	int diceRollDistribution[6];

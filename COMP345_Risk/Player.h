@@ -1,8 +1,9 @@
 #pragma once
 #include "Dice.h"
+#include "Map.h"
+#include "Cards.h"
 #include <vector>
 #include <iostream>
-#include "Map.h"
 using namespace std;
 
 class Player {
@@ -12,11 +13,9 @@ public:
 	~Player();
 
 	//Object Variables
-	Dice* dice;
 	Dice getDice();
 
-	//Platyer Variables
-	
+	//Player Variables
 	
 	//Getters and Setters
 	int getId();
@@ -26,8 +25,8 @@ public:
 
 	//Player Actions & MISC
 	void roll(int num);
-	void reinforce();
-	void attack();
+	void reinforce(Map* map, Deck* deck);
+	void attack(Map * map, vector<Player*> playerVector);
 	void fortify();
 	void showStats();
 	void setTurnNumber(int t);
@@ -41,5 +40,9 @@ private:
 	int diceDistribution[6];
 	int turnNumber = 0;
 	vector<Country*> ownedCountries;
+	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);
+	void attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector);
+	Dice* dice;
+	Hand* hand;
 };
 

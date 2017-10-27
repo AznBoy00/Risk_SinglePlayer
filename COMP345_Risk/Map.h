@@ -21,6 +21,7 @@ public:
 	bool containsCountry(std::string nameOfCountry);
 	bool isMapContainsContinent(std::string nameOfContinent);
 	bool isMapValid();
+	bool isMapFullyConnected();
 
 private:
 	std::vector<Continent*> containedContinentsInMap;
@@ -28,7 +29,6 @@ private:
 	void depthFirstSearchForCountries(Country* country, std::vector<Country*> &visited);
 	void depthFirstSearchForContinents(Continent* continent, std::vector<Continent*> &visited);
 	bool isCountryInMultipleContinent();
-	bool isMapFullyConnected();
 };
 
 class Continent
@@ -39,10 +39,12 @@ public:
 	void setNameOfContinent(std::string nameOfContinent);
 	void setNeighboringContinent(Continent* continent);
 	void setContainedCountryInContinent(Country* country);
+	void setContinentValue(int value);
 
 	std::string getNameOfContinent();
 	std::vector<Continent*> getNeighboringContinents();
 	std::vector<Country*> getContainedCountriesInContinent();
+	int getContinentValue();
 
 	friend Map;
 
@@ -50,6 +52,7 @@ private:
 	std::string nameOfContinent;
 	std::vector<Continent*> neighboringContinents;
 	std::vector<Country*> containedCountriesInContinent;
+	int continentValue;
 };
 
 class Country
@@ -78,6 +81,8 @@ public:
 	bool getVisited();
 	void visitCountry(Map m);
 
+	std::vector<Country*> getEnemies();
+
 private:
 	int numberOfTroops;
 	int ownerNumber = 0;
@@ -88,4 +93,3 @@ private:
 	int coordinateY;
 	bool visited;
 };
-
