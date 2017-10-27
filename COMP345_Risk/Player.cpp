@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Dice.h"
+#include "Time.h"
 #include <algorithm>
 #include <iostream>
 using namespace std;
@@ -119,11 +120,13 @@ void Player::reinforce(Map* map, Deck* deck) {
 }
 
 void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
+	srand(time(0));
 	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
 	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
 	int atkRollValue = 0, defRollValue = 0;
 	int temp;
 
+	// Sets dice roll.
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
 		atkDiceRoll = atkFrom->getNumberOfTroops() - 1;
 	}
@@ -137,14 +140,18 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
 		defRollValue += this->getDice().rollDiceOnce(); //fix this
 	}
 	if (atkRollValue <= defRollValue) {
+		cout << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << endl;
 		atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
 	} else {
+		cout << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << endl;
 		atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
 	}
+	//Conquered territory process.
 	if (atkTarget->getNumberOfTroops() == 0) {
 		temp = atkFrom->getNumberOfTroops();
 		atkTarget->setNumberOfTroops(temp - 1);
 		atkFrom->setNumberOfTroops(1);
+		atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
 	}
 }
 
@@ -152,10 +159,10 @@ void Player::attack(Map* map) {
 	int atk, attackableCountries, atkSelection;
 	Country* from, target;
 
-	for (size_t i = 0; i < this->ownedCountries.size(); i++) {
+	for (int i = 0; i < this->ownedCountries.size(); i++) {
 		from = this->getOwnedCountries().at(i);
 		if (this->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
-			attackableCountries = map->getContainedCountriesInMap().at(i)->getEnemies().size();
+			attackableCountries = (int)(map->getContainedCountriesInMap().at(i)->getEnemies().size());
 			atkSelection = (int)((attackableCountries * rand() / (RAND_MAX + 1.0)) + 1);
 			target = *map->getContainedCountriesInMap().at(i)->getEnemies().at(atkSelection);
 			cout << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target.getNameOfCountry() << " belonging to Player " << map->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
