@@ -2,6 +2,7 @@
 #include "Dice.h"
 #include "Map.h"
 #include "Cards.h"
+#include "MapLoader.h"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -27,7 +28,7 @@ public:
 	//Player Actions & MISC
 	void roll(int num);
 	void reinforce(Map map, Deck deck);
-	void attack();
+	void attack(Map * map);
 	void fortify();
 	void showStats();
 	void setTurnNumber(int t);
@@ -41,6 +42,6 @@ private:
 	int diceDistribution[6];
 	int turnNumber = 0;
 	vector<Country*> ownedCountries;
-	void attackDo();
+	void attackDo(Country* atkFrom, Country* atkTarget, Map* map);
 };
 

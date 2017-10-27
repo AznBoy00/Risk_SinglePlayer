@@ -87,20 +87,34 @@ void Player::reinforce(Map map, Deck deck) {
 
 }
 
-void::Player::attackDo() {
+void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map) {
+	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
+	int defendDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
+	int atkRollValue, defRollValue;
 
+	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
+		atkDiceRoll = atkFrom->getNumberOfTroops() - 1;
+	}
+	if (atkTarget->getNumberOfTroops() < defendDiceRoll) {
+		defendDiceRoll = atkTarget->getNumberOfTroops();
+	}
+	
 }
 
-void Player::attack() {
-	int atk;
-	/**do {
-		cout << "Do you want to attack?" << endl;
-		cin >> atk;
-	} while (atk != 1, atk != 2);**/
-	atk = 1;
-	do {
+void Player::attack(Map* map) {
+	int atk, attackableCountries, atkSelection;
+	Country* from, target;
 
-	} while(atk == 1);
+	for (size_t i = 0; i < this->ownedCountries.size; i++) {
+		from = this->getOwnedCountries().at(i);
+		if (this->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
+			attackableCountries = map->getContainedCountriesInMap().at(i)->getEnemies().size;
+			atkSelection = (int)((attackableCountries * rand() / (RAND_MAX + 1.0)) + 1);
+			target = *map->getContainedCountriesInMap().at(i)->getEnemies().at(atkSelection);
+			cout << "Player " << this->getId << "'s country: " << from->getNameOfCountry() << " is attacking " << target.getNameOfCountry() << " belonging to Player " << map->getMap()->getContainedCountriesInMap().at(i)->getOwnerNumber() << endl;
+			attackDo(from, target, map);
+		}
+	}
 	/**do {
 		string attackingCountry;
 		string attackTarget;

@@ -84,8 +84,7 @@ Game::Game() {
 			if (j == playerVector.at(i)->getOwnedCountries().size() - 1) {
 				playerVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(numberOfArmies - j);
 				troopsPerPlayer += numberOfArmies - j;
-			}
-			else {
+			} else {
 				playerVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(1);
 				troopsPerPlayer += 1;
 			}
@@ -99,15 +98,19 @@ Game::Game() {
 	// Run every steps of the game here.
 	while (winnerId == -1) {
 		int randomCountry;
-		winnerId = 1;
-		for (size_t i = 0; i < numOfPlayers; i++) {
-			cout << "Reinforment phase for player " << i + 1 << endl;
-			//playerVector.at(i)->reinforce();
-			cout << "Attack phase for player " << i + 1 << endl;
-			playerVector.at(i)->attack();
-			cout << "Fortification phase for player " << i + 1 << endl;
-			playerVector.at(i)->fortify();
+		for (int i = 1; i <= playerVector.size(); i++) {
+			for (int j = 0; j < playerVector.size(); j++) {
+				if (playerVector.at(j)->getTurnNumber() == i) {
+					cout << "Reinforment phase for player " << i + 1 << endl;
+					//playerVector.at(i)->reinforce();
+					cout << "Attack phase for player " << i + 1 << endl;
+					playerVector.at(i)->attack(loadedMap->getMap());
+					cout << "Fortification phase for player " << i + 1 << endl;
+					playerVector.at(i)->fortify();
+				}
+			}
 		}
+		winnerId = 1;
 	}
 
 	cout << "The winner is Player " << winnerId << ". Congratulations!" << endl;
