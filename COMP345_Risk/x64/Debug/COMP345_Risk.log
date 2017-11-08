@@ -1,0 +1,10 @@
+﻿  Player.cpp
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(137): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(186): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(187): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(180): warning C4101: 'atk': unreferenced local variable
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(196): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  GameStatus.cpp
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\gamestatus.cpp(25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(211): error C4700: uninitialized local variable 'toCountry' used
