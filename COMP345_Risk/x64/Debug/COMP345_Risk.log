@@ -1,0 +1,7 @@
+﻿  Player.cpp
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(161): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(221): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(210): warning C4101: 'atk': unreferenced local variable
+c:\users\melodiana\desktop\cpp345_f17-official_beta\comp345_risk\player.cpp(242): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  COMP345_Risk.vcxproj -> C:\Users\Melodiana\Desktop\CPP345_F17-Official_Beta\x64\Debug\COMP345_Risk.exe
+  COMP345_Risk.vcxproj -> C:\Users\Melodiana\Desktop\CPP345_F17-Official_Beta\x64\Debug\COMP345_Risk.pdb (Partial PDB)

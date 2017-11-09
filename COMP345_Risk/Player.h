@@ -3,10 +3,12 @@
 #include "Map.h"
 #include "Cards.h"
 #include <vector>
+#include <sstream>
 #include <iostream>
+#include "Subject.h"
 using namespace std;
 
-class Player {
+class Player : public Subject{
 public:
 	//Constructors
 	Player(int id);
@@ -29,8 +31,11 @@ public:
 	void attack(Map * map, vector<Player*> playerVector);
 	void fortify();
 	void showStats();
+	void setConquered(bool b) { conquered = b; }
 	void setTurnNumber(int t);
 	int getTurnNumber();
+	string getState() { return stream.str(); }
+	bool getConquered() { return conquered; }
 	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }
 	vector<Country*> getOwnedCountries() { return ownedCountries; }
 private:
@@ -38,6 +43,9 @@ private:
 	int id;
 	int diceRolled;
 	int diceDistribution[6];
+	bool conquered;
+	//string state;
+	stringstream stream;
 	int turnNumber = 0;
 	vector<Country*> ownedCountries;
 	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);

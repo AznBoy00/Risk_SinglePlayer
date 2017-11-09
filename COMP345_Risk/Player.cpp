@@ -17,6 +17,7 @@ Player::Player(int newId) {
 	diceDistribution[4] = 0;
 	diceDistribution[5] = 0;
 	cout << "Player id: " << id << " created." << endl; //debug
+	conquered = false;
 }
 
 Player::~Player() {
@@ -70,7 +71,16 @@ void Player::roll(int num) {
 
 void Player::reinforce(Map* map, Deck* deck) {
 	//removed srand(time(0));
-	cout << "Player " << this->getId() << " is reinforcing." << endl; // output.
+
+	stream << "------------------------------------------\n" 
+		<< "IT'S PLAYER " << id << "'S TURN!\n" 
+		<< "Turn #: " << turnNumber << "\n"
+		<< "------------------------------------------\n" 
+		<< "\nREINFORCEMENT PHASE!" << endl;
+	Notify();
+	stream.clear();
+	stream.str("");
+
 	unsigned int addArmies = 0;
 	/*cout << "Enter number of armies to add. " << endl;// added input output.
 	cin >> addArmies;*/
@@ -89,22 +99,24 @@ void Player::reinforce(Map* map, Deck* deck) {
 	if (hand->cardsInHand(this->id, deck) > 5) {
 		cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
 		addArmies += hand->exchange(this->id, deck);
-	}
-	else {
+	} else {
 		cout << "Try to exchange? (y/n)" << endl;
 		string confirm;
 		cin >> confirm;// removed hardcode.
 		if (confirm == "y") {
 			addArmies += hand->exchange(this->id, deck);
-		}
-		else if (confirm == "n") {
+		} else if (confirm == "n") {
 			return;
-		}
-		else {
+		} else {
 			cout << "Not a proper input. Try to exchange? (y/n)";
 			cin >> confirm;
 		}
 	}
+
+	stream << "We will be adding " << addArmies << " armies to Player " << id << "'s countries" << endl;
+	Notify();
+	stream.clear();
+	stream.str("");
 
 	cout << "Here's a list of countries." << endl;
 	for (unsigned int i = 0; i < ownedCountries.size(); i++) {
@@ -126,8 +138,12 @@ void Player::reinforce(Map* map, Deck* deck) {
 		ownedCountries[country - 1]->setNumberOfTroops(ownedCountries[country - 1]->getNumberOfTroops() + 1);
 		addArmies--;
 
-		cout << "Adding an army to " << ownedCountries[country - 1]->getNameOfCountry() << endl;
-		cout << ownedCountries[country - 1]->getNameOfCountry() << " has " << ownedCountries[country - 1]->getNumberOfTroops() << " armies." << endl;
+
+		stream << "Adding an army to " << ownedCountries[country - 1]->getNameOfCountry() << endl;
+		stream << ownedCountries[country - 1]->getNameOfCountry() << " has " << ownedCountries[country - 1]->getNumberOfTroops() << " armies." << endl;
+		Notify();
+		stream.clear();
+		stream.str("");
 	}
 }
 
@@ -148,7 +164,7 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Pl
 	int atkRollValue = 0, defRollValue = 0;
 	int temp;
 
-	cout << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
+	stream << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
 
 	// Sets dice roll.
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
@@ -164,15 +180,15 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Pl
 		defRollValue += this->findTarget(playerVector, atkTarget)->getDice().rollDefenseDice(); //fix this
 	}
 	if (atkRollValue <= defRollValue) {
-		cout << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-		cout << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-		cout << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
+		stream << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+		stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+		stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
 	}
 	else {
-		cout << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-		cout << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-		cout << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
+		stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+		stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+		stream<< "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
 	}
 	//Conquered territory process.
@@ -181,13 +197,23 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Pl
 		atkTarget->setNumberOfTroops(temp - 1);
 		atkFrom->setNumberOfTroops(1);
 		atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
-		cout << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
+
+		stream << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
+		conquered = true;
 	}
+	Notify();
+	stream.clear();
+	stream.str("");
 }
 
 void Player::attack(Map* map, vector<Player*> playerVector) {
 	int atk, attackableCountries, atkSelection;
 	Country *from, *target;
+
+	stream << "\nATTACK PHASE!" << endl;
+	Notify();
+	stream.clear();
+	stream.str("");
 
 	for (int i = 0; i < this->ownedCountries.size(); i++) {
 		from = this->getOwnedCountries().at(i);
@@ -203,7 +229,10 @@ void Player::attack(Map* map, vector<Player*> playerVector) {
 				cin >> atkSelection;
 			}
 			target = from->getEnemies().at(atkSelection-1);
-			cout << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target->getNameOfCountry() << " belonging to Player " << target->getOwnerNumber() << endl;
+			stream << "Player " << this->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target->getNameOfCountry() << " belonging to Player " << target->getOwnerNumber() << endl;
+			Notify();
+			stream.clear();
+			stream.str("");
 			attackDo(from, target, map, playerVector);
 		}
 	}
@@ -211,7 +240,10 @@ void Player::attack(Map* map, vector<Player*> playerVector) {
 
 void Player::fortify() {
 	srand(time(0));
-	cout << "Player " << this->getId() << " is fortifying." << endl;
+	stream << "FORTIFYING PHASE" << endl;
+	Notify();
+	stream.clear();
+	stream.str("");
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
 	for (unsigned int i = 0; i < ownedCountries.size(); i++) {
@@ -233,7 +265,10 @@ void Player::fortify() {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
-	cout << "Transferring from country: " << ownedCountries.at(fromCountry)->getNameOfCountry() << " to " << ownedCountries.at(toCountry)->getNameOfCountry() << endl;
+	stream << "Transferring from country: " << ownedCountries.at(fromCountry)->getNameOfCountry() << " to " << ownedCountries.at(toCountry)->getNameOfCountry() << endl;
+	Notify();
+	stream.clear();
+	stream.str("");
 
 	cout << "Select the number of armies you want to move." << endl;
 	int movingArmies;
@@ -244,13 +279,19 @@ void Player::fortify() {
 		cin >> movingArmies;
 	}
   
-	cout << "Moving " << movingArmies << "armies" << endl;
+	stream << "Moving " << movingArmies << "armies" << endl;
+	Notify();
+	stream.clear();
+	stream.str("");
 
 	ownedCountries[fromCountry - 1]->setNumberOfTroops(ownedCountries[fromCountry - 1]->getNumberOfTroops() - movingArmies);
 	ownedCountries[toCountry - 1]->setNumberOfTroops(ownedCountries[toCountry - 1]->getNumberOfTroops() + movingArmies);
 
-	cout << ownedCountries[fromCountry - 1]->getNameOfCountry() << " has " << ownedCountries[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
-	cout << ownedCountries[toCountry - 1]->getNameOfCountry() << " has " << ownedCountries[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
+	stream << ownedCountries[fromCountry - 1]->getNameOfCountry() << " has " << ownedCountries[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
+	stream << ownedCountries[toCountry - 1]->getNameOfCountry() << " has " << ownedCountries[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
+	Notify();
+	stream.clear();
+	stream.str("");
 }
 
 void Player::setTurnNumber(int t) {
