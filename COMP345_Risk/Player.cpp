@@ -89,18 +89,15 @@ void Player::reinforce(Map* map, Deck* deck) {
 	if (hand->cardsInHand(this->id, deck) > 5) {
 		cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
 		addArmies += hand->exchange(this->id, deck);
-	}
-	else {
+	} else {
 		cout << "Try to exchange? (y/n)" << endl;
 		string confirm;
 		cin >> confirm;// removed hardcode.
 		if (confirm == "y") {
 			addArmies += hand->exchange(this->id, deck);
-		}
-		else if (confirm == "n") {
+		} else if (confirm == "n") {
 			return;
-		}
-		else {
+		} else {
 			cout << "Not a proper input. Try to exchange? (y/n)";
 			cin >> confirm;
 		}
