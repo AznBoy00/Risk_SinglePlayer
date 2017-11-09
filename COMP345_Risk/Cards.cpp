@@ -42,36 +42,47 @@ Deck::Deck() {
 		}
 	}
 	//debug display deck array
-	showCardsInDeck();
+	showCardsInDeck(this);
 }
 
-void Deck::showCardsInDeck() {
+void Deck::showCardsInDeck(Deck* deck) {
 	cout << "Deck card content:" << endl;
 	for (size_t i = 0; i < DECK_SIZE; i++) {
-		if (this->cards[i].getCardLocation() == 0) {
-			cout << "Card ID at position " << i << " (TYPE-ID): " << this->cards[i].getType() << "-" << this->cards[i].getId() << endl;
+		if (deck->cards[i].getCardLocation() == 0) {
+			cout << "Card ID at position " << i << " (TYPE-ID): " << deck->cards[i].getType() << "-" << deck->cards[i].getId() << endl;
 		}
 	}
 }
 
-void Deck::showCardsInDiscarded() {
+void Deck::showCardsInDiscarded(Deck* deck) {
 	cout << "Discarded card content:" << endl;
 	for (size_t i = 0; i < DECK_SIZE; i++) {
-		if (this->cards[i].getCardLocation() == -1) {
-			cout << "Card ID at position " << i << " (TYPE-ID): " << this->cards[i].getType() << this->cards[i].getId() << endl;
+		if (deck->cards[i].getCardLocation() == -1) {
+			cout << "Card ID at position " << i << " (TYPE-ID): " << deck->cards[i].getType() << deck->cards[i].getId() << endl;
 		}
 	}
 }
 
-void Deck::draw(int handId) {
+void Deck::showCardsInHand(int handId, Deck* deck) {
+	cout << "Player " << handId << "'s hand:" << endl;
+	for (size_t i = 0; i < 42; i++) {
+		if (deck->cards[i].getCardLocation() == handId) {
+			cout << "Card in hand(TYPE-ID): " << deck->cards[i].getType() << deck->cards[i].getId() << endl;
+		}
+	}
+}
+
+void Deck::draw(int handId, Deck* deck) {
 	cout << "Drawing cards for player " << handId << endl;
-	for (int i = 0; i < DECK_SIZE; i++) {
-		if (this->cards[i].getCardLocation() == 0) {
-			this->cards[i].setCardLocation(handId);
+	for (size_t i = 0; i < DECK_SIZE; i++) {
+		if (deck->cards[i].getCardLocation() == 0) {
+			deck->cards[i].setCardLocation(handId);
 			break;
 		}
 	}
 }
+
+// NOT KEVIN's
 
 Hand::Hand(int id) {
 	this->id = id;
