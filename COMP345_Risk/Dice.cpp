@@ -50,12 +50,14 @@ void Dice::rollDice(int num) {
 int Dice::rollDiceOnce() {
 	int r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
 	cout << "Turn player rolled " << r << endl;
+	diceRollDistribution[r - 1] += 1;
 	return r;
 }
 
 int Dice::rollDefenseDice() {
 	int r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
 	cout << "Defender player rolled " << r << endl;
+	diceRollDistribution[r - 1] += 1;
 	return r;
 }
 /*
@@ -64,7 +66,7 @@ int Dice::rollDefenseDice() {
 void Dice::showStats() {
 	double nominator;
 	double denominator;
-	cout << "\nDICE.CPP::Number of dice rolled: " << totalDiceRolled << endl;
+	cout << "\nNumber of dice rolled: " << totalDiceRolled << endl;
 	for (size_t i = 0; i < 6; i++) {
 		nominator = diceRollDistribution[i];
 		denominator = totalDiceRolled;
