@@ -4,9 +4,10 @@
 #include "Cards.h"
 #include <vector>
 #include <iostream>
+#include "Subject.h"
 using namespace std;
 
-class Player {
+class Player : public Subject{
 public:
 	//Constructors
 	Player(int id);
@@ -30,7 +31,9 @@ public:
 	void fortify();
 	void showStats();
 	void setTurnNumber(int t);
+	void setConquered(bool b) { conquered = b; }
 	int getTurnNumber();
+	bool getConquered() { return conquered; }
 	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }
 	vector<Country*> getOwnedCountries() { return ownedCountries; }
 private:
@@ -39,6 +42,8 @@ private:
 	int diceRolled;
 	int diceDistribution[6];
 	int turnNumber = 0;
+	bool conquered;
+	string currentStep = "";
 	vector<Country*> ownedCountries;
 	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);
 	void attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector);

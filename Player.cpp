@@ -8,7 +8,6 @@ using namespace std;
 Player::Player(int newId) {
 	dice = new Dice();
 	id = newId;
-	conquered = false;
 	//cout << "\nDice object for player id: " << id << " created." << endl;//debug
 	diceRolled = 0;
 	diceDistribution[0] = 0;
@@ -71,9 +70,6 @@ void Player::roll(int num) {
 
 void Player::reinforce(Map* map, Deck* deck) {
 	//removed srand(time(0));
-	cout << "------------------------------------------" << endl;
-	cout << "ITS PLAYER " << id << "'S TURN!" << endl;
-	cout << "------------------------------------------" << endl;
 	cout << "Player " << this->getId() << " is reinforcing." << endl; // output.
 
 	unsigned int addArmies;
@@ -177,7 +173,6 @@ void::Player::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Pl
 		atkFrom->setNumberOfTroops(1);
 		atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
 		cout << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
-		conquered = true;
 	}
 }
 
@@ -238,8 +233,6 @@ void Player::fortify() {
 
 	cout << ownedCountries[fromCountry - 1]->getNameOfCountry() << " has " << ownedCountries[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
 	cout << ownedCountries[toCountry - 1]->getNameOfCountry() << " has " << ownedCountries[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
-
-	string currentStep = "";
 }
 
 void Player::setTurnNumber(int t) {
