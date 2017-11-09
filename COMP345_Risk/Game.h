@@ -6,6 +6,7 @@ class Game {
 public:
 	Game();
 	vector<Player*> playerVector;
+	vector<Player*> turnVector;
 
 private:
 	int numOfPlayers;
