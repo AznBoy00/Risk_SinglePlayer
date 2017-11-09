@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "Time.h"
 #include "main.h"
-#include "MapLoader.h"
 #include "Game.h"
 
 #include <iostream>
