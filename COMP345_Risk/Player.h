@@ -34,7 +34,7 @@ public:
 
 	//Player Actions & MISC
 	void roll(int num);
-	void showStats();
+	void showStats(Deck* deck);
 	void setTurnNumber(int t);
 	int getTurnNumber();
 	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }
