@@ -7,6 +7,8 @@
 #include <iostream>
 using namespace std;
 
+#include "Cards.h"
+
 class Strategy;
 
 class Player {
@@ -31,8 +33,8 @@ public:
 	void setDiceRolled(int dice);
 
 	//Player Actions & MISC
-	void roll(int num);
-	void showStats();
+	//void roll(int num);
+	void showStats(Deck* deck);
 	void setTurnNumber(int t);
 	int getTurnNumber();
 	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }

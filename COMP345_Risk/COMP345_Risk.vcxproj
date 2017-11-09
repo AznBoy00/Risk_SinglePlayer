@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AgressiveStrategy.cpp" />
     <ClCompile Include="Cards.cpp" />
     <ClCompile Include="Dice.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -27,8 +28,11 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Strategy.cpp" />
+    <ClCompile Include="UserStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AgressiveStrategy.h" />
     <ClInclude Include="Cards.h" />
     <ClInclude Include="Dice.h" />
     <ClInclude Include="Game.h" />
@@ -38,6 +42,8 @@
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Strategy.h" />
+    <ClInclude Include="UserStrategy.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="World.map" />

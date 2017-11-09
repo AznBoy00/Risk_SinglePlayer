@@ -42,6 +42,15 @@
     <ClCompile Include="Cards.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Strategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AgressiveStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -69,6 +78,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cards.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Strategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AgressiveStrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

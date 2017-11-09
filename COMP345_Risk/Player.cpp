@@ -10,13 +10,13 @@ Player::Player(int newId) {
 	dice = new Dice();
 	id = newId;
 	//cout << "\nDice object for player id: " << id << " created." << endl;//debug
-	diceRolled = 0;
+	/*diceRolled = 0;
 	diceDistribution[0] = 0;
 	diceDistribution[1] = 0;
 	diceDistribution[2] = 0;
 	diceDistribution[3] = 0;
 	diceDistribution[4] = 0;
-	diceDistribution[5] = 0;
+	diceDistribution[5] = 0;*/
 	cout << "Player id: " << id << " created." << endl; //debug
 }
 
@@ -53,21 +53,23 @@ void Player::setStrategy(Strategy* strat) {
 	this->strategy = strat;
 }
 
-void Player::showStats() {
-	double nominator;
-	double denominator;
+void Player::showStats(Deck* deck) {
+	//double nominator;
+	//double denominator;
 	cout << "\nPlayer ID: " << getId() << endl;
 	cout << "Player hand: " << endl;
+	deck->showCardsInHand(getId(), deck);
+	getDice().showStats();
 	//insert player hand object description here
-	cout << "Number of dice rolled: " << diceRolled << endl;
+	/*cout << "Number of dice rolled: " << diceRolled << endl;
 	for (size_t i = 0; i < 6; i++) {
 		nominator = diceDistribution[i];
 		denominator = diceRolled;
 		cout << "Number of " << i + 1 << " rolled: " << (double)(nominator / denominator) * 100 << "%" << endl;
-	}
+	}*/
 }
 
-void Player::roll(int num) {
+/*void Player::roll(int num) {
 	int result;
 	this->dice->rollDice(num);
 	for (size_t i = 0; i < num; i++) {
@@ -77,7 +79,7 @@ void Player::roll(int num) {
 		this->diceDistribution[result - 1] += 1;
 	}
 	this->diceRolled += num;
-}
+}*/
 
 
 Player*::Player::findTarget(vector<Player*> playerVector, Country* atkTarget) {

@@ -1,5 +1,6 @@
 #include "UserStrategy.h"
 #include "Time.h"
+#include <exception>
 
 class Strategy;
 
@@ -7,12 +8,12 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 	int atk, attackableCountries, atkSelection;
 	Country *from, *target;
 
-	for (int i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 		from = player->getOwnedCountries().at(i);
 		if (player->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
 			attackableCountries = from->getEnemies().size();
 			cout << "Select a country to attack:" << endl;
-			for (int j = 0; j < attackableCountries; j++) {
+			for (size_t j = 0; j < attackableCountries; j++) {
 				cout << j + 1 << ": " << from->getEnemies().at(j)->getNameOfCountry() << endl;
 			}
 			cin >> atkSelection;
@@ -29,12 +30,16 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 
 void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
 	srand(time(0));
+	//find playerVector;player ID for atkFrom
+	for (size_t i = 0; i < playerVector.size(); i++) {
+		if (playerVector.at(i)->getId() == atkFrom->getOwnerNumber()) {
+
+		}
+	}
 	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
 	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
 	int atkRollValue = 0, defRollValue = 0;
 	int temp;
-
-	cout << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
 
 	// Sets dice roll.
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
@@ -43,11 +48,14 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	if (atkTarget->getNumberOfTroops() < defDiceRoll) {
 		defDiceRoll = atkTarget->getNumberOfTroops();
 	}
+
+	cout << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
+
 	for (size_t i = 0; i < atkDiceRoll; i++) {
 		atkRollValue += player->getDice().rollDiceOnce();
 	}
 	for (size_t i = 0; i < defDiceRoll; i++) {
-		defRollValue += this->findTarget(playerVector, atkTarget)->getDice().rollDefenseDice(); //fix this
+		defRollValue += findTarget(playerVector, atkTarget)->getDice().rollDefenseDice();
 	}
 	if (atkRollValue <= defRollValue) {
 		cout << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
@@ -72,13 +80,16 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 }
 
 Player* UserStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
-	for (int i = 0; i < playerVector.size(); i++) {
-		if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
-			return playerVector.at(i);
+	try {
+		for (size_t i = 0; i < playerVector.size(); i++) {
+			if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
+				return playerVector.at(i);
+			}
 		}
+	} catch (exception e){
+		cout << "Player not found, error! Program will exit." << endl;
+		exit(1);
 	}
-	cout << "Player not found, error! Program will exit." << endl;
-	exit(1);
 }
 
 void UserStrategy::reinforce(Map* map, Deck* deck) {
@@ -89,7 +100,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	cin >> addArmies;*/
 	addArmies += player->getOwnedCountries().size() < 12 ? 3 : (int)(player->getOwnedCountries().size() / 3);
 
-	for (unsigned int i = 0; i < map->getContainedContinentsInMap().size(); i++) {
+	for (size_t i = 0; i < map->getContainedContinentsInMap().size(); i++) {
 		/*if (includes(ownedCountries.begin(),
 		ownedCountries.end(),
 		map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
@@ -120,7 +131,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	}
 
 	cout << "Here's a list of countries." << endl;
-	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << endl;
 	}
 
@@ -149,7 +160,7 @@ void UserStrategy::fortify() {
 	cout << "Player " << player->getId() << " is fortifying." << endl;
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
-	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " - " << player->getOwnedCountries()[i]->getNumberOfTroops() << " Armies." << endl;
 	}
 	unsigned int fromCountry, toCountry;
