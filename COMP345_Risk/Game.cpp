@@ -100,7 +100,6 @@ Game::Game() {
   
 	// Run every steps of the game here.
 	while (winnerId == -1) {
-
 		for (int i = 0; i < playerVector.size(); i++) {
 			for (int j = 0; j < playerVector.size(); j++) {
 				if (playerVector.at(j)->getTurnNumber() == i) {
@@ -110,6 +109,7 @@ Game::Game() {
 					cout << "Reinforment phase for player " << i + 1 << endl;
 					playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
 					cout << "Attack phase for player " << i + 1 << endl;
+					//Notify goes here
 					playerVector.at(i)->attack(loadedMap->getMap(), playerVector);
 					cout << "Fortification phase for player " << i + 1 << endl;
 					playerVector.at(i)->fortify();
