@@ -2,9 +2,12 @@
 #include "Dice.h"
 #include "Map.h"
 #include "Cards.h"
+#include "Strategy.h"
 #include <vector>
 #include <iostream>
 using namespace std;
+
+class Strategy;
 
 class Player {
 public:
@@ -15,7 +18,11 @@ public:
 	//Object Variables
 	Dice getDice();
 
-	//Player Variables
+	//Strats
+	enum StrategyType
+	{
+		AGGRO, PASSIVE, USER
+	};
 	
 	//Getters and Setters
 	int getId();
@@ -25,14 +32,14 @@ public:
 
 	//Player Actions & MISC
 	void roll(int num);
-	void reinforce(Map* map, Deck* deck);
-	void attack(Map * map, vector<Player*> playerVector);
-	void fortify();
 	void showStats();
 	void setTurnNumber(int t);
 	int getTurnNumber();
 	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }
+	void setStrategy(Strategy* strat);
+	void executeTurn(Map *map, Deck* deck, vector<Player*> playerVector);
 	vector<Country*> getOwnedCountries() { return ownedCountries; }
+	Hand* getHand() { return hand; }
 private:
 	//Player Variables
 	int id;
@@ -41,8 +48,8 @@ private:
 	int turnNumber = 0;
 	vector<Country*> ownedCountries;
 	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);
-	void attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector);
 	Dice* dice;
 	Hand* hand;
+	Strategy* strategy;
 };
 
