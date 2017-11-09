@@ -1,10 +1,10 @@
 #pragma once
 #include "Strategy.h"
 
-class UserStrategy : public Strategy
+class PassiveStrategy : public Strategy
 {
-public: 
-	UserStrategy(Player* user) : Strategy(user) {}
+public:
+	PassiveStrategy(Player* user) : Strategy(user) {}
 private:
 	void attack(Map* map, vector<Player*> playerVector);
 	void attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector);

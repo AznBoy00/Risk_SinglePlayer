@@ -3,15 +3,15 @@
 #include "Map.h"
 #include "Cards.h"
 #include "Strategy.h"
+#include "Subject.h"
 #include <vector>
+#include <sstream>
 #include <iostream>
 using namespace std;
 
-#include "Cards.h"
-
 class Strategy;
 
-class Player {
+class Player : public Subject{
 public:
 	//Constructors
 	Player(int id);
@@ -33,21 +33,28 @@ public:
 	void setDiceRolled(int dice);
 
 	//Player Actions & MISC
-	//void roll(int num);
-	void showStats(Deck* deck);
+	void roll(int num);
+	void showStats();
 	void setTurnNumber(int t);
 	int getTurnNumber();
 	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }
 	void setStrategy(Strategy* strat);
+	string getState() { return stream.str(); }
+	void setConquered(bool c) { conquered = c; }
+	bool getConquered() { return conquered; }
 	void executeTurn(Map *map, Deck* deck, vector<Player*> playerVector);
 	vector<Country*> getOwnedCountries() { return ownedCountries; }
 	Hand* getHand() { return hand; }
+	stringstream stream;
 private:
 	//Player Variables
 	int id;
 	int diceRolled;
 	int diceDistribution[6];
+	bool conquered;
+	//string state;
 	int turnNumber = 0;
+	
 	vector<Country*> ownedCountries;
 	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);
 	Dice* dice;

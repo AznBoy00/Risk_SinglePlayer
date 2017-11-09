@@ -4,6 +4,7 @@
 #include "Cards.h"
 #include "time.h"
 #include "UserStrategy.h"
+#include "PassiveStrategy.h"
 #include <dirent.h>
 
 
@@ -39,15 +40,17 @@ void Game::selectMap() {
 void Game::initializePlayers() {
 	// Initialize player data.
 	do {
-cout << "How many players are in the game? (2-6)";
-cin >> numOfPlayers;
-if (numOfPlayers < 2 || numOfPlayers > 6) {
-	cout << "Entered number of players not within accepted range." << endl;
-}
+		cout << "How many players are in the game? (2-6)";
+		cin >> numOfPlayers;
+		if (numOfPlayers < 2 || numOfPlayers > 6) {
+			cout << "Entered number of players not within accepted range." << endl;
+		}
 	} while (numOfPlayers < 2 || numOfPlayers > 6);
 
 	for (int i = 0; i < numOfPlayers; i++) {
-		playerVector.push_back(new Player(i + 1));
+		Player* p = new Player(i + 1);
+		playersStatus.push_back(new PlayerStatus(p));
+		playerVector.push_back(p);
 	}
 }
 
@@ -145,12 +148,12 @@ void Game::startGame() {
 	while (winnerId == -1) {
 
 		for (int i = 0; i < turnVector.size(); i++) {
-			int turnNumber = turnVector[i]->getId();
+			/*int turnNumber = turnVector[i]->getId();
 			cout << "------------------------------------------" << endl;
 			cout << "IT'S PLAYER " << turnVector.at(i)->getId() << "'S TURN!" << endl;
 			cout << "------------------------------------------" << endl;
 			cout << "Reinforcement phase for player " << turnNumber << endl;
-			/*turnVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
+			turnVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
 			cout << "Attack phase for player " << turnNumber << endl;
 			turnVector.at(i)->attack(loadedMap->getMap(), playerVector);
 			cout << "Fortification phase for player " << turnNumber << endl;

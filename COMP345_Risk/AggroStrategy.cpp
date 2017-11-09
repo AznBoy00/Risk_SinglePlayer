@@ -1,9 +1,9 @@
-#include "UserStrategy.h"
+#include "AggroStrategy.h"
 #include "Time.h"
 
 class Strategy;
 
-void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
+void AggroStrategy::attack(Map* map, vector<Player*> playerVector) {
 	int atk, attackableCountries, atkSelection;
 	Country *from, *target;
 
@@ -35,7 +35,7 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 	}
 }
 
-void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
+void AggroStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
 	srand(time(0));
 	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
 	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
@@ -84,7 +84,7 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	player->stream.str("");
 }
 
-Player* UserStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
+Player* AggroStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
 	for (int i = 0; i < playerVector.size(); i++) {
 		if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
 			return playerVector.at(i);
@@ -94,7 +94,7 @@ Player* UserStrategy::findTarget(vector<Player*> playerVector, Country* atkTarge
 	exit(1);
 }
 
-void UserStrategy::reinforce(Map* map, Deck* deck) {
+void AggroStrategy::reinforce(Map* map, Deck* deck) {
 	//removed srand(time(0));
 
 	player->stream << "------------------------------------------\n"
@@ -175,7 +175,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	}
 }
 
-void UserStrategy::fortify() {
+void AggroStrategy::fortify() {
 	srand(time(0));
 	player->stream << "FORTIFYING PHASE" << endl;
 	player->Notify();

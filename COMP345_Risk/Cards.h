@@ -22,10 +22,9 @@ public:
 
 	Cards cards[42];
 
-	void draw(int handId, Deck* deck);
-	void showCardsInDeck(Deck* deck);
-	void showCardsInDiscarded(Deck* deck);
-	void showCardsInHand(int handId, Deck* deck);
+	void draw(int handId);
+	void showCardsInDeck();
+	void showCardsInDiscarded();
 
 	int const DECK_SIZE = 42;
 	int const CARDS_PER_TYPE = DECK_SIZE / 3;

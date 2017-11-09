@@ -142,4 +142,3 @@ Map* MapLoader::getMap() {
 	return map;
 }
 
-
