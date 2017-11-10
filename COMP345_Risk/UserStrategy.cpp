@@ -16,7 +16,7 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 	do {
 		cout << "Your countries:" << endl;
 		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-			cout << ++i << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
+			cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
 		}
 
 		cout << "Which country would you want to declare an attack with? (You must have at least 2 troops to be able to declare an attack)" << endl;
@@ -34,7 +34,7 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 
 		cout << "Which country do you want to attack?" << endl;
 		for (size_t i = 0; i < from->getEnemies().size(); i++) {
-			cout << ++i << " - " << from->getEnemies().at(i)->getNameOfCountry() << " | Army size: " << from->getEnemies().at(i)->getNumberOfTroops() << endl;
+			cout << i + 1 << " - " << from->getEnemies().at(i)->getNameOfCountry() << " | Army size: " << from->getEnemies().at(i)->getNumberOfTroops() << endl;
 		}
 		cin >> atkSelection;
 		while (atkSelection < 1 || atkSelection > from->getEnemies().size()) {

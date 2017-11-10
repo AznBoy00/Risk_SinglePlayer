@@ -1,6 +1,7 @@
 #pragma once
-//Added
+
 static int exchangeArmies = 0;
+
 class Cards {
 public:
 	Cards();

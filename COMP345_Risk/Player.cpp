@@ -44,7 +44,7 @@ void Player::setDiceRolled(int dice) {
 }
 
 void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector) {
-	strategy->reinforce(map, deck);
+	//strategy->reinforce(map, deck);
 	strategy->attack(map, playerVector);
 	strategy->fortify();
 }
