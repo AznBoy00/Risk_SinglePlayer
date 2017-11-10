@@ -274,7 +274,7 @@ void UserStrategy::fortify() {
 
 	//from
 	cin >> fromCountry;
-	while (fromCountry > player->getOwnedCountries().size() || fromCountry < 1 || player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() < 2 || player->getOwnedCountries()[i]->getAllies().size() == 0) {
+	while (fromCountry > player->getOwnedCountries().size() || fromCountry < 1 || player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() < 2 || player->getOwnedCountries()[fromCountry - 1]->getAllies().size() == 0) {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
