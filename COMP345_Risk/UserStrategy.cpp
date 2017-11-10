@@ -168,8 +168,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	player->stream << "------------------------------------------\n"
 		<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
 		<< "Turn #: " << player->getTurnNumber() << "\n"
-		<< "------------------------------------------\n"
-		<< "Do you want to reinforce? (y/n)" << endl;
+		<< "------------------------------------------\n";
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
@@ -264,23 +263,27 @@ void UserStrategy::fortify() {
 	player->stream.clear();
 	player->stream.str("");
 
-	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
 	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
-		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " | Armies:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
+		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
+		cout << "\tNeighbor ally:" << endl;
+		for (unsigned int j = 0; j < player->getOwnedCountries()[i]->getAllies().size(); j++) {
+			cout << "\t\t" << j + 1 << ": " << player->getOwnedCountries()[i]->getAllies()[j]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
+		}
 	}
+	cout << "Select a country which will have their armies moved by their respective number shown. (Country must have more than 1 troop with at least an allied neighbor)" << endl;
 
 	//from
 	cin >> fromCountry;
-	while (fromCountry > player->getOwnedCountries().size() || fromCountry < 1) {
+	while (fromCountry > player->getOwnedCountries().size() || fromCountry < 1 || player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() < 2 || player->getOwnedCountries()[i]->getAllies().size() == 0) {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
 
 	//to
-	cout << "Select a country to transfer those armies to." << endl;
 	for (unsigned int i = 0; i < player->getOwnedCountries()[fromCountry - 1]->getAllies().size(); i++) {
-		cout << i + 1 << ": " << player->getOwnedCountries()[fromCountry - 1]->getAllies()[i]->getNameOfCountry() << " | Armies:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
+		cout << i + 1 << ": " << player->getOwnedCountries()[fromCountry - 1]->getAllies()[i]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
 	}
+	cout << "Select a country to transfer those armies to." << endl;
 	cin >> toCountry;
 	while (toCountry > player->getOwnedCountries()[fromCountry - 1]->getAllies().size() || toCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
@@ -288,9 +291,9 @@ void UserStrategy::fortify() {
 	}
 
 	//#ofTroops
-	cout << "How many troops do you want to transfer?" << endl;
+	cout << "How many troops do you want to transfer? (You have to leave at least 1 troop behind)" << endl;
 	cin >> moveTroops;
-	while (moveTroops > player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops() || toCountry < 0) {
+	while (moveTroops > player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops() - 1 || toCountry < 0) {
 		cout << "Not a valid country number. Please enter a valid troop number.";
 		cin >> moveTroops;
 	}
