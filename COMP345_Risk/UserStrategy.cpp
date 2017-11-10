@@ -227,6 +227,10 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 		}
 	}
 
+	if (addArmies == 0) {
+		goto endReinforce;
+	}
+
 	player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countrie(s) of choice" << endl;
 	player->Notify();
 	player->stream.clear();
@@ -237,7 +241,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 			cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
 		}
-		cout << "You have " << addArmies << " new troops that you can reinforce! Which country do you want to reinforce?" << endl;
+		cout << "You have " << addArmies << " new troops that you can reinforce using your exchanged cards! Which country do you want to reinforce?" << endl;
 		cin >> input;
 		while (input < 1 || input > player->getOwnedCountries().size()) {
 			cout << "Please enter a valid input:" << endl;
@@ -256,10 +260,12 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 		player->stream.clear();
 		player->stream.str("");
 	} while (addArmies != 0);
+	endReinforce:
 }
 
 void UserStrategy::fortify() {
-	srand(time(0));
+	int fromCountry, toCountry, moveTroops;
+
 	player->stream << "FORTIFYING PHASE" << endl;
 	player->Notify();
 	player->stream.clear();
@@ -267,43 +273,39 @@ void UserStrategy::fortify() {
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
 	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
-		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " - " << player->getOwnedCountries()[i]->getNumberOfTroops() << " Armies." << endl;
+		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " | Armies:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
 	}
-	unsigned int fromCountry, toCountry;
 
+	//from
 	cin >> fromCountry;
 	while (fromCountry > player->getOwnedCountries().size() || fromCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
 
+	//to
 	cout << "Select a country to transfer those armies to." << endl;
 	cin >> toCountry;
 	while (toCountry > player->getOwnedCountries().size() || toCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
-	player->stream << "Transferring from country: " << player->getOwnedCountries()[fromCountry-1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry-1]->getNameOfCountry() << endl;
-	player->Notify();
-	player->stream.clear();
-	player->stream.str("");
 
-	cout << "Select the number of armies you want to move." << endl;
-	int movingArmies;
-
-	cin >> movingArmies;// added cin
-	while (movingArmies < 0 || movingArmies >(player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() - 1)) {
-		cout << "Invalid number of armies! Please enter a valid number of armies:" << endl;
-		cin >> movingArmies;
+	//#ofTroops
+	cout << "How many troops do you want to transfer?" << endl;
+	cin >> moveTroops;
+	while (moveTroops > player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops() || toCountry < 0) {
+		cout << "Not a valid country number. Please enter a valid troop number.";
+		cin >> moveTroops;
 	}
 
-	player->stream << "Moving " << movingArmies << "armies" << endl;
+	player->stream << "Transferring " << moveTroops << " troops from country: " << player->getOwnedCountries()[fromCountry - 1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
 
-	player->getOwnedCountries()[fromCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() - movingArmies);
-	player->getOwnedCountries()[toCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() + movingArmies);
+	player->getOwnedCountries()[fromCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() - moveTroops);
+	player->getOwnedCountries()[toCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() + moveTroops);
 
 	player->stream << player->getOwnedCountries()[fromCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
 	player->stream << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
