@@ -1,5 +1,6 @@
 #include "UserStrategy.h"
 #include "Time.h"
+using namespace std;
 
 class Strategy;
 
@@ -29,7 +30,7 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 			cin >> atk;
 		}
 		from = player->getOwnedCountries().at(atk - 1);
-		
+
 		cout << "\nNeighbor enemy countrie(s): " << endl;
 		for (size_t i = 0; i < from->getEnemies().size(); i++) {
 			cout << i + 1 << " - " << from->getEnemies().at(i)->getNameOfCountry() << " | Army size: " << from->getEnemies().at(i)->getNumberOfTroops() << endl;
@@ -96,7 +97,8 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	player->stream.str("");
 	if (atkDiceRoll > defDiceRoll) {
 		execNumber = atkDiceRoll;
-	} else {
+	}
+	else {
 		execNumber = defDiceRoll;
 	}
 	cout << execNumber;
@@ -114,7 +116,8 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 			player->Notify();
 			player->stream.clear();
 			player->stream.str("");
-		} else {
+		}
+		else {
 			player->stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
 			atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
 			player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
@@ -136,105 +139,125 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 				atkTarget->setNumberOfTroops(input);
 				atkFrom->setNumberOfTroops(temp - input);
 				atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
-
+				findTarget(playerVector, atkFrom)->setOwnedCountry(atkTarget);
+				Player* conqueredPlayer = findTarget(playerVector, atkTarget);
+				for (size_t i = 0; i < conqueredPlayer->getOwnedCountries().size(); i++) {
+					if (atkTarget->getNameOfCountry().compare(conqueredPlayer->getOwnedCountries().at(i)->getNameOfCountry()) == 0) {
+						conqueredPlayer->getOwnedCountries()->erase(i);
+					}
+				}
 				player->setConquered(true);
 				break;
 			}
 		}
 	}
-	//player->Notify();
-	//player->stream.clear();
-	//player->stream.str("");
 }
 
 Player* UserStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
-	try {
-		for (size_t i = 0; i < playerVector.size(); i++) {
-			if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
-				return playerVector.at(i);
-			}
+	for (int i = 0; i < playerVector.size(); i++) {
+		if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
+			return playerVector.at(i);
 		}
-	} catch (exception e){
-		cout << "Player not found, error! Program will exit." << endl;
-		exit(1);
 	}
+	cout << "Player not found, error! Program will exit." << endl;
+	exit(1);
 }
 
 void UserStrategy::reinforce(Map* map, Deck* deck) {
+
+	bool reinforceBool = false;
+	string proceed;
 	//removed srand(time(0));
 
 	player->stream << "------------------------------------------\n"
 		<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
 		<< "Turn #: " << player->getTurnNumber() << "\n"
 		<< "------------------------------------------\n"
-		<< "\nREINFORCEMENT PHASE!" << endl;
+		<< "Do you want to reinforce? (y/n)" << endl;
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
 
-	unsigned int addArmies = 0;
-	/*cout << "Enter number of armies to add. " << endl;// added input output.
-	cin >> addArmies;*/
-	addArmies += player->getOwnedCountries().size() < 12 ? 3 : (int)(player->getOwnedCountries().size() / 3);
-
-	for (size_t i = 0; i < map->getContainedContinentsInMap().size(); i++) {
-		/*if (includes(ownedCountries.begin(),
-		ownedCountries.end(),
-		map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
-		map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().end())) {
-		addArmies += map->getContainedContinentsInMap()[i]->getContinentValue();
-		}*/
-		addArmies += map->getContainedContinentsInMap()[i]->getContinentValue();
+	cin >> proceed;
+	
+	if (proceed.compare("y") == 0) {
+		reinforceBool = true;
 	}
+	else if (proceed.compare("n") == 0) {
+		return;
+	}
+	else {
+		player->stream << "Not a valid input." << endl;
+	}
+	if (reinforceBool) {
 
-	if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
-		cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
-		addArmies += player->getHand()->exchange(player->getId(), deck);
-	} else {
-		cout << "Try to exchange? (y/n)" << endl;
-		string confirm;
-		cin >> confirm;// removed hardcode.
-		if (confirm == "y") {
+		unsigned int addArmies = 0;
+		/*cout << "Enter number of armies to add. " << endl;// added input output.
+		cin >> addArmies;*/
+		addArmies += player->getOwnedCountries().size() < 12 ? 3 : (int)(player->getOwnedCountries().size() / 3);
+
+		for (unsigned int i = 0; i < map->getContainedContinentsInMap().size(); i++) {
+			/*if (includes(ownedCountries.begin(),
+			ownedCountries.end(),
+			map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
+			map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().end())) {
+			addArmies += map->getContainedContinentsInMap()[i]->getContinentValue();
+			}*/
+			addArmies += map->getContainedContinentsInMap()[i]->getContinentValue();
+		}
+
+		if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
+			cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
 			addArmies += player->getHand()->exchange(player->getId(), deck);
-		} else if (confirm == "n") {
-			return;
-		} else {
-			cout << "Not a proper input. Try to exchange? (y/n)";
-			cin >> confirm;
 		}
-	}
-
-	player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countries" << endl;
-	player->Notify();
-	player->stream.clear();
-	player->stream.str("");
-
-	cout << "Here's a list of countries." << endl;
-	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << endl;
-	}
-
-	int country;
-
-	while (addArmies != 0) {
-		cout << addArmies << " armies remaining." << endl;
-		cout << "Please select a country by their number above." << endl;
-
-		cin >> country;
-		while (country > player->getOwnedCountries().size() || country < 1) {
-			cout << "Not a valid country number. Enter a valid number.";
-			cin >> country;
+		else {
+			cout << "Try to exchange? (y/n)" << endl;
+			string confirm;
+			cin >> confirm;// removed hardcode.
+			if (confirm == "y") {
+				addArmies += player->getHand()->exchange(player->getId(), deck);
+			}
+			else if (confirm == "n") {
+				return;
+			}
+			else {
+				cout << "Not a proper input. Try to exchange? (y/n)";
+				cin >> confirm;
+			}
 		}
 
-		player->getOwnedCountries()[country - 1]->setNumberOfTroops(player->getOwnedCountries()[country - 1]->getNumberOfTroops() + 1);
-		addArmies--;
-
-
-		player->stream << "Adding an army to " << player->getOwnedCountries()[country - 1]->getNameOfCountry() << endl;
-		player->stream << player->getOwnedCountries()[country - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[country - 1]->getNumberOfTroops() << " armies." << endl;
+		player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countries" << endl;
 		player->Notify();
 		player->stream.clear();
 		player->stream.str("");
+
+		cout << "Here's a list of countries." << endl;
+		for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
+			cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << endl;
+		}
+
+		int country;
+
+		while (addArmies != 0) {
+			cout << addArmies << " armies remaining." << endl;
+			cout << "Please select a country by their number above." << endl;
+
+			cin >> country;
+			while (country > player->getOwnedCountries().size() || country < 1) {
+				cout << "Not a valid country number. Enter a valid number.";
+				cin >> country;
+			}
+
+			player->getOwnedCountries()[country - 1]->setNumberOfTroops(player->getOwnedCountries()[country - 1]->getNumberOfTroops() + 1);
+			addArmies--;
+
+
+			player->stream << "Adding an army to " << player->getOwnedCountries()[country - 1]->getNameOfCountry() << endl;
+			player->stream << player->getOwnedCountries()[country - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[country - 1]->getNumberOfTroops() << " armies." << endl;
+			player->Notify();
+			player->stream.clear();
+			player->stream.str("");
+		}
 	}
 }
 
@@ -246,26 +269,24 @@ void UserStrategy::fortify() {
 	player->stream.str("");
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
-	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " - " << player->getOwnedCountries()[i]->getNumberOfTroops() << " Armies." << endl;
 	}
 	unsigned int fromCountry, toCountry;
 
-	// removed fromCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)));
 	cin >> fromCountry;
 	while (fromCountry > player->getOwnedCountries().size() || fromCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
 
-	// removed toCountry = (int)((ownedCountries.size() * rand() / (RAND_MAX + 1.0)));
 	cout << "Select a country to transfer those armies to." << endl;
 	cin >> toCountry;
 	while (toCountry > player->getOwnedCountries().size() || toCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
-	player->stream << "Transferring from country: " << player->getOwnedCountries().at(fromCountry)->getNameOfCountry() << " to " << player->getOwnedCountries().at(toCountry)->getNameOfCountry() << endl;
+	player->stream << "Transferring from country: " << player->getOwnedCountries()[fromCountry-1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry-1]->getNameOfCountry() << endl;
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");

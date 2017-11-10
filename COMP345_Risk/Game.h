@@ -4,8 +4,9 @@
 #include "MapLoader.h"
 #include "Subject.h"
 #include "PlayerStatus.h"
-
 using namespace std;
+
+class PlayerStatus;
 
 class Game : public Subject {
 public:

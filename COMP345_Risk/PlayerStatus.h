@@ -2,6 +2,8 @@
 #include "Observer.h"
 #include "Player.h"
 
+class Player;
+
 class PlayerStatus : public Observer
 {
 public:

@@ -9,13 +9,10 @@
 
 
 Game::Game() {
-	
-	startGame();
 }
 
 void Game::selectMap() {
 	// Initialize main data.
-	
 	
 	struct dirent *directory;
 	cout << "Select a map from the list: ";
@@ -158,7 +155,7 @@ void Game::startGame() {
 			turnVector.at(i)->attack(loadedMap->getMap(), playerVector);
 			cout << "Fortification phase for player " << turnNumber << endl;
 			turnVector.at(i)->fortify();*/
-			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, playerVector);
+			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, playerVector, this);
 		}
 		winnerId = 1;
 	}

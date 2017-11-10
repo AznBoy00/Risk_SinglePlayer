@@ -4,12 +4,14 @@
 #include "Cards.h"
 #include "Strategy.h"
 #include "Subject.h"
+#include "Game.h"
 #include <vector>
 #include <sstream>
 #include <iostream>
 using namespace std;
 
 class Strategy;
+class Game;
 
 class Player : public Subject{
 public:
@@ -42,7 +44,7 @@ public:
 	string getState() { return stream.str(); }
 	void setConquered(bool c) { conquered = c; }
 	bool getConquered() { return conquered; }
-	void executeTurn(Map *map, Deck* deck, vector<Player*> playerVector);
+	void executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Game* game);
 	vector<Country*> getOwnedCountries() { return ownedCountries; }
 	Hand* getHand() { return hand; }
 	stringstream stream;

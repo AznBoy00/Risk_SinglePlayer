@@ -1,5 +1,6 @@
 #include "Subject.h"
 
+
 Subject::Subject()
 {
 	observers = new std::list<Observer*>;
@@ -16,7 +17,7 @@ void Subject::Unregister(Observer* o) {
 }
 void Subject::Notify() {
 	std::list<Observer*>::iterator i = observers->begin();
-	for (; i != observers->end(); i++) {
+	for (; i != observers->end(); ++i) {
 		(*i)->Update();
 	}
 }

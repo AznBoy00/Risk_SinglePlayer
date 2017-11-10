@@ -3,6 +3,7 @@
 #include "Time.h"
 #include "main.h"
 #include "Game.h"
+#include "GameStatus.h"
 
 #include <iostream>
 using namespace std;
@@ -38,5 +39,7 @@ void loadMenu() {
 
 void startGame() {
 	//start game here. (Game.cpp)
-	Game::Game();
+	Game *game = new Game();
+	GameStatus *gameStatus = new GameStatus(game);
+	game->startGame();
 }
