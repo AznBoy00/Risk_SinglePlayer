@@ -49,7 +49,7 @@ void Dice::rollDice(int num) {
 */
 int Dice::rollDiceOnce() {
 	int r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-	cout << "Turn player rolled " << r << endl;
+	//cout << "Turn player rolled " << r << endl;
 	diceRollDistribution[r - 1] += 1;
 	return r;
 }

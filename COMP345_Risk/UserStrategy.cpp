@@ -64,7 +64,7 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	int atkMax = atkFrom->getNumberOfTroops() - 1;
 	int defMax = atkTarget->getNumberOfTroops();
 	int atkRollValue, defRollValue;
-	int temp, input, atkDiceRoll, defDiceRoll;
+	int execNumber, temp, input, atkDiceRoll, defDiceRoll;
 
 	if (atkMax > 3) {
 		atkMax = 3;
@@ -91,61 +91,60 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	defDiceRoll = input;
 
 	player->stream << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
-
-	for (size_t i = 0; i < atkDiceRoll; i++) {
-		atkRollValue = player->getDice().rollDiceOnce();
-		for (size_t j = 0; j < defDiceRoll; j++) {
-			defRollValue = this->findTarget(playerVector, atkTarget)->getDice().rollDiceOnce();
-			if (atkRollValue <= defRollValue) {
-				atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
-				player->stream << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-				player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-				player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
-			} else {
-				atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
-				player->stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-				player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-				player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
-				
-			}
-			if (atkTarget->getNumberOfTroops() == 0) {
-				temp = atkFrom->getNumberOfTroops();
-				atkTarget->setNumberOfTroops(temp - 1);
-				atkFrom->setNumberOfTroops(1);
-				atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
-
-				player->stream << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
-				player->setConquered(true);
-				goto endloop;
-			}
-		}
-		defDiceRoll = 0;
-		if (atkRollValue <= defRollValue) {
-			player->stream << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-			player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-			player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
-			atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
-		} else {
-			player->stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-			player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-			player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
-			atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
-		}
-		if (atkTarget->getNumberOfTroops() == 0) {
-			temp = atkFrom->getNumberOfTroops();
-			atkTarget->setNumberOfTroops(temp - 1);
-			atkFrom->setNumberOfTroops(1);
-			atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
-
-			player->stream << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
-			player->setConquered(true);
-			break;
-		}
-	}
-	endloop:
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
+	if (atkDiceRoll > defDiceRoll) {
+		execNumber = atkDiceRoll;
+	} else {
+		execNumber = defDiceRoll;
+	}
+	cout << execNumber;
+	for (size_t i = 0; i < execNumber; i++) {
+		atkRollValue = player->getDice().rollDiceOnce();
+		defRollValue = this->findTarget(playerVector, atkTarget)->getDice().rollDiceOnce();
+		if (i + 1 > defDiceRoll) {
+			defRollValue = 0;
+		}
+		if (atkRollValue <= defRollValue) {
+			player->stream << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+			atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
+			player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+			player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
+			player->Notify();
+			player->stream.clear();
+			player->stream.str("");
+		} else {
+			player->stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+			atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
+			player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+			player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
+			player->Notify();
+			player->stream.clear();
+			player->stream.str("");
+			if (atkTarget->getNumberOfTroops() == 0) {
+				player->stream << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
+				player->Notify();
+				cout << "You have " << atkFrom->getNumberOfTroops() << " troops left in " << atkFrom->getNameOfCountry() << endl;
+				cout << "How many troops do you want to move to " << atkTarget->getNameOfCountry() << "? (Maximum " << atkFrom->getNumberOfTroops() - 1 << ")" << endl;
+				cin >> input;
+				while (input < 0 || input > atkFrom->getNumberOfTroops() - 1) {
+					cout << "Enter a valid input" << endl;
+					cin >> input;
+				}
+				temp = atkFrom->getNumberOfTroops();
+				atkTarget->setNumberOfTroops(input);
+				atkFrom->setNumberOfTroops(temp - input);
+				atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
+
+				player->setConquered(true);
+				break;
+			}
+		}
+	}
+	//player->Notify();
+	//player->stream.clear();
+	//player->stream.str("");
 }
 
 Player* UserStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
