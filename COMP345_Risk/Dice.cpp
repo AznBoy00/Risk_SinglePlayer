@@ -56,7 +56,7 @@ int Dice::rollDiceOnce() {
 
 int Dice::rollDefenseDice() {
 	int r = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-	cout << "Defender player rolled " << r << endl;
+	//cout << "Defender player rolled " << r << endl;
 	diceRollDistribution[r - 1] += 1;
 	return r;
 }

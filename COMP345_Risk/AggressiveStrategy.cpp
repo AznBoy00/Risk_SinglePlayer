@@ -1,11 +1,16 @@
-#include "AgressiveStrategy.h"
+#include "AggressiveStrategy.h"
 #include "Time.h"
 
 class Strategy;
 
-void AgressiveStrategy::attack(Map* map, vector<Player*> playerVector) {
+void AggressiveStrategy::attack(Map* map, vector<Player*> playerVector) {
 	int atk, attackableCountries, atkSelection;
 	Country *from, *target;
+
+	player->stream << "\nATTACK PHASE!" << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
 
 	for (int i = 0; i < player->getOwnedCountries().size(); i++) {
 		from = player->getOwnedCountries().at(i);
@@ -21,21 +26,23 @@ void AgressiveStrategy::attack(Map* map, vector<Player*> playerVector) {
 				cin >> atkSelection;
 			}
 			target = from->getEnemies().at(atkSelection - 1);
-			cout << "Player " << player->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target->getNameOfCountry() << " belonging to Player " << target->getOwnerNumber() << endl;
+			player->stream << "Player " << player->getId() << "'s country: " << from->getNameOfCountry() << " is attacking " << target->getNameOfCountry() << " belonging to Player " << target->getOwnerNumber() << endl;
+			player->Notify();
+			player->stream.clear();
+			player->stream.str("");
 			attackDo(from, target, map, playerVector);
 		}
 	}
 }
 
-void AgressiveStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
+void AggressiveStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
 	srand(time(0));
-	//int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
 	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
 	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
 	int atkRollValue = 0, defRollValue = 0;
 	int temp;
 
-	cout << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
+	player->stream << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
 
 	// Sets dice roll.
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
@@ -51,15 +58,15 @@ void AgressiveStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map,
 		defRollValue += this->findTarget(playerVector, atkTarget)->getDice().rollDefenseDice(); //fix this
 	}
 	if (atkRollValue <= defRollValue) {
-		cout << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-		cout << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-		cout << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
+		player->stream << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+		player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+		player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
 	}
 	else {
-		cout << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
-		cout << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
-		cout << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
+		player->stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
+		player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
+		player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkTarget->setNumberOfTroops(atkTarget->getNumberOfTroops() - 1);
 	}
 	//Conquered territory process.
@@ -68,11 +75,16 @@ void AgressiveStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map,
 		atkTarget->setNumberOfTroops(temp - 1);
 		atkFrom->setNumberOfTroops(1);
 		atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
-		cout << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
+
+		player->stream << "Attacker has conquered " << atkTarget->getNameOfCountry() << endl;
+		player->setConquered(true);
 	}
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
 }
 
-Player* AgressiveStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
+Player* AggressiveStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
 	for (int i = 0; i < playerVector.size(); i++) {
 		if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
 			return playerVector.at(i);
@@ -82,9 +94,18 @@ Player* AgressiveStrategy::findTarget(vector<Player*> playerVector, Country* atk
 	exit(1);
 }
 
-void AgressiveStrategy::reinforce(Map* map, Deck* deck) {
+void AggressiveStrategy::reinforce(Map* map, Deck* deck) {
 	//removed srand(time(0));
-	cout << "Player " << player->getId() << " is reinforcing." << endl; // output.
+
+	player->stream << "------------------------------------------\n"
+		<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
+		<< "Turn #: " << player->getTurnNumber() << "\n"
+		<< "------------------------------------------\n"
+		<< "\nREINFORCEMENT PHASE!" << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
+
 	unsigned int addArmies = 0;
 	/*cout << "Enter number of armies to add. " << endl;// added input output.
 	cin >> addArmies;*/
@@ -120,6 +141,11 @@ void AgressiveStrategy::reinforce(Map* map, Deck* deck) {
 		}
 	}
 
+	player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countries" << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
+
 	cout << "Here's a list of countries." << endl;
 	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << endl;
@@ -140,14 +166,21 @@ void AgressiveStrategy::reinforce(Map* map, Deck* deck) {
 		player->getOwnedCountries()[country - 1]->setNumberOfTroops(player->getOwnedCountries()[country - 1]->getNumberOfTroops() + 1);
 		addArmies--;
 
-		cout << "Adding an army to " << player->getOwnedCountries()[country - 1]->getNameOfCountry() << endl;
-		cout << player->getOwnedCountries()[country - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[country - 1]->getNumberOfTroops() << " armies." << endl;
+
+		player->stream << "Adding an army to " << player->getOwnedCountries()[country - 1]->getNameOfCountry() << endl;
+		player->stream << player->getOwnedCountries()[country - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[country - 1]->getNumberOfTroops() << " armies." << endl;
+		player->Notify();
+		player->stream.clear();
+		player->stream.str("");
 	}
 }
 
-void AgressiveStrategy::fortify() {
+void AggressiveStrategy::fortify() {
 	srand(time(0));
-	cout << "Player " << player->getId() << " is fortifying." << endl;
+	player->stream << "FORTIFYING PHASE" << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
 	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
@@ -169,7 +202,10 @@ void AgressiveStrategy::fortify() {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		cin >> fromCountry;
 	}
-	cout << "Transferring from country: " << player->getOwnedCountries().at(fromCountry)->getNameOfCountry() << " to " << player->getOwnedCountries().at(toCountry)->getNameOfCountry() << endl;
+	player->stream << "Transferring from country: " << player->getOwnedCountries().at(fromCountry)->getNameOfCountry() << " to " << player->getOwnedCountries().at(toCountry)->getNameOfCountry() << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
 
 	cout << "Select the number of armies you want to move." << endl;
 	int movingArmies;
@@ -180,12 +216,17 @@ void AgressiveStrategy::fortify() {
 		cin >> movingArmies;
 	}
 
-	cout << "Moving " << movingArmies << "armies" << endl;
+	player->stream << "Moving " << movingArmies << "armies" << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
 
 	player->getOwnedCountries()[fromCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() - movingArmies);
 	player->getOwnedCountries()[toCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() + movingArmies);
 
-	cout << player->getOwnedCountries()[fromCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
-	cout << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
-
+	player->stream << player->getOwnedCountries()[fromCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
+	player->stream << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
 }
