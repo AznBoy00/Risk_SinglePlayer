@@ -64,7 +64,6 @@ void Deck::showCardsInDiscarded(Deck* deck) {
 }
 
 void Deck::showCardsInHand(int handId, Deck* deck) {
-	cout << "Player " << handId << "'s hand:" << endl;
 	int inf = 0, art = 0, cav = 0;
 	for (size_t i = 0; i < DECK_SIZE; i++) {
 		if (deck->cards[i].getCardLocation() == handId) {
@@ -129,6 +128,9 @@ int Deck::exchangeHand(int handId, Deck* deck) {
 					break;
 			}
 		}
+	}
+	if (addArmies == 0) {
+		cout << "Cannot exchange." << endl;
 	}
 	return addArmies;
 }

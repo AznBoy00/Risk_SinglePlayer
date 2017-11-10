@@ -43,14 +43,15 @@ void Player::setDiceRolled(int dice) {
 	diceRolled = dice;
 }
 
+//Executes the turn
 void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Game* game) {
 	game->Notify();
 	strategy->reinforce(map, deck);
-	strategy->attack(map, playerVector);
+	/*strategy->attack(map, playerVector);
 	if (conquered) {
 		game->Notify();
 		conquered = false;
-	}
+	}*/
 	strategy->fortify();
 }
 
@@ -65,26 +66,7 @@ void Player::showStats(Deck* deck) {
 	cout << "Player hand: " << endl;
 	deck->showCardsInHand(getId(), deck);
 	getDice().showStats();
-	//insert player hand object description here
-	/*cout << "Number of dice rolled: " << diceRolled << endl;
-	for (size_t i = 0; i < 6; i++) {
-		nominator = diceDistribution[i];
-		denominator = diceRolled;
-		cout << "Number of " << i + 1 << " rolled: " << (double)(nominator / denominator) * 100 << "%" << endl;
-	}*/
 }
-
-/*void Player::roll(int num) {
-	int result;
-	this->dice->rollDice(num);
-	for (size_t i = 0; i < num; i++) {
-		result = this->dice->rollDiceOnce();
-		//result = (int)((6 * rand() / (RAND_MAX + 1.0)) + 1);
-		//cout << "Player rolled: " << result << endl;
-		this->diceDistribution[result - 1] += 1;
-	}
-	this->diceRolled += num;
-}*/
 
 
 Player*::Player::findTarget(vector<Player*> playerVector, Country* atkTarget) {

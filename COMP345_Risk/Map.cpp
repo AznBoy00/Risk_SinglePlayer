@@ -253,3 +253,14 @@ std::vector<Country*> Country::getEnemies() {
 	}
 	return enemies;
 }
+
+std::vector<Country*> Country::getAllies() {
+	std::vector<Country*> allies;
+	for (int i = 0; i < this->getNeighboringCountries().size(); i++) {
+		Country* neighbor = this->getNeighboringCountries().at(i);
+		if (neighbor->getOwnerNumber() == this->getOwnerNumber()) {
+			allies.push_back(neighbor);
+		}
+	}
+	return allies;
+}
