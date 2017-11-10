@@ -27,7 +27,8 @@ public:
 	void showCardsInDeck(Deck* deck);
 	void showCardsInDiscarded(Deck* deck);
 	void showCardsInHand(int handId, Deck* deck);
-
+	
+	int exchangeHand(int handId, Deck* deck);
 	int const DECK_SIZE = 42;
 	int const CARDS_PER_TYPE = DECK_SIZE / 3;
 	int const CARD_TYPES = 3;

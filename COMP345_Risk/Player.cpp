@@ -43,9 +43,14 @@ void Player::setDiceRolled(int dice) {
 	diceRolled = dice;
 }
 
-void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector) {
-	//strategy->reinforce(map, deck);
+void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Game* game) {
+	game->Notify();
+	strategy->reinforce(map, deck);
 	strategy->attack(map, playerVector);
+	if (conquered) {
+		game->Notify();
+		conquered = false;
+	}
 	strategy->fortify();
 }
 

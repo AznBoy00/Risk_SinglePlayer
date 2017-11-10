@@ -65,11 +65,72 @@ void Deck::showCardsInDiscarded(Deck* deck) {
 
 void Deck::showCardsInHand(int handId, Deck* deck) {
 	cout << "Player " << handId << "'s hand:" << endl;
-	for (size_t i = 0; i < 42; i++) {
+	int inf = 0, art = 0, cav = 0;
+	for (size_t i = 0; i < DECK_SIZE; i++) {
 		if (deck->cards[i].getCardLocation() == handId) {
-			cout << "Card in hand(TYPE-ID): " << deck->cards[i].getType() << deck->cards[i].getId() << endl;
+			//cout << "Card in hand(TYPE-ID): " << deck->cards[i].getType() << deck->cards[i].getId() << endl;
+			switch (deck->cards[i].getType()) {
+				//infantry
+			case 1:
+				inf++;
+				break;
+				//artillery
+			case 2:
+				art++;
+				break;
+				//cavalry
+			case 3:
+				cav++;
+				break;
+			default:
+				break;
+			}
 		}
 	}
+	cout << "Player " << handId << " has" << endl;
+	if (inf > 0) {
+		cout << inf << " infantry card(s)." << endl;
+	}
+	if (art > 0) {
+		cout << art << " artillery card(s)." << endl;
+	}
+	if (cav > 0) {
+		cout << cav << " cavalry card(s)." << endl;
+	}
+	if (inf == 0 && art == 0 && cav == 0) {
+		cout << "an empty hand." << endl;
+	}
+}
+
+int Deck::exchangeHand(int handId, Deck* deck) {
+	int addArmies = 0;
+
+	showCardsInHand(handId, deck);
+	for (size_t i = 0; i < DECK_SIZE; i++) {
+		if (deck->cards[i].getCardLocation() == handId) {
+			cout << "Card: " << deck->cards[i].getType() << "-" << deck->cards[i].getId() << endl;
+			switch (deck->cards[i].getType()) {
+				//infantry
+				case 1:
+					addArmies += 1;
+					deck->cards[i].setCardLocation(-1);
+					break;
+				//artillery
+				case 2:
+					addArmies += 5;
+					deck->cards[i].setCardLocation(-1);
+					break;
+				//cavalry
+				case 3:
+					addArmies += 10;
+					deck->cards[i].setCardLocation(-1);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	return addArmies;
 }
 
 void Deck::draw(int handId, Deck* deck) {

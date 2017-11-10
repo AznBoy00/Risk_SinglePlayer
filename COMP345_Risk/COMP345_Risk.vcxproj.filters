@@ -57,10 +57,13 @@
     <ClCompile Include="Subject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AggressiveStrategy.cpp">
+    <ClCompile Include="PassiveStrategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PassiveStrategy.cpp">
+    <ClCompile Include="AggroStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,10 +110,13 @@
     <ClInclude Include="Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AggressiveStrategy.h">
+    <ClInclude Include="PassiveStrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PassiveStrategy.h">
+    <ClInclude Include="AggroStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
