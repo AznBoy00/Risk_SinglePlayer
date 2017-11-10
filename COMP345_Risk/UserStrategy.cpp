@@ -41,9 +41,7 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
 	int atkRollValue = 0, defRollValue = 0;
 	int temp;
-
-	player->stream << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
-
+	
 	// Sets dice roll.
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
 		atkDiceRoll = atkFrom->getNumberOfTroops() - 1;
@@ -57,13 +55,15 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	for (size_t i = 0; i < defDiceRoll; i++) {
 		defRollValue += this->findTarget(playerVector, atkTarget)->getDice().rollDefenseDice(); //fix this
 	}
+	
+	player->stream << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
+	
 	if (atkRollValue <= defRollValue) {
 		player->stream << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
 		player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
 		player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
-	}
-	else {
+	} else {
 		player->stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
 		player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
 		player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
@@ -85,13 +85,16 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 }
 
 Player* UserStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
-	for (int i = 0; i < playerVector.size(); i++) {
-		if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
-			return playerVector.at(i);
+	try {
+		for (size_t i = 0; i < playerVector.size(); i++) {
+			if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
+				return playerVector.at(i);
+			}
 		}
+	} catch (exception e){
+		cout << "Player not found, error! Program will exit." << endl;
+		exit(1);
 	}
-	cout << "Player not found, error! Program will exit." << endl;
-	exit(1);
 }
 
 void UserStrategy::reinforce(Map* map, Deck* deck) {
