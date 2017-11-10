@@ -111,7 +111,7 @@ void PassiveStrategy::reinforce(Map* map, Deck* deck) {
 
 void PassiveStrategy::fortify() {
 	int fromCountry = 0, toCountry = 0, moveTroops = 0;
-	int strongestArmy = 0, strongestAlly = 0;
+	int weakestArmy = 999, strongestAlly = 0;
 
 	player->stream << "FORTIFYING PHASE" << endl;
 	player->Notify();
@@ -120,12 +120,12 @@ void PassiveStrategy::fortify() {
 
 	//to
 	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-		if (player->getOwnedCountries()[i]->getNumberOfTroops() > strongestArmy) {
-			strongestArmy = player->getOwnedCountries()[i]->getNumberOfTroops();
+		if (player->getOwnedCountries()[i]->getNumberOfTroops() < weakestArmy) {
+			weakestArmy = player->getOwnedCountries()[i]->getNumberOfTroops();
 		}
 	}
 	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-		if (player->getOwnedCountries()[i]->getNumberOfTroops() == strongestArmy) {
+		if (player->getOwnedCountries()[i]->getNumberOfTroops() == weakestArmy) {
 			toCountry = i + 1;
 		}
 	}
@@ -149,8 +149,7 @@ void PassiveStrategy::fortify() {
 		player->Notify();
 		player->stream.clear();
 		player->stream.str("");
-	}
-	else {
+	} else {
 		player->stream << "Transferring " << moveTroops << " troops from country: " << player->getOwnedCountries()[toCountry - 1]->getAllies()[fromCountry - 1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
 		player->Notify();
 		player->stream.clear();
