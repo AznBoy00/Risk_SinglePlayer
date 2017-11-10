@@ -1,9 +1,9 @@
-#include "UserStrategy.h"
+#include "AggroStrategy.h"
 #include "Time.h"
 
 class Strategy;
 
-void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
+void AggroStrategy::attack(Map* map, vector<Player*> playerVector) {
 	int atk, attackableCountries, atkSelection;
 	Country *from, *target;
 
@@ -12,12 +12,12 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 	player->stream.clear();
 	player->stream.str("");
 
-	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (int i = 0; i < player->getOwnedCountries().size(); i++) {
 		from = player->getOwnedCountries().at(i);
 		if (player->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
 			attackableCountries = from->getEnemies().size();
 			cout << "Select a country to attack:" << endl;
-			for (size_t j = 0; j < attackableCountries; j++) {
+			for (int j = 0; j < attackableCountries; j++) {
 				cout << j + 1 << ": " << from->getEnemies().at(j)->getNameOfCountry() << endl;
 			}
 			cin >> atkSelection;
@@ -35,13 +35,15 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 	}
 }
 
-void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
+void AggroStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
 	srand(time(0));
 	int atkDiceRoll = (int)((3 * rand() / (RAND_MAX + 1.0)) + 1);
 	int defDiceRoll = (int)((2 * rand() / (RAND_MAX + 1.0)) + 1);
 	int atkRollValue = 0, defRollValue = 0;
 	int temp;
-	
+
+	player->stream << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
+
 	// Sets dice roll.
 	if (atkFrom->getNumberOfTroops() < atkDiceRoll) {
 		atkDiceRoll = atkFrom->getNumberOfTroops() - 1;
@@ -55,15 +57,13 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	for (size_t i = 0; i < defDiceRoll; i++) {
 		defRollValue += this->findTarget(playerVector, atkTarget)->getDice().rollDefenseDice(); //fix this
 	}
-	
-	player->stream << "Attacker will roll " << atkDiceRoll << " dices and defender will roll " << defDiceRoll << " dices" << endl;
-	
 	if (atkRollValue <= defRollValue) {
 		player->stream << "Attacker lost the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
 		player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
 		player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
 		atkFrom->setNumberOfTroops(atkFrom->getNumberOfTroops() - 1);
-	} else {
+	}
+	else {
 		player->stream << "Attacker won the fight. (" << atkRollValue << " vs " << defRollValue << ")" << endl;
 		player->stream << "Attacker has " << atkFrom->getNumberOfTroops() << " troops left." << endl;
 		player->stream << "Defender has " << atkTarget->getNumberOfTroops() << " troops left." << endl;
@@ -84,20 +84,17 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 	player->stream.str("");
 }
 
-Player* UserStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
-	try {
-		for (size_t i = 0; i < playerVector.size(); i++) {
-			if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
-				return playerVector.at(i);
-			}
+Player* AggroStrategy::findTarget(vector<Player*> playerVector, Country* atkTarget) {
+	for (int i = 0; i < playerVector.size(); i++) {
+		if (playerVector.at(i)->getId() == atkTarget->getOwnerNumber()) {
+			return playerVector.at(i);
 		}
-	} catch (exception e){
-		cout << "Player not found, error! Program will exit." << endl;
-		exit(1);
 	}
+	cout << "Player not found, error! Program will exit." << endl;
+	exit(1);
 }
 
-void UserStrategy::reinforce(Map* map, Deck* deck) {
+void AggroStrategy::reinforce(Map* map, Deck* deck) {
 	//removed srand(time(0));
 
 	player->stream << "------------------------------------------\n"
@@ -114,7 +111,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	cin >> addArmies;*/
 	addArmies += player->getOwnedCountries().size() < 12 ? 3 : (int)(player->getOwnedCountries().size() / 3);
 
-	for (size_t i = 0; i < map->getContainedContinentsInMap().size(); i++) {
+	for (unsigned int i = 0; i < map->getContainedContinentsInMap().size(); i++) {
 		/*if (includes(ownedCountries.begin(),
 		ownedCountries.end(),
 		map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
@@ -127,15 +124,18 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
 		cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
 		addArmies += player->getHand()->exchange(player->getId(), deck);
-	} else {
+	}
+	else {
 		cout << "Try to exchange? (y/n)" << endl;
 		string confirm;
 		cin >> confirm;// removed hardcode.
 		if (confirm == "y") {
 			addArmies += player->getHand()->exchange(player->getId(), deck);
-		} else if (confirm == "n") {
+		}
+		else if (confirm == "n") {
 			return;
-		} else {
+		}
+		else {
 			cout << "Not a proper input. Try to exchange? (y/n)";
 			cin >> confirm;
 		}
@@ -147,7 +147,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	player->stream.str("");
 
 	cout << "Here's a list of countries." << endl;
-	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << endl;
 	}
 
@@ -175,7 +175,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	}
 }
 
-void UserStrategy::fortify() {
+void AggroStrategy::fortify() {
 	srand(time(0));
 	player->stream << "FORTIFYING PHASE" << endl;
 	player->Notify();
@@ -183,7 +183,7 @@ void UserStrategy::fortify() {
 	player->stream.str("");
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
-	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " - " << player->getOwnedCountries()[i]->getNumberOfTroops() << " Armies." << endl;
 	}
 	unsigned int fromCountry, toCountry;
