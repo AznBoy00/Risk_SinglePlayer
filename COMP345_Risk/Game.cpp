@@ -142,21 +142,12 @@ void Game::startGame() {
 	// Run every steps of the game here.
 	for (int i = 0; i < turnVector.size(); i++){
 	//turnVector[i]->setStrategy(new UserStrategy(turnVector[i]));
-	turnVector[i]->setStrategy(new AggroStrategy(turnVector[i]));
+	//turnVector[i]->setStrategy(new AggroStrategy(turnVector[i]));
+	turnVector[i]->setStrategy(new PassiveStrategy(turnVector[i]));
 }
 	while (winnerId == -1) {
 
 		for (int i = 0; i < turnVector.size(); i++) {
-			/*int turnNumber = turnVector[i]->getId();
-			cout << "------------------------------------------" << endl;
-			cout << "IT'S PLAYER " << turnVector.at(i)->getId() << "'S TURN!" << endl;
-			cout << "------------------------------------------" << endl;
-			cout << "Reinforcement phase for player " << turnNumber << endl;
-			turnVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
-			cout << "Attack phase for player " << turnNumber << endl;
-			turnVector.at(i)->attack(loadedMap->getMap(), playerVector);
-			cout << "Fortification phase for player " << turnNumber << endl;
-			turnVector.at(i)->fortify();*/
 			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, playerVector, this);
 		}
 		winnerId = 1;

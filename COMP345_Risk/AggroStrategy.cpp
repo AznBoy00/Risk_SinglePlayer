@@ -228,6 +228,7 @@ void AggroStrategy::reinforce(Map* map, Deck* deck) {
 		player->stream.str("");
 
 		//find strongest army
+		strongestArmy = 0;
 		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 			if (player->getOwnedCountries()[i]->getNumberOfTroops() > strongestArmy) {
 				strongestArmy = player->getOwnedCountries()[i]->getNumberOfTroops();
@@ -277,24 +278,31 @@ void AggroStrategy::fortify() {
 		}
 	}
 	for (size_t i = 0; i < player->getOwnedCountries()[toCountry - 1]->getAllies().size(); i++) {
-		if (player->getOwnedCountries()[toCountry - 1]->getAllies()[i]->getNumberOfTroops() == strongestArmy) {
+		if (player->getOwnedCountries()[toCountry - 1]->getAllies()[i]->getNumberOfTroops() == strongestAlly) {
 			fromCountry = i + 1;
 		}
 	}
 
 	moveTroops = strongestAlly - 1;
 
-	player->stream << "Transferring " << moveTroops << " troops from country: " << player->getOwnedCountries()[toCountry - 1]->getAllies()[fromCountry - 1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
-	player->Notify();
-	player->stream.clear();
-	player->stream.str("");
+	if (moveTroops == 0) {
+		player->stream << "No nearby ally countries can reinforce the strongest country" << endl;
+		player->Notify();
+		player->stream.clear();
+		player->stream.str("");
+	} else {
+		player->stream << "Transferring " << moveTroops << " troops from country: " << player->getOwnedCountries()[toCountry - 1]->getAllies()[fromCountry - 1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
+		player->Notify();
+		player->stream.clear();
+		player->stream.str("");
 
-	player->getOwnedCountries()[fromCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() - moveTroops);
-	player->getOwnedCountries()[toCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() + moveTroops);
+		player->getOwnedCountries()[fromCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() - moveTroops);
+		player->getOwnedCountries()[toCountry - 1]->setNumberOfTroops(player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() + moveTroops);
 
-	player->stream << player->getOwnedCountries()[fromCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
-	player->stream << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
-	player->Notify();
-	player->stream.clear();
-	player->stream.str("");
+		player->stream << player->getOwnedCountries()[fromCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() << " armies." << endl;
+		player->stream << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << " has " << player->getOwnedCountries()[toCountry - 1]->getNumberOfTroops() << " armies." << endl;
+		player->Notify();
+		player->stream.clear();
+		player->stream.str("");
+	}	
 }
