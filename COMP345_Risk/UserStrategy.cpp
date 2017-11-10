@@ -12,12 +12,12 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 	player->stream.clear();
 	player->stream.str("");
 
-	for (int i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 		from = player->getOwnedCountries().at(i);
 		if (player->getOwnedCountries().at(i)->getNumberOfTroops() >= 2) {
 			attackableCountries = from->getEnemies().size();
 			cout << "Select a country to attack:" << endl;
-			for (int j = 0; j < attackableCountries; j++) {
+			for (size_t j = 0; j < attackableCountries; j++) {
 				cout << j + 1 << ": " << from->getEnemies().at(j)->getNameOfCountry() << endl;
 			}
 			cin >> atkSelection;
@@ -114,7 +114,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	cin >> addArmies;*/
 	addArmies += player->getOwnedCountries().size() < 12 ? 3 : (int)(player->getOwnedCountries().size() / 3);
 
-	for (unsigned int i = 0; i < map->getContainedContinentsInMap().size(); i++) {
+	for (size_t i = 0; i < map->getContainedContinentsInMap().size(); i++) {
 		/*if (includes(ownedCountries.begin(),
 		ownedCountries.end(),
 		map->getContainedContinentsInMap()[i]->getContainedCountriesInContinent().begin(),
@@ -127,18 +127,15 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
 		cout << "You have more than 5 cards in hand. You are forced to exchange." << endl;
 		addArmies += player->getHand()->exchange(player->getId(), deck);
-	}
-	else {
+	} else {
 		cout << "Try to exchange? (y/n)" << endl;
 		string confirm;
 		cin >> confirm;// removed hardcode.
 		if (confirm == "y") {
 			addArmies += player->getHand()->exchange(player->getId(), deck);
-		}
-		else if (confirm == "n") {
+		} else if (confirm == "n") {
 			return;
-		}
-		else {
+		} else {
 			cout << "Not a proper input. Try to exchange? (y/n)";
 			cin >> confirm;
 		}
@@ -150,7 +147,7 @@ void UserStrategy::reinforce(Map* map, Deck* deck) {
 	player->stream.str("");
 
 	cout << "Here's a list of countries." << endl;
-	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << endl;
 	}
 
@@ -186,7 +183,7 @@ void UserStrategy::fortify() {
 	player->stream.str("");
 
 	cout << "Select a country which will have their armies moved by their respective number shown." << endl;
-	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " - " << player->getOwnedCountries()[i]->getNumberOfTroops() << " Armies." << endl;
 	}
 	unsigned int fromCountry, toCountry;
