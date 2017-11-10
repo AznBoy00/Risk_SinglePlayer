@@ -140,11 +140,12 @@ void AggroStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vec
 				atkTarget->setNumberOfTroops(input);
 				atkFrom->setNumberOfTroops(temp - input);
 				atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
-				findTarget(playerVector, atkFrom)->setOwnedCountry(atkTarget);
+				player->setOwnedCountry(atkTarget);
 				Player* conqueredPlayer = findTarget(playerVector, atkTarget);
 				for (size_t i = 0; i < conqueredPlayer->getOwnedCountries().size(); i++) {
 					if (atkTarget->getNameOfCountry().compare(conqueredPlayer->getOwnedCountries().at(i)->getNameOfCountry()) == 0) {
-						//conqueredPlayer->getOwnedCountries()->erase(i);
+						swap(conqueredPlayer->getOwnedCountries()[i], conqueredPlayer->getOwnedCountries().back());
+						conqueredPlayer->getOwnedCountries().pop_back();
 					}
 				}
 				player->setConquered(true);
@@ -165,7 +166,8 @@ Player* AggroStrategy::findTarget(vector<Player*> playerVector, Country* atkTarg
 }
 
 void AggroStrategy::reinforce(Map* map, Deck* deck) {
-	int input, reinforceAmount;
+	int reinforceAmount = 0;
+	int strongestArmy = 0;
 
 	player->stream << "------------------------------------------\n"
 		<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
@@ -178,37 +180,32 @@ void AggroStrategy::reinforce(Map* map, Deck* deck) {
 	int addArmies = 0;
 	addArmies += player->getOwnedCountries().size() < 12 ? 3 : (int)(player->getOwnedCountries().size() / 3);
 
-	player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countries as the turn starts." << endl;
+	player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s STRONGEST countries as the turn starts." << endl;
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
 
-	do {
-		cout << "Your countries:" << endl;
-		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-			cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
+	//find strongest army
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+		if (player->getOwnedCountries()[i]->getNumberOfTroops() > strongestArmy) {
+			strongestArmy = player->getOwnedCountries()[i]->getNumberOfTroops();
 		}
-		cout << "You have " << addArmies << " new troops that you can reinforce! Which country do you want to reinforce?" << endl;
-		cin >> input;
-		while (input < 1 || input > player->getOwnedCountries().size()) {
-			cout << "Please enter a valid input:" << endl;
-			cin >> input;
-		}
+	}
 
-		cout << "How many troops do you want to reinforce in " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << "?" << endl;
-		cin >> reinforceAmount;
-		while (reinforceAmount < 0 || reinforceAmount > addArmies) {
-			cout << "Please enter a valid input:" << endl;
-			cin >> reinforceAmount;
+	//reinforce strongest army
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+		if (player->getOwnedCountries()[i]->getNumberOfTroops() == strongestArmy) {
+			reinforceAmount = addArmies;
+			player->getOwnedCountries().at(i)->setNumberOfTroops(player->getOwnedCountries().at(i)->getNumberOfTroops() + reinforceAmount);
+			addArmies -= reinforceAmount;
+			reinforceAmount = 0;
+			player->stream << "Added " << reinforceAmount << " armies to " << player->getOwnedCountries().at(i)->getNameOfCountry() << " belonging to Player " << player->getId() << endl;
+			player->Notify();
+			player->stream.clear();
+			player->stream.str("");
+			break;
 		}
-		player->getOwnedCountries().at(input - 1)->setNumberOfTroops(player->getOwnedCountries().at(input - 1)->getNumberOfTroops() + reinforceAmount);
-		addArmies -= reinforceAmount;
-		player->stream << "Added " << reinforceAmount << " armies to " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << " belonging to Player " << player->getId() << endl;
-		player->Notify();
-		player->stream.clear();
-		player->stream.str("");
-	} while (addArmies != 0);
-
+	}
 
 	if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
 		cout << "You have more than 5 cards in hand. Trading you hands for reinforcement troops..." << endl;
@@ -217,7 +214,7 @@ void AggroStrategy::reinforce(Map* map, Deck* deck) {
 	else {
 		cout << "Do you want to exchange your cards? (y to exchange, otherwise reinforce phase will be over)" << endl;
 		string confirm;
-		cin >> confirm;
+		confirm = "y";
 
 		if (confirm == "y") {
 			addArmies += deck->exchangeHand(player->getId(), deck);
@@ -230,78 +227,64 @@ void AggroStrategy::reinforce(Map* map, Deck* deck) {
 		player->stream.clear();
 		player->stream.str("");
 
-		do {
-			cout << "Your countries:" << endl;
-			for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-				cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
+		//find strongest army
+		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+			if (player->getOwnedCountries()[i]->getNumberOfTroops() > strongestArmy) {
+				strongestArmy = player->getOwnedCountries()[i]->getNumberOfTroops();
 			}
-			cout << "You have " << addArmies << " new troops that you can reinforce using your exchanged cards! Which country do you want to reinforce?" << endl;
-			cin >> input;
-			while (input < 1 || input > player->getOwnedCountries().size()) {
-				cout << "Please enter a valid input:" << endl;
-				cin >> input;
+		}
+		//reinforce strongest army
+		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+			if (player->getOwnedCountries()[i]->getNumberOfTroops() == strongestArmy) {
+				player->getOwnedCountries().at(i)->setNumberOfTroops(player->getOwnedCountries().at(i)->getNumberOfTroops() + reinforceAmount);
+				addArmies -= reinforceAmount;
+				player->stream << "Added " << reinforceAmount << " armies to " << player->getOwnedCountries().at(i)->getNameOfCountry() << " belonging to Player " << player->getId() << endl;
+				player->Notify();
+				player->stream.clear();
+				player->stream.str("");
+				break;
 			}
-
-			cout << "How many troops do you want to reinforce in " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << "?" << endl;
-			cin >> reinforceAmount;
-			while (reinforceAmount < 0 || reinforceAmount > addArmies) {
-				cout << "Please enter a valid input:" << endl;
-				cin >> reinforceAmount;
-			}
-			player->getOwnedCountries().at(input - 1)->setNumberOfTroops(player->getOwnedCountries().at(input - 1)->getNumberOfTroops() + reinforceAmount);
-			addArmies -= reinforceAmount;
-			player->stream << "Added " << reinforceAmount << " armies to " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << " belonging to Player " << player->getId() << endl;
-			player->Notify();
-			player->stream.clear();
-			player->stream.str("");
-		} while (addArmies != 0);
+		}
 	}
 }
+	
 
 void AggroStrategy::fortify() {
-	int fromCountry, toCountry, moveTroops;
+	int fromCountry = 0, toCountry = 0, moveTroops = 0;
+	int strongestArmy = 0, strongestAlly = 0;
 
 	player->stream << "FORTIFYING PHASE" << endl;
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
 
-	for (unsigned int i = 0; i < player->getOwnedCountries().size(); i++) {
-		cout << i + 1 << ": " << player->getOwnedCountries()[i]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
-		cout << "\tNeighbor ally:" << endl;
-		for (unsigned int j = 0; j < player->getOwnedCountries()[i]->getAllies().size(); j++) {
-			cout << "\t\t" << j + 1 << ": " << player->getOwnedCountries()[i]->getAllies()[j]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
+	//to
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+		if (player->getOwnedCountries()[i]->getNumberOfTroops() > strongestArmy) {
+			strongestArmy = player->getOwnedCountries()[i]->getNumberOfTroops();
 		}
 	}
-	cout << "Select a country which will have their armies moved by their respective number shown. (Country must have more than 1 troop with at least an allied neighbor)" << endl;
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+		if (player->getOwnedCountries()[i]->getNumberOfTroops() == strongestArmy) {
+			toCountry = i + 1;
+		}
+	}
 
 	//from
-	cin >> fromCountry;
-	while (fromCountry > player->getOwnedCountries().size() || fromCountry < 1 || player->getOwnedCountries()[fromCountry - 1]->getNumberOfTroops() < 2 || player->getOwnedCountries()[fromCountry - 1]->getAllies().size() == 0) {
-		cout << "Not a valid country number. Please enter a valid country number.";
-		cin >> fromCountry;
+	for (size_t i = 0; i < player->getOwnedCountries()[toCountry - 1]->getAllies().size(); i++) {
+		if (player->getOwnedCountries()[toCountry - 1]->getAllies()[i]->getNumberOfTroops() > strongestAlly) {
+			strongestAlly = player->getOwnedCountries()[toCountry - 1]->getAllies()[i]->getNumberOfTroops();
+		}
+	}
+	for (size_t i = 0; i < player->getOwnedCountries()[toCountry - 1]->getAllies().size(); i++) {
+		if (player->getOwnedCountries()[toCountry - 1]->getAllies()[i]->getNumberOfTroops() == strongestArmy) {
+			fromCountry = i + 1;
+		}
 	}
 
-	//to
-	for (unsigned int i = 0; i < player->getOwnedCountries()[fromCountry - 1]->getAllies().size(); i++) {
-		cout << i + 1 << ": " << player->getOwnedCountries()[fromCountry - 1]->getAllies()[i]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
-	}
-	cout << "Select a country to transfer those armies to." << endl;
-	cin >> toCountry;
-	while (toCountry > player->getOwnedCountries()[fromCountry - 1]->getAllies().size() || toCountry < 1) {
-		cout << "Not a valid country number. Please enter a valid country number.";
-		cin >> toCountry;
-	}
+	moveTroops = strongestAlly - 1;
 
-	//#ofTroops
-	cout << "How many troops do you want to transfer? (You have to leave at least 1 troop behind)" << endl;
-	cin >> moveTroops;
-	while (moveTroops > player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops() - 1 || toCountry < 0) {
-		cout << "Not a valid country number. Please enter a valid troop number.";
-		cin >> moveTroops;
-	}
-
-	player->stream << "Transferring " << moveTroops << " troops from country: " << player->getOwnedCountries()[fromCountry - 1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
+	player->stream << "Transferring " << moveTroops << " troops from country: " << player->getOwnedCountries()[toCountry - 1]->getAllies()[fromCountry - 1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");

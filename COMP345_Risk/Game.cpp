@@ -4,6 +4,7 @@
 #include "Cards.h"
 #include "time.h"
 #include "UserStrategy.h"
+#include "AggroStrategy.h"
 #include "PassiveStrategy.h"
 #include <dirent.h>
 
@@ -140,7 +141,8 @@ void Game::startGame() {
 
 	// Run every steps of the game here.
 	for (int i = 0; i < turnVector.size(); i++){
-	turnVector[i]->setStrategy(new UserStrategy(turnVector[i]));
+	//turnVector[i]->setStrategy(new UserStrategy(turnVector[i]));
+	turnVector[i]->setStrategy(new AggroStrategy(turnVector[i]));
 }
 	while (winnerId == -1) {
 

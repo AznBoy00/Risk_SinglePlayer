@@ -138,11 +138,12 @@ void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vect
 				atkTarget->setNumberOfTroops(input);
 				atkFrom->setNumberOfTroops(temp - input);
 				atkTarget->setOwnerNumber(atkFrom->getOwnerNumber());
-				findTarget(playerVector, atkFrom)->setOwnedCountry(atkTarget);
+				player->setOwnedCountry(atkTarget);
 				Player* conqueredPlayer = findTarget(playerVector, atkTarget);
 				for (size_t i = 0; i < conqueredPlayer->getOwnedCountries().size(); i++) {
 					if (atkTarget->getNameOfCountry().compare(conqueredPlayer->getOwnedCountries().at(i)->getNameOfCountry()) == 0) {
-						//conqueredPlayer->getOwnedCountries()->erase(i);
+						swap(conqueredPlayer->getOwnedCountries()[i], conqueredPlayer->getOwnedCountries().back());
+						conqueredPlayer->getOwnedCountries().pop_back();
 					}
 				}
 				player->setConquered(true);
