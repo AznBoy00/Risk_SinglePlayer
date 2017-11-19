@@ -1,22 +1,27 @@
 #include <iostream>
 #include <vector>
 #include "Game.h"
-#include "Player.h"
-#include "MapLoader.h"
 #include "Cards.h"
 #include "time.h"
+#include "UserStrategy.h"
+#include "AggroStrategy.h"
+#include "PassiveStrategy.h"
 #include <dirent.h>
 
+
 Game::Game() {
-	MapLoader* loadedMap = NULL;
+}
+
+void Game::selectMap() {
+	// Initialize main data.
+	
 	struct dirent *directory;
 	cout << "Select a map from the list: ";
 	DIR* mapDir = opendir("./Map Files/");
 	int mapNumber = 0;
 	vector<string> mapList;
-	winnerId = -1;
-	srand(time(0));
 
+	// Initialize maps
 	if (mapDir) {
 		while ((directory = readdir(mapDir)) != NULL) {
 			mapList.push_back(directory->d_name);
@@ -25,9 +30,13 @@ Game::Game() {
 		}
 		int mapChoice;
 		cin >> mapChoice;
-		loadedMap = new MapLoader(mapList.at(mapChoice-1));
+		loadedMap = new MapLoader(mapList.at(mapChoice - 1));
 		closedir(mapDir);
 	}
+}
+
+void Game::initializePlayers() {
+	// Initialize player data.
 	do {
 		cout << "How many players are in the game? (2-6)";
 		cin >> numOfPlayers;
@@ -37,11 +46,15 @@ Game::Game() {
 	} while (numOfPlayers < 2 || numOfPlayers > 6);
 
 	for (int i = 0; i < numOfPlayers; i++) {
-		playerVector.push_back(new Player(i + 1));
+		Player* p = new Player(i + 1);
+		playersStatus.push_back(new PlayerStatus(p));
+		playerVector.push_back(p);
 	}
+}
 
-	//turn assignment
-	for(int i = 1; i <= numOfPlayers; i++) {
+void Game::assignTurns() {
+	//Turn assignment
+	for (int i = 1; i <= numOfPlayers; i++) {
 		int rando;
 		rando = rand() % numOfPlayers; //generate random number
 		while (playerVector.at(rando)->getTurnNumber() != 0) { //if that player has already been assigned a number, regenerate
@@ -54,14 +67,15 @@ Game::Game() {
 	cout << "Rearranging player order" << endl;
 	for (int i = 0; i < numOfPlayers; i++) {
 		for (int j = 0; j < numOfPlayers; j++) {
-			if (playerVector.at(j)->getTurnNumber() == i+1) {
+			if (playerVector.at(j)->getTurnNumber() == i + 1) {
 				turnVector.push_back(playerVector[j]);
 			}
 		}
-		
+
 	}
+}
 
-
+void Game::assignCountries() {
 	//country assignment
 	int countryCount = 0;
 	cout << "Number of countries is " << loadedMap->getMap()->getContainedCountriesInMap().size() << endl;
@@ -86,11 +100,13 @@ Game::Game() {
 			}
 		}
 	}
+}
 
+void Game::assignArmies() {
 	//army assignment
 	int numberOfArmies;
 	numberOfArmies = 50 - (numOfPlayers * 5); //calculates number of armies per player
-	//for each player, add one army to each of their owned countries and all the remaining ones go to the last country
+											  //for each player, add one army to each of their owned countries and all the remaining ones go to the last country
 	for (int i = 0; i < numOfPlayers; i++) {
 		int troopsPerPlayer = 0; //int to count how many armies each player has placed
 		for (int j = 0; j < turnVector.at(i)->getOwnedCountries().size(); j++) {
@@ -98,42 +114,42 @@ Game::Game() {
 				turnVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(numberOfArmies - j);
 				troopsPerPlayer += numberOfArmies - j;
 				cout << "Country " << turnVector.at(i)->getOwnedCountries().at(j)->getNameOfCountry() << " has " << turnVector.at(i)->getOwnedCountries().at(j)->getNumberOfTroops() << endl;
-			} else {
+			}
+			else {
 				turnVector.at(i)->getOwnedCountries().at(j)->setNumberOfTroops(1);
 				troopsPerPlayer += 1;
 				cout << "Country " << turnVector.at(i)->getOwnedCountries().at(j)->getNameOfCountry() << " has " << turnVector.at(i)->getOwnedCountries().at(j)->getNumberOfTroops() << endl;
 			}
 		}
-		cout << "Player " << i+1 << " has placed " << troopsPerPlayer << " troops." << endl;
+		cout << "Player " << turnVector.at(i)->getId() << " has placed " << troopsPerPlayer << " troops." << endl;
 	}
+}
+
+void Game::startGame() {
+
+	srand(time(0));
+	winnerId = -1;
+
+	selectMap();
+	initializePlayers();
+	assignTurns();
+	assignCountries();
+	assignArmies();
 
 	// Create deck and cards
 	Deck* playDeck = new Deck();
-  
+
 	// Run every steps of the game here.
+	for (int i = 0; i < turnVector.size(); i++){
+	//turnVector[i]->setStrategy(new UserStrategy(turnVector[i]));
+	//turnVector[i]->setStrategy(new AggroStrategy(turnVector[i]));
+	turnVector[i]->setStrategy(new PassiveStrategy(turnVector[i]));
+}
 	while (winnerId == -1) {
 
 		for (int i = 0; i < turnVector.size(); i++) {
-			int turnNumber = turnVector[i]->getId();
-			cout << "------------------------------------------" << endl;
-			cout << "ITS PLAYER " << turnVector.at(i)->getId() << "'S TURN!" << endl;
-			cout << "------------------------------------------" << endl;
-			cout << "Reinforment phase for player " << turnNumber << endl;
-			turnVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
-			cout << "Attack phase for player " << turnNumber << endl;
-			turnVector.at(i)->attack(loadedMap->getMap(), playerVector);
-			cout << "Fortification phase for player " << turnNumber << endl;
-			turnVector.at(i)->fortify();
+			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, playerVector, this);
 		}
-		/*
-		for (int i = 0; i < playerVector.size(); i++) {
-			cout << "Reinforment phase for player " << i + 1 << endl;
-			//playerVector.at(i)->reinforce(loadedMap->getMap(), playDeck);
-			cout << "Attack phase for player " << i + 1 << endl;
-			playerVector.at(i)->attack(loadedMap->getMap(), playerVector);
-			cout << "Fortification phase for player " << i + 1 << endl;
-			//playerVector.at(i)->fortify();
-		}*/
 		winnerId = 1;
 	}
 

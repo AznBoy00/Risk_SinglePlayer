@@ -142,9 +142,3 @@ Map* MapLoader::getMap() {
 	return map;
 }
 
-/*int main() {
-MapLoader("World.map");
-system("pause");
-return 0;
-}*/
-

@@ -1,6 +1,7 @@
 #pragma once
-//Added
+
 static int exchangeArmies = 0;
+
 class Cards {
 public:
 	Cards();
@@ -22,10 +23,12 @@ public:
 
 	Cards cards[42];
 
-	void draw(int handId);
-	void showCardsInDeck();
-	void showCardsInDiscarded();
-
+	void draw(int handId, Deck* deck);
+	void showCardsInDeck(Deck* deck);
+	void showCardsInDiscarded(Deck* deck);
+	void showCardsInHand(int handId, Deck* deck);
+	
+	int exchangeHand(int handId, Deck* deck);
 	int const DECK_SIZE = 42;
 	int const CARDS_PER_TYPE = DECK_SIZE / 3;
 	int const CARD_TYPES = 3;

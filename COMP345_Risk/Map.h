@@ -19,7 +19,6 @@ public:
 	Continent* getContinentByName(std::string nameOfContinent);
 
 	bool containsCountry(std::string nameOfCountry);
-	bool isMapContainsContinent(std::string nameOfContinent);
 	bool isMapValid();
 	bool isMapFullyConnected();
 
@@ -82,7 +81,7 @@ public:
 	void visitCountry(Map m);
 
 	std::vector<Country*> getEnemies();
-
+	std::vector<Country*> getAllies();
 private:
 	int numberOfTroops;
 	int ownerNumber = 0;
