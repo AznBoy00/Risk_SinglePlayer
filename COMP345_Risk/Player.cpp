@@ -43,6 +43,7 @@ void Player::setDiceRolled(int dice) {
 	diceRolled = dice;
 }
 
+
 //Executes the turn
 void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Game* game) {
 	game->Notify();
