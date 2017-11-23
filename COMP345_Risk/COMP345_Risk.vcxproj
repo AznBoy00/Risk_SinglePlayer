@@ -34,6 +34,7 @@
     <ClCompile Include="PlayerStatus.cpp" />
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="Tournament.cpp" />
     <ClCompile Include="UserStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +54,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="Tournament.h" />
     <ClInclude Include="UserStrategy.h" />
   </ItemGroup>
   <ItemGroup>

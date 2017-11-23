@@ -12,6 +12,12 @@
 Game::Game() {
 }
 
+Game::Game(vector<Player*> pV, vector<PlayerStatus*> pS) {
+	playerVector = pV;
+	playersStatus = pS;
+}
+
+//NOT USED IN A4
 void Game::selectMap() {
 	// Initialize main data.
 	
@@ -35,6 +41,7 @@ void Game::selectMap() {
 	}
 }
 
+//NOT USED IN A4
 void Game::initializePlayers() {
 	// Initialize player data.
 	do {
@@ -52,6 +59,7 @@ void Game::initializePlayers() {
 	}
 }
 
+//USED IN A4
 void Game::assignTurns() {
 	//Turn assignment
 	for (int i = 1; i <= numOfPlayers; i++) {
@@ -75,6 +83,7 @@ void Game::assignTurns() {
 	}
 }
 
+//USED IN A4
 void Game::assignCountries() {
 	//country assignment
 	int countryCount = 0;
@@ -102,6 +111,7 @@ void Game::assignCountries() {
 	}
 }
 
+//USED IN A4
 void Game::assignArmies() {
 	//army assignment
 	int numberOfArmies;
