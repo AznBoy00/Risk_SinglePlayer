@@ -150,7 +150,7 @@ void Game::startGame() {
 	for (int i = 0; i < turnVector.size(); i++){
 	//turnVector[i]->setStrategy(new UserStrategy(turnVector[i]));
 	//turnVector[i]->setStrategy(new AggroStrategy(turnVector[i]));
-	turnVector[i]->setStrategy(new CheaterStrategy(turnVector[i]));
+	turnVector[i]->setStrategy(new RandomStrategy(turnVector[i]));
 }
 	while (winnerId == -1) {
 		for (int i = 0; i < turnVector.size(); i++) {
