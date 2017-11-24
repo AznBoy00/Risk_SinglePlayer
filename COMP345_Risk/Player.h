@@ -21,12 +21,6 @@ public:
 
 	//Object Variables
 	Dice getDice();
-
-	//Strats
-	enum StrategyType
-	{
-		AGGRO, PASSIVE, USER
-	};
 	
 	//Getters and Setters
 	int getId();
@@ -45,9 +39,11 @@ public:
 	void setConquered(bool c) { conquered = c; }
 	bool getConquered() { return conquered; }
 	void executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Game* game);
-	vector<Country*> getOwnedCountries() { return ownedCountries; }
+	vector<Country*> & getOwnedCountries() { return ownedCountries; }
 	Hand* getHand() { return hand; }
 	stringstream stream;
+	void setWinner(bool w) { winner = w; }
+	bool getWinner() { return winner; }
 private:
 	//Player Variables
 	int id;
@@ -56,6 +52,7 @@ private:
 	bool conquered;
 	//string state;
 	int turnNumber = 0;
+	bool winner = false;
 	
 	vector<Country*> ownedCountries;
 	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);
