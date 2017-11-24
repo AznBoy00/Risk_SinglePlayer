@@ -57,6 +57,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 				territory->setCoordinateX(stoi(lineVector.at(1))); //converting X to int
 				territory->setCoordinateY(stoi(lineVector.at(2))); //converting Y to int
 				territory->setContinent(lineVector.at(3));
+				map->getContinentByName(lineVector.at(3))->setContainedCountryInContinent(territory);
 				map->setContainedCountryInMap(territory); //add that country to the list of countries in the map
 			}
 			else {

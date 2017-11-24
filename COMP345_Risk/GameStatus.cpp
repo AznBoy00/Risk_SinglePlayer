@@ -29,7 +29,6 @@ void GameStatus::display() {
 		}
 
 		cout << "Player #" << currentPlayer->getId() << "'s status: " << barGraph << endl;
-		cout << percentageOfDomination << "% of World domination" << endl << endl;
 
 	}
 }

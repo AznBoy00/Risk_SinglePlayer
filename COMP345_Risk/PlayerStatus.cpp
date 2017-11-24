@@ -11,7 +11,6 @@ PlayerStatus::PlayerStatus(Player* p)
 	subject->Register(this);
 }
 
-
 PlayerStatus::~PlayerStatus()
 {
 	subject->Unregister(this);

@@ -9,7 +9,7 @@ Player::Player(int newId) {
 	strategy = NULL;
 	dice = new Dice();
 	id = newId;
-	//cout << "Player id: " << id << " created." << endl; //debug
+	cout << "Player id: " << id << " created." << endl; //debug
 }
 
 Player::~Player() {
