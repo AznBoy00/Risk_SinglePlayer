@@ -41,6 +41,7 @@ private:
 	int selectMap();
 	MapLoader* selectMap(int input);
 	void initializePlayers(int playerNumber);
+	void assignStrategies(int playerNumber);
 
 	vector<Player*> playerVector;
 	vector<PlayerStatus*> playersStatus;

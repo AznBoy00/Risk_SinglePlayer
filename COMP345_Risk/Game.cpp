@@ -135,8 +135,8 @@ void Game::assignArmies() {
 	}
 }
 
+//NOT USED IN A4
 void Game::startGame() {
-
 	srand(time(0));
 	winnerId = -1;
 
@@ -155,6 +155,30 @@ void Game::startGame() {
 	//turnVector[i]->setStrategy(new AggroStrategy(turnVector[i]));
 	turnVector[i]->setStrategy(new PassiveStrategy(turnVector[i]));
 }
+	while (winnerId == -1) {
+
+		for (int i = 0; i < turnVector.size(); i++) {
+			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, playerVector, this);
+		}
+		winnerId = 1;
+	}
+
+	cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
+}
+
+//THIS ONE IS USED FOR A4
+void Game::startGame() {
+	srand(time(0));
+	winnerId = -1;
+
+	assignTurns();
+	assignCountries();
+	assignArmies();
+
+	// Create deck and cards
+	Deck* playDeck = new Deck();
+
+	// Run every steps of the game here.
 	while (winnerId == -1) {
 
 		for (int i = 0; i < turnVector.size(); i++) {

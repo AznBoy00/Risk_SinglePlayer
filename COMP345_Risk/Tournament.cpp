@@ -8,6 +8,7 @@ Tournament::Tournament() {
 void Tournament::startGame() {
 	int input, mapNumber, gameNumber, playerNumber, turnNumber;
 
+	//Define game parameters.
 	do {
 		cout << "How many computer players will play the game?" << endl;
 		cin >> input;
@@ -23,6 +24,13 @@ void Tournament::startGame() {
 	gameNumber = input;
 
 	do {
+		cout << "How many turns will there be before reaching a draw game state?" << endl;
+		cin >> input;
+	} while (input < TURN_MIN || input > TURN_MAX);
+
+	turnNumber = input;
+
+	do {
 		cout << "How many maps will the players play?" << endl;
 		cin >> input;
 	} while (input < MAP_MIN || input > MAP_MAX);
@@ -31,6 +39,7 @@ void Tournament::startGame() {
 
 	initializePlayers(playerNumber);
 
+	//load game object instances
 	for (size_t i = 0; i < mapNumber; i++) {
 		cout << "MAP " << i + 1 << endl;
 		input = selectMap();
@@ -76,9 +85,13 @@ void Tournament::startGame() {
 			}
 			break;
 		default:
+			cout << "An error has occured." << endl;
 			break;
 		}
 	}
+
+	assignStrategies(playerNumber);
+
 }
 
 int Tournament::selectMap() {
@@ -140,5 +153,11 @@ void Tournament::initializePlayers(int playerNumber) {
 		Player* p = new Player(i + 1);
 		playersStatus.push_back(new PlayerStatus(p));
 		playerVector.push_back(p);
+	}
+}
+
+void Tournament::assignStrategies(int playerNumber) {
+	for (int i = 0; i < playerNumber; i++) {
+
 	}
 }
