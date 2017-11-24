@@ -219,7 +219,7 @@ do {
 	reinforceAmount = rand() % addArmies + 1;
 	while (reinforceAmount < 0 || reinforceAmount > addArmies) {
 		cout << "Please enter a valid input:" << endl;
-		reinforceAmount = rand() % addArmies + 1;
+		reinforceAmount = rand() % (addArmies + 1);
 	}
 	player->getOwnedCountries().at(input - 1)->setNumberOfTroops(player->getOwnedCountries().at(input - 1)->getNumberOfTroops() + reinforceAmount);
 	addArmies -= reinforceAmount;
@@ -318,13 +318,17 @@ void RandomStrategy::fortify() {
 
 	denominator = player->getOwnedCountries()[fromCountry - 1]->getAllies().size();
 	if (denominator == 0) {
-		denominator += 1;
+		denominator = 1;
 	}
 	toCountry = rand() % denominator + 1;
 	
 	while (toCountry > player->getOwnedCountries()[fromCountry - 1]->getAllies().size() || toCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
-		toCountry = rand() % player->getOwnedCountries()[fromCountry - 1]->getAllies().size() + 1;
+		denominator = player->getOwnedCountries()[fromCountry - 1]->getAllies().size();
+		if (denominator == 0) {
+			denominator = 1;
+		}
+		toCountry = rand() % denominator + 1;
 	}
 
 	//#ofTroops
@@ -332,7 +336,7 @@ void RandomStrategy::fortify() {
 
 	denominator = player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops();
 	if (denominator == 0) {
-		denominator += 1;
+		denominator = 1;
 	}
 	moveTroops = rand() % denominator;
 

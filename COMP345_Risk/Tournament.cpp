@@ -6,6 +6,7 @@ Tournament::Tournament() {
 
 void Tournament::start() {
 	int input, mapNumber, gameNumber, playerNumber, turnNumber;
+	Game* g;
 	//Winner stuff
 	int winner;
 	vector<string> map1W;
@@ -54,41 +55,36 @@ void Tournament::start() {
 		case 0:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
-				Game* g = new Game(playerVector, playersStatus);
+				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
 				map1Games.push_back(g);
-				map1Games.at(j)->loadedMap = selectMap(input);
 			}
 			break;
 		case 1:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
-				Game* g = new Game(playerVector, playersStatus);
+				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
 				map2Games.push_back(g);
-				map2Games.at(j)->loadedMap = selectMap(input);
 			}
 			break;
 		case 2:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
-				Game* g = new Game(playerVector, playersStatus);
+				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
 				map3Games.push_back(g);
-				map3Games.at(j)->loadedMap = selectMap(input);
 			}
 			break;
 		case 3:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
-				Game* g = new Game(playerVector, playersStatus);
+				g = new Game(playerVector, this->playersStatus, selectMap(input));
 				map4Games.push_back(g);
-				map4Games.at(j)->loadedMap = selectMap(input);
 			}
 			break;
 		case 4:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
-				Game* g = new Game(playerVector, playersStatus);
+				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
 				map5Games.push_back(g);
-				map5Games.at(j)->loadedMap = selectMap(input);
 			}
 			break;
 		default:
@@ -99,13 +95,9 @@ void Tournament::start() {
 
 	winner = map1Games.at(0)->startGame(turnNumber);
 	map1W.push_back(convertWinner(winner));
-	winner = map1Games.at(1)->startGame(turnNumber);
-	map1W.push_back(convertWinner(winner));
 
-	/*for (int j = 0; j < gameNumber; j++) {
-		winner = map1Games.at(j)->startGame(turnNumber);
-		map1W.push_back(convertWinner(winner));
-	}*/
+	//winner = map1Games.at(1)->startGame(turnNumber);
+	//map1W.push_back(convertWinner(winner));
 
 	//Tournament game loops
 	/*for (int i = 0; i < mapNumber; i++) {
@@ -142,7 +134,7 @@ void Tournament::start() {
 	}*/
 
 	//display stats
-	cout << "\t\tM: ";
+	cout << "\n\n\t\tM: ";
 	for (int i = 0; i < mapNumber; i++) {
 		if (i == 0) {
 			cout << "Map 1";
@@ -155,9 +147,9 @@ void Tournament::start() {
 	cout << "\t\tP: ";
 	for (int i = 0; i < playerNumber; i++) {
 		if (i == 0) {
-			cout << convertWinner(playerVector.at(i)->getStrategyId());
+			cout << convertStrategy(playerVector.at(i)->getStrategyId());
 		} else {
-			cout << ", " << convertWinner(playerVector.at(i)->getStrategyId());
+			cout << ", " << convertStrategy(playerVector.at(i)->getStrategyId());
 		}
 	}
 	cout << endl;
@@ -165,28 +157,29 @@ void Tournament::start() {
 	cout << "\t\tG: " << gameNumber << endl;
 	cout << "\t\tD: " << turnNumber << endl;
 
-	cout << "\t";
+	cout << "\n\n\t";
 	for (int i = 0; i < gameNumber; i++) {
-		cout << "\t|Game" << i + 1;
+		cout << "\tGame " << i + 1;
 	}
+	cout << endl;
 	for (int i = 0; i < mapNumber; i++) {
-		cout << "Map\t" << i;
+		cout << "Map " << i + 1 << "\t";
 		for (int j = 0; j < gameNumber; j++) {
 			switch (j) {
 				case 0:
-					cout << "\t|" << map1W.at(j);
+					cout << "\t" << (string)map1W.at(j);
 					break;
 				case 1:
-					cout << "\t|" << map2W.at(j);
+					cout << "\t" << (string)map2W.at(j);
 					break;
 				case 2:
-					cout << "\t|" << map3W.at(j);
+					cout << "\t" << (string)map3W.at(j);
 					break;
 				case 3:
-					cout << "\t|" << map4W.at(j);
+					cout << "\t" << (string)map4W.at(j);
 					break;
 				case 4:
-					cout << "\t|" << map5W.at(j);
+					cout << "\t" << (string)map5W.at(j);
 					break;
 				default:
 					break;
@@ -271,19 +264,19 @@ void Tournament::assignStrategies(int playerNumber) {
 		} while (input < 1 || input > 4);
 		switch (input) {
 		case 1:
-			playerVector.at(i)->setStrategy(new AggroStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new AggroStrategy(playerVector.at(i)), 1);
 			break;
 		case 2:
-			playerVector.at(i)->setStrategy(new PassiveStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new PassiveStrategy(playerVector.at(i)), 2);
 			break;
 		case 3:
-			playerVector.at(i)->setStrategy(new RandomStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new RandomStrategy(playerVector.at(i)), 3);
 			break;
 		case 4:
-			playerVector.at(i)->setStrategy(new CheaterStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new CheaterStrategy(playerVector.at(i)), 4);
 			break;
 		default:
-			playerVector.at(i)->setStrategy(new UserStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new UserStrategy(playerVector.at(i)), 0);
 			break;
 		}
 	}
@@ -313,5 +306,25 @@ string Tournament::convertWinner(int winner) {
 	default:
 		return "Error";
 		break;
+	}
+}
+
+string Tournament::convertStrategy(int id) {	
+	switch (id) {
+		case 1:
+			return "Aggressive";
+			break;
+		case 2:
+			return "Benevolent";
+			break;
+		case 3:
+			return "Random";
+			break;
+		case 4:
+			return "Cheater";
+			break;
+		default:
+			return "Error";
+			break;
 	}
 }

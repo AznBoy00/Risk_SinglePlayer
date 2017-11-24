@@ -14,9 +14,10 @@
 Game::Game() {
 }
 
-Game::Game(vector<Player*> pV, vector<PlayerStatus*> pS) {
-	playerVector = pV;
-	playersStatus = pS;
+Game::Game(vector<Player*> pV, vector<PlayerStatus*> pS, MapLoader* mL) {
+	this->playerVector = pV;
+	this->playersStatus = pS;
+	this->loadedMap = mL;
 }
 
 
@@ -176,7 +177,7 @@ void Game::startTestGame() {
 int Game::startGame(int turnNumber) {
 	int gameTurn = 0;
 	numOfPlayers = playerVector.size();
-	srand(time(0));
+	//srand(time(0));
 	winnerId = -1;
 
 	assignTurns();

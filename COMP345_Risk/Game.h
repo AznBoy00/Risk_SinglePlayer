@@ -11,7 +11,7 @@ class PlayerStatus;
 class Game : public Subject {
 public:
 	Game();
-	Game(vector<Player*> pV, vector<PlayerStatus*> pS);
+	Game(vector<Player*> pV, vector<PlayerStatus*> pS, MapLoader* mL);
 	void selectMap();
 	vector<Player*> playerVector;
 	vector<Player*> turnVector;
