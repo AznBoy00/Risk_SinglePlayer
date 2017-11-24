@@ -185,7 +185,7 @@ Player* RandomStrategy::findTarget(vector<Player*> playerVector, Country* atkTar
 }
 
 void RandomStrategy::reinforce(Map* map, Deck* deck) {
-	int input, reinforceAmount;
+	int input, reinforceAmount, denominator;
 
 	player->stream << "------------------------------------------\n"
 		<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
@@ -279,6 +279,7 @@ if (addArmies != 0) {
 }
 
 void RandomStrategy::fortify() {
+	int denominator;
 	int fromCountry, toCountry, moveTroops;
 
 	player->stream << "FORTIFYING PHASE" << endl;
@@ -307,19 +308,19 @@ void RandomStrategy::fortify() {
 		return;
 	}
 }
-	
-
 
 	//to
 	for (unsigned int i = 0; i < player->getOwnedCountries()[fromCountry - 1]->getAllies().size(); i++) {
 		cout << i + 1 << ": " << player->getOwnedCountries()[fromCountry - 1]->getAllies()[i]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
 	}
 	cout << "Select a country to transfer those armies to." << endl;
-	try {
-		toCountry = rand() % player->getOwnedCountries()[fromCountry - 1]->getAllies().size() + 1;
-	} catch (std::overflow_error e) {
-		std::cout << e.what();
+	
+
+	denominator = player->getOwnedCountries()[fromCountry - 1]->getAllies().size();
+	if (denominator == 0) {
+		denominator += 1;
 	}
+	toCountry = rand() % denominator + 1;
 	
 	while (toCountry > player->getOwnedCountries()[fromCountry - 1]->getAllies().size() || toCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
@@ -328,12 +329,12 @@ void RandomStrategy::fortify() {
 
 	//#ofTroops
 	cout << "How many troops do you want to transfer? (You have to leave at least 1 troop behind)" << endl;
-	
-	try {
-		moveTroops = rand() % player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops();
-	} catch (std::overflow_error e) {
-		std::cout << e.what();
+
+	denominator = player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops();
+	if (denominator == 0) {
+		denominator += 1;
 	}
+	moveTroops = rand() % denominator;
 
 	while (moveTroops > player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops() - 1 || toCountry < 0) {
 		cout << "Not a valid country number. Please enter a valid troop number.";
