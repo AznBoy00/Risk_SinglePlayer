@@ -1,12 +1,18 @@
 #include "Tournament.h"
 
-
 Tournament::Tournament() {
 	start();
 }
 
 void Tournament::start() {
 	int input, mapNumber, gameNumber, playerNumber, turnNumber;
+	//Winner stuff
+	int winner;
+	vector<string> map1W;
+	vector<string> map2W;
+	vector<string> map3W;
+	vector<string> map4W;
+	vector<string> map5W;
 
 	//Define game parameters.
 	do {
@@ -91,8 +97,18 @@ void Tournament::start() {
 		}
 	}
 
+	winner = map1Games.at(0)->startGame(turnNumber);
+	map1W.push_back(convertWinner(winner));
+	winner = map1Games.at(1)->startGame(turnNumber);
+	map1W.push_back(convertWinner(winner));
+
+	/*for (int j = 0; j < gameNumber; j++) {
+		winner = map1Games.at(j)->startGame(turnNumber);
+		map1W.push_back(convertWinner(winner));
+	}*/
+
 	//Tournament game loops
-	for (int i = 0; i < mapNumber; i++) {
+	/*for (int i = 0; i < mapNumber; i++) {
 		switch (i) {
 		case 0:
 			for (int j = 0; j < gameNumber; j++) {
@@ -123,6 +139,60 @@ void Tournament::start() {
 			cout << "An error has occured." << endl;
 			break;
 		}
+	}*/
+
+	//display stats
+	cout << "\t\tM: ";
+	for (int i = 0; i < mapNumber; i++) {
+		if (i == 0) {
+			cout << "Map 1";
+		} else {
+			cout << ", Map " << i + 1;
+		}
+	}
+	cout << endl;
+
+	cout << "\t\tP: ";
+	for (int i = 0; i < playerNumber; i++) {
+		if (i == 0) {
+			cout << convertWinner(playerVector.at(i)->getStrategyId());
+		} else {
+			cout << ", " << convertWinner(playerVector.at(i)->getStrategyId());
+		}
+	}
+	cout << endl;
+
+	cout << "\t\tG: " << gameNumber << endl;
+	cout << "\t\tD: " << turnNumber << endl;
+
+	cout << "\t";
+	for (int i = 0; i < gameNumber; i++) {
+		cout << "\t|Game" << i + 1;
+	}
+	for (int i = 0; i < mapNumber; i++) {
+		cout << "Map\t" << i;
+		for (int j = 0; j < gameNumber; j++) {
+			switch (j) {
+				case 0:
+					cout << "\t|" << map1W.at(j);
+					break;
+				case 1:
+					cout << "\t|" << map2W.at(j);
+					break;
+				case 2:
+					cout << "\t|" << map3W.at(j);
+					break;
+				case 3:
+					cout << "\t|" << map4W.at(j);
+					break;
+				case 4:
+					cout << "\t|" << map5W.at(j);
+					break;
+				default:
+					break;
+			}
+		}
+		cout << endl;
 	}
 }
 
@@ -216,5 +286,32 @@ void Tournament::assignStrategies(int playerNumber) {
 			playerVector.at(i)->setStrategy(new UserStrategy(playerVector.at(i)));
 			break;
 		}
+	}
+}
+
+string Tournament::convertWinner(int winner) {
+	int winnerId = winner;
+	if (winner != 0) {
+		winnerId = playerVector.at(winnerId - 1)->getStrategyId();
+	}
+	switch (winnerId) {
+	case 0:
+		return "Draw";
+		break;
+	case 1:
+		return "Aggressive";
+		break;
+	case 2:
+		return "Benevolent";
+		break;
+	case 3:
+		return "Random";
+		break;
+	case 4:
+		return "Cheater";
+		break;
+	default:
+		return "Error";
+		break;
 	}
 }

@@ -35,6 +35,10 @@ void Player::setDiceRolled(int dice) {
 	diceRolled = dice;
 }
 
+void Player::draw() {
+	
+}
+
 
 //Executes the turn
 void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Game* game) {
@@ -54,6 +58,11 @@ void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Gam
 
 void Player::setStrategy(Strategy* strat) {
 	this->strategy = strat;
+}
+
+void Player::setStrategy(Strategy* strat, int strategyId) {
+	this->strategy = strat;
+	this->strategyId = strategyId;
 }
 
 void Player::showStats(Deck* deck) {

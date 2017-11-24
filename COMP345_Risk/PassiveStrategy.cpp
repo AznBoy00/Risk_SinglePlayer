@@ -67,8 +67,7 @@ void PassiveStrategy::reinforce(Map* map, Deck* deck) {
 	if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
 		cout << "You have more than 5 cards in hand. Trading you hands for reinforcement troops..." << endl;
 		addArmies += deck->exchangeHand(player->getId(), deck);
-	}
-	else {
+	} else {
 		cout << "Do you want to exchange your cards? (y to exchange, otherwise reinforce phase will be over)" << endl;
 		string confirm;
 		confirm = "y";

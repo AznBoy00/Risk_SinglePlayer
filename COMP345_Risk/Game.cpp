@@ -173,7 +173,7 @@ void Game::startTestGame() {
 }
 
 //THIS ONE IS USED FOR A4
-void Game::startGame(int turnNumber) {
+int Game::startGame(int turnNumber) {
 	int gameTurn = 0;
 	numOfPlayers = playerVector.size();
 	srand(time(0));
@@ -208,4 +208,6 @@ void Game::startGame(int turnNumber) {
 	} else {
 		cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
 	}
+
+	return winnerId;
 }

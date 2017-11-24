@@ -20,7 +20,7 @@ public:
 	int turnCounter = 0;
 	void initializePlayers();
 	void assignTurns();
-	void startGame(int turnNumber);
+	int startGame(int turnNumber);
 	void startTestGame();
 	void assignCountries();
 	void assignArmies();
