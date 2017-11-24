@@ -9,6 +9,14 @@ Player::Player(int newId) {
 	strategy = NULL;
 	dice = new Dice();
 	id = newId;
+	//cout << "\nDice object for player id: " << id << " created." << endl;//debug
+	/*diceRolled = 0;
+	diceDistribution[0] = 0;
+	diceDistribution[1] = 0;
+	diceDistribution[2] = 0;
+	diceDistribution[3] = 0;
+	diceDistribution[4] = 0;
+	diceDistribution[5] = 0;*/
 	cout << "Player id: " << id << " created." << endl; //debug
 }
 

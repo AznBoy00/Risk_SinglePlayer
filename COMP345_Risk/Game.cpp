@@ -14,12 +14,6 @@
 Game::Game() {
 }
 
-Game::Game(vector<Player*> pV, vector<PlayerStatus*> pS) {
-	playerVector = pV;
-	playersStatus = pS;
-}
-
-//NOT USED IN A4
 void Game::selectMap() {
 	// Initialize main data.
 	
@@ -43,7 +37,6 @@ void Game::selectMap() {
 	}
 }
 
-//NOT USED IN A4
 void Game::initializePlayers() {
 	// Initialize player data.
 	do {
@@ -61,7 +54,6 @@ void Game::initializePlayers() {
 	}
 }
 
-//USED IN A4
 void Game::assignTurns() {
 	//Turn assignment
 	for (int i = 1; i <= numOfPlayers; i++) {
@@ -85,7 +77,6 @@ void Game::assignTurns() {
 	}
 }
 
-//USED IN A4
 void Game::assignCountries() {
 	//country assignment
 	int countryCount = 0;
@@ -118,7 +109,6 @@ void Game::assignCountries() {
 	}
 }
 
-//USED IN A4
 void Game::assignArmies() {
 	//army assignment
 	int numberOfArmies;
@@ -142,8 +132,8 @@ void Game::assignArmies() {
 	}
 }
 
-//NOT USED IN A4
-void Game::startTestGame() {
+void Game::startGame() {
+
 	srand(time(0));
 	winnerId = -1;
 
@@ -164,6 +154,7 @@ void Game::startTestGame() {
 }
 	while (winnerId == -1) {
 		for (int i = 0; i < turnVector.size(); i++) {
+			turnCounter++;
 			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, turnVector, this);
 			if (turnVector[i]->getWinner() == true) {
 				winnerId = turnVector[i]->getId();
@@ -174,31 +165,5 @@ void Game::startTestGame() {
 		
 	}
 
-
-	cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
-}
-
-//THIS ONE IS USED FOR A4
-void Game::startGame() {
-	srand(time(0));
-	winnerId = -1;
-
-	assignTurns();
-	assignCountries();
-	assignArmies();
-
-	// Create deck and cards
-	Deck* playDeck = new Deck();
-
-	// Run every steps of the game here.
-	while (winnerId == -1) {
-
-		for (int i = 0; i < turnVector.size(); i++) {
-			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, playerVector, this);
-		}
-		winnerId = 1;
-	}
-
-	cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
-  
+	
 }

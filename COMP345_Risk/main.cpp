@@ -4,6 +4,9 @@
 #include "main.h"
 #include "Game.h"
 #include "GameStatus.h"
+#include "CCODecorator.h"
+#include "PDODecorator.h"
+#include "TurnNumber.h"
 
 #include <iostream>
 using namespace std;
@@ -41,5 +44,8 @@ void startGame() {
 	//start game here. (Game.cpp)
 	Game *game = new Game();
 	GameStatus *gameStatus = new GameStatus(game);
+	gameStatus = new CCODecorator(gameStatus, game);
+	gameStatus = new PDODecorator(gameStatus, game);
+	TurnNumber *turnCounter = new TurnNumber(game);
 	game->startGame();
 }

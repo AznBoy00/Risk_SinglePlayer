@@ -140,6 +140,7 @@ std::string Continent::getNameOfContinent() {
 	return nameOfContinent;
 }
 
+
 std::vector<Continent*> Continent::getNeighboringContinents() {
 	return neighboringContinents;
 }
