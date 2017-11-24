@@ -69,6 +69,10 @@ void RandomStrategy::attack(Map* map, vector<Player*> playerVector) {
 		}
 
 	} while (increment < atkCount && player->getOwnedCountries().size() > 0);
+
+	if (player->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
+		player->setWinner(true);
+	}
 }
 
 void RandomStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {

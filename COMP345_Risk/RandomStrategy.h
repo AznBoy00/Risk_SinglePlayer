@@ -1,5 +1,6 @@
 #pragma once
 #include "Strategy.h"
+#include "Map.h"
 
 class RandomStrategy : public Strategy
 {

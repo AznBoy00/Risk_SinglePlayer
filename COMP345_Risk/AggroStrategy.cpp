@@ -69,6 +69,10 @@ void AggroStrategy::attack(Map* map, vector<Player*> playerVector) {
 			input = "y";
 		}
 	} while (input == "y");
+
+	if (player->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
+		player->setWinner(true);
+	}
 }
 
 void AggroStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {

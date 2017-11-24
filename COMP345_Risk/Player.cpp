@@ -9,7 +9,7 @@ Player::Player(int newId) {
 	strategy = NULL;
 	dice = new Dice();
 	id = newId;
-	cout << "Player id: " << id << " created." << endl; //debug
+	//cout << "Player id: " << id << " created." << endl; //debug
 }
 
 Player::~Player() {
@@ -46,6 +46,10 @@ void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Gam
 		conquered = false;
 	}
 	strategy->fortify();
+
+	if (this->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
+		this->setWinner(true);
+	}
 }
 
 void Player::setStrategy(Strategy* strat) {
