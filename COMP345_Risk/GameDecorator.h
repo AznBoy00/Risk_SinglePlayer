@@ -12,7 +12,6 @@ public:
 	
 	void Update() {
 		GameStatus::Update();
-		cout << "calling update from gamedecorator" << endl;
 	}
 	
 	void display() {

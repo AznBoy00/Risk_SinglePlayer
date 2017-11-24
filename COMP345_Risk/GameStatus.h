@@ -8,6 +8,7 @@ public:
 	GameStatus();
 	GameStatus(Game* g);
 	~GameStatus();
+
 	virtual void Update();
 	virtual void display();
 protected:

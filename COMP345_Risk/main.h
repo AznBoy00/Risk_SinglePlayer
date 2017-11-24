@@ -1,3 +1,7 @@
+
+void startGame();
+void loadMaps();
 void loadMenu();
-void startManualGame();
-void startTournament();
+void loadDice();
+void playerActions();
+void cardDeckMethods();

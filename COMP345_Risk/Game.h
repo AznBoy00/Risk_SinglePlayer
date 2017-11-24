@@ -20,11 +20,14 @@ public:
 	void initializePlayers();
 	void assignTurns();
 	void startGame();
-	void startTestGame();
-	void startGame(int turnNumber);
 	void assignCountries();
 	void assignArmies();
+	Deck* playDeck;
+	void setWinnerId(int id) { winnerId = id; }
+	int getWinnerId() { return winnerId;  }
+
 private:
+	
 	int numOfPlayers;
 	int winnerId; // -1 = No winner, x = playerId is the winner.
 
