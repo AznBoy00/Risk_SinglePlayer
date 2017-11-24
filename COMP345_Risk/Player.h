@@ -28,13 +28,15 @@ public:
 	int getDiceRolled();
 	void setDiceRolled(int dice);
 
+	void draw();
+
 	//Player Actions & MISC
-	void roll(int num);
 	void showStats(Deck* deck);
 	void setTurnNumber(int t);
 	int getTurnNumber();
 	void setOwnedCountry(Country* c) { ownedCountries.push_back(c); }
 	void setStrategy(Strategy* strat);
+	void setStrategy(Strategy * strat, int strategyId);
 	string getState() { return stream.str(); }
 	void setConquered(bool c) { conquered = c; }
 	bool getConquered() { return conquered; }
@@ -45,11 +47,13 @@ public:
 	void setWinner(bool w) { winner = w; }
 	bool getWinner() { return winner; }
 	bool isDead() { return dead; }
+	int getStrategyId() { return strategyId;  }
 private:
 	//Player Variables
 	int id;
 	int diceRolled;
 	int diceDistribution[6];
+	int strategyId;
 	bool conquered;
 	//string state;
 	int turnNumber = 0;

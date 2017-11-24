@@ -47,7 +47,8 @@ private:
 	MapLoader* selectMap(int input);
 	void initializePlayers(int playerNumber);
 	void assignStrategies(int playerNumber);
-
+	string convertWinner(int winner);
+	string convertStrategy(int winner);
 	vector<Player*> playerVector;
 	vector<PlayerStatus*> playersStatus;
 };

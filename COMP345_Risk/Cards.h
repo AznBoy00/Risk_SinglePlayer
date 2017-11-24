@@ -37,7 +37,6 @@ public:
 
 class Hand {
 public:
-	Hand();
 	Hand(int id);
 
 	int const DECK_SIZE = 42;

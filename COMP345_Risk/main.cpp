@@ -28,13 +28,17 @@ void loadMenu() {
 	do {
 		// Menu for a2.
 		cout << "\n\nAssignment 4 Debug Menu" << endl;
-		cout << "1- Start Game" << endl;
-		cout << "2- Exit" << endl;
+		cout << "1- Start Game (Part 1)" << endl;
+		cout << "2- Start Tournament Demo" << endl;
+		cout << "3- Exit" << endl;
 
 		cin >> selection;
 		switch (selection) {
 		case 1://Starts game.
 			startGame();
+  		break;
+		case 2://Starts game.
+			startTournament();
 			break;
 		case 2://Exit
 			exit(0);
@@ -129,7 +133,6 @@ void startGame() {
 				cout << "\nThe winner is Player " << game->getWinnerId() << ". Congratulations!" << endl;
 				break;
 			}
-		}
-
+    }
 	}
 }

@@ -9,6 +9,13 @@
 Game::Game() {
 }
 
+Game::Game(vector<Player*> pV, vector<PlayerStatus*> pS, MapLoader* mL) {
+	this->playerVector = pV;
+	this->playersStatus = pS;
+	this->loadedMap = mL;
+}
+
+
 void Game::selectMap() {
 	// Initialize main data.
 	
@@ -126,12 +133,4 @@ void Game::assignArmies() {
 		cout << "Player " << turnVector.at(i)->getId() << " has placed " << troopsPerPlayer << " troops." << endl;
 	}
 }
-
-
-
-void Game::startGame() {
-
-	
-
-	
 }

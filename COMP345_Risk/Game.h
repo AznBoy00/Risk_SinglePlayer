@@ -11,6 +11,7 @@ class PlayerStatus;
 class Game : public Subject {
 public:
 	Game();
+	Game(vector<Player*> pV, vector<PlayerStatus*> pS, MapLoader* mL);
 	void selectMap();
 	vector<Player*> playerVector;
 	vector<Player*> turnVector;
@@ -20,6 +21,8 @@ public:
 	void initializePlayers();
 	void assignTurns();
 	void startGame();
+	int startGame(int turnNumber);
+	void startTestGame();
 	void assignCountries();
 	void assignArmies();
 	Deck* playDeck;
@@ -30,5 +33,4 @@ private:
 	
 	int numOfPlayers;
 	int winnerId; // -1 = No winner, x = playerId is the winner.
-
 };
