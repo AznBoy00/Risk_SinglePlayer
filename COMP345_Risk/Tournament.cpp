@@ -93,27 +93,35 @@ void Tournament::start() {
 
 	//Tournament game loops
 	for (int i = 0; i < mapNumber; i++) {
-		for (int j = 0; j < gameNumber; j++) {
-			switch (i) {
-			case 0:
+		switch (i) {
+		case 0:
+			for (int j = 0; j < gameNumber; j++) {
 				map1Games.at(j)->startGame(turnNumber);
-				break;
-			case 1:
-				map2Games.at(j)->startGame(turnNumber);
-				break;
-			case 2:
-				map3Games.at(j)->startGame(turnNumber);
-				break;
-			case 3:
-				map4Games.at(j)->startGame(turnNumber);
-				break;
-			case 4:
-				map5Games.at(j)->startGame(turnNumber);
-				break;
-			default:
-				cout << "An error has occured." << endl;
-				break;
 			}
+			break;
+		case 1:
+			for (int j = 0; j < gameNumber; j++) {
+				map2Games.at(j)->startGame(turnNumber);
+			}
+			break;
+		case 2:
+			for (int j = 0; j < gameNumber; j++) {
+				map3Games.at(j)->startGame(turnNumber);
+			}
+			break;
+		case 3:
+			for (int j = 0; j < gameNumber; j++) {
+				map4Games.at(j)->startGame(turnNumber);
+			}
+			break;
+		case 4:
+			for (int j = 0; j < gameNumber; j++) {
+				map5Games.at(j)->startGame(turnNumber);
+			}
+			break;
+		default:
+			cout << "An error has occured." << endl;
+			break;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 #include "RandomStrategy.h"
 #include "Time.h"
+#include <stdexcept>
 using namespace std;
 
 class Strategy;
@@ -314,7 +315,12 @@ void RandomStrategy::fortify() {
 		cout << i + 1 << ": " << player->getOwnedCountries()[fromCountry - 1]->getAllies()[i]->getNameOfCountry() << " | Army:" << player->getOwnedCountries()[i]->getNumberOfTroops() << endl;
 	}
 	cout << "Select a country to transfer those armies to." << endl;
-	toCountry = rand() % player->getOwnedCountries()[fromCountry - 1]->getAllies().size() + 1;
+	try {
+		toCountry = rand() % player->getOwnedCountries()[fromCountry - 1]->getAllies().size() + 1;
+	} catch (std::overflow_error e) {
+		std::cout << e.what();
+	}
+	
 	while (toCountry > player->getOwnedCountries()[fromCountry - 1]->getAllies().size() || toCountry < 1) {
 		cout << "Not a valid country number. Please enter a valid country number.";
 		toCountry = rand() % player->getOwnedCountries()[fromCountry - 1]->getAllies().size() + 1;
@@ -322,7 +328,13 @@ void RandomStrategy::fortify() {
 
 	//#ofTroops
 	cout << "How many troops do you want to transfer? (You have to leave at least 1 troop behind)" << endl;
-	moveTroops = rand() % player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops();
+	
+	try {
+		moveTroops = rand() % player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops();
+	} catch (std::overflow_error e) {
+		std::cout << e.what();
+	}
+
 	while (moveTroops > player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops() - 1 || toCountry < 0) {
 		cout << "Not a valid country number. Please enter a valid troop number.";
 		moveTroops = rand() % player->getOwnedCountries().at(fromCountry - 1)->getNumberOfTroops();

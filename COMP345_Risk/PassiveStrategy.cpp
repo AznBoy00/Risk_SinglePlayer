@@ -26,10 +26,10 @@ void PassiveStrategy::reinforce(Map* map, Deck* deck) {
 	int reinforceAmount = 0;
 	int weakestArmy = 999; // Probably impossible occurence, hardcoded
 
-	player->stream << "------------------------------------------\n"
-		<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
-		<< "Turn #: " << player->getTurnNumber() << "\n"
-		<< "------------------------------------------\n";
+	player->stream	<< "------------------------------------------\n"
+					<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
+					<< "Turn #: " << player->getTurnNumber() << "\n"
+					<< "------------------------------------------\n";
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
@@ -150,7 +150,9 @@ void PassiveStrategy::fortify() {
 		player->stream.clear();
 		player->stream.str("");
 	} else {
-		player->stream << "Transferring " << moveTroops << " troops from country: " << player->getOwnedCountries()[toCountry - 1]->getAllies()[fromCountry - 1]->getNameOfCountry() << " to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
+		player->stream << "Transferring " << moveTroops << " troops from country: " << 
+			player->getOwnedCountries()[toCountry - 1]->getAllies()[fromCountry - 1]->getNameOfCountry() << 
+			" to " << player->getOwnedCountries()[toCountry - 1]->getNameOfCountry() << endl;
 		player->Notify();
 		player->stream.clear();
 		player->stream.str("");
