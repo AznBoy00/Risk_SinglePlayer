@@ -1,3 +1,3 @@
 void loadMenu();
-void startManualGame();
+void start();
 void startTournament();

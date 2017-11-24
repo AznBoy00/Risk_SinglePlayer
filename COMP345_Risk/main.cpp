@@ -24,14 +24,14 @@ void loadMenu() {
 	do {
 		// Menu for a2.
 		cout << "\n\nAssignment 4 Debug Menu" << endl;
-		cout << "1- Start Manual Game" << endl;
+		cout << "1- Start Game (Part 1)" << endl;
 		cout << "2- Start Tournament Demo" << endl;
 		cout << "3- Exit" << endl;
 
 		cin >> selection;
 		switch (selection) {
 		case 1://Starts game.
-			startManualGame();
+			start();
 			break;
 		case 2://Starts game.
 			startTournament();
@@ -45,14 +45,13 @@ void loadMenu() {
 	} while (selection != 3);
 }
 
-void startManualGame() {
+void start() {
 	//start game here. (Game.cpp)
 	Game *game = new Game();
 	GameStatus *gameStatus = new GameStatus(game);
 	gameStatus = new CCODecorator(gameStatus, game);
 	gameStatus = new PDODecorator(gameStatus, game);
 	TurnNumber *turnCounter = new TurnNumber(game);
-	game->startGame();
 	game->startTestGame();
 }
 
