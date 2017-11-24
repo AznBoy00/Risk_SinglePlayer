@@ -19,6 +19,7 @@ public:
 	vector<PlayerStatus*> playersStatus;
 	void initializePlayers();
 	void assignTurns();
+	void startTestGame();
 	void startGame();
 	void assignCountries();
 	void assignArmies();

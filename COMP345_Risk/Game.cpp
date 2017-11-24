@@ -136,7 +136,7 @@ void Game::assignArmies() {
 }
 
 //NOT USED IN A4
-void Game::startGame() {
+void Game::startTestGame() {
 	srand(time(0));
 	winnerId = -1;
 
