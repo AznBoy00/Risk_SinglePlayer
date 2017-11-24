@@ -56,35 +56,35 @@ void Tournament::start() {
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
-				map1Games.push_back(g);
+				map1Games.push_back(new Game(this->playerVector, this->playersStatus, selectMap(input)));
 			}
 			break;
 		case 1:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
-				map2Games.push_back(g);
+				map2Games.push_back(new Game(this->playerVector, this->playersStatus, selectMap(input)));
 			}
 			break;
 		case 2:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
-				map3Games.push_back(g);
+				map3Games.push_back(new Game(this->playerVector, this->playersStatus, selectMap(input)));
 			}
 			break;
 		case 3:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				g = new Game(playerVector, this->playersStatus, selectMap(input));
-				map4Games.push_back(g);
+				map4Games.push_back(new Game(this->playerVector, this->playersStatus, selectMap(input)));
 			}
 			break;
 		case 4:
 			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				g = new Game(this->playerVector, this->playersStatus, selectMap(input));
-				map5Games.push_back(g);
+				map5Games.push_back(new Game(this->playerVector, this->playersStatus, selectMap(input)));
 			}
 			break;
 		default:
@@ -93,36 +93,43 @@ void Tournament::start() {
 		}
 	}
 
+	winner = map1Games[0]->startGame(turnNumber);
+	map1W.push_back(convertWinner(winner));
+
+	winner = map1Games[1]->startGame(turnNumber);
+	map1W.push_back(convertWinner(winner));
+
 	//Tournament game loops
-	for (int i = 0; i < mapNumber; i++) {
+	/*for (int i = 0; i < mapNumber; i++) {
 		switch (i) {
 		case 0:
 			for (int j = 0; j < gameNumber; j++) {
-				winner = map1Games.at(j)->startGame(turnNumber);
+				//winner = map1Games.at(j)->startGame(turnNumber);
+				winner = map1Games[j].startGame(turnNumber);
 				map1W.push_back(convertWinner(winner));
 			}
 			break;
 		case 1:
 			for (int j = 0; j < gameNumber; j++) {
-				winner = map1Games.at(j)->startGame(turnNumber);
+				//winner = map2Games.at(j)->startGame(turnNumber);
 				map2W.push_back(convertWinner(winner));
 			}
 			break;
 		case 2:
 			for (int j = 0; j < gameNumber; j++) {
-				winner = map1Games.at(j)->startGame(turnNumber);
+				//winner = map3Games.at(j)->startGame(turnNumber);
 				map3W.push_back(convertWinner(winner));
 			}
 			break;
 		case 3:
 			for (int j = 0; j < gameNumber; j++) {
-				winner = map1Games.at(j)->startGame(turnNumber);
+				//winner = map4Games.at(j)->startGame(turnNumber);
 				map4W.push_back(convertWinner(winner));
 			}
 			break;
 		case 4:
 			for (int j = 0; j < gameNumber; j++) {
-				winner = map1Games.at(j)->startGame(turnNumber);
+				//winner = map5Games.at(j)->startGame(turnNumber);
 				map5W.push_back(convertWinner(winner));
 			}
 			break;
@@ -130,7 +137,7 @@ void Tournament::start() {
 			cout << "An error has occured." << endl;
 			break;
 		}
-	}
+	}*/
 
 	//display stats
 	cout << "\n\n\t\tM: ";

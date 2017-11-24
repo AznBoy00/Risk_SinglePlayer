@@ -192,7 +192,7 @@ int Game::startGame(int turnNumber) {
 		for (int i = 0; i < turnVector.size(); i++) {
 			if (gameTurn == turnNumber) {
 				//Draw declaration
-				winnerId = 0; // 0: draw
+				winnerId = 0; // 0 = draw
 			} else {
 				turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, turnVector, this);
 				if (turnVector[i]->getWinner() == true) {
