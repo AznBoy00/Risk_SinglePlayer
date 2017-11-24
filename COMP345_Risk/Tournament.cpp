@@ -41,12 +41,12 @@ void Tournament::start() {
 	mapNumber = input;
 
 	//load game object instances
-	for (size_t i = 0; i < mapNumber; i++) {
+	for (int i = 0; i < mapNumber; i++) {
 		cout << "\nMAP " << i + 1 << endl;
 		input = selectMap();
 		switch (i) {
 		case 0:
-			for (size_t j = 0; j < gameNumber; j++) {
+			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				Game* g = new Game(playerVector, playersStatus);
 				map1Games.push_back(g);
@@ -54,7 +54,7 @@ void Tournament::start() {
 			}
 			break;
 		case 1:
-			for (size_t j = 0; j < gameNumber; j++) {
+			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				Game* g = new Game(playerVector, playersStatus);
 				map2Games.push_back(g);
@@ -62,7 +62,7 @@ void Tournament::start() {
 			}
 			break;
 		case 2:
-			for (size_t j = 0; j < gameNumber; j++) {
+			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				Game* g = new Game(playerVector, playersStatus);
 				map3Games.push_back(g);
@@ -70,7 +70,7 @@ void Tournament::start() {
 			}
 			break;
 		case 3:
-			for (size_t j = 0; j < gameNumber; j++) {
+			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				Game* g = new Game(playerVector, playersStatus);
 				map4Games.push_back(g);
@@ -78,7 +78,7 @@ void Tournament::start() {
 			}
 			break;
 		case 4:
-			for (size_t j = 0; j < gameNumber; j++) {
+			for (int j = 0; j < gameNumber; j++) {
 				cout << "Game " << j + 1 << endl;
 				Game* g = new Game(playerVector, playersStatus);
 				map5Games.push_back(g);
@@ -88,6 +88,32 @@ void Tournament::start() {
 		default:
 			cout << "An error has occured." << endl;
 			break;
+		}
+	}
+
+	//Tournament game loops
+	for (int i = 0; i < mapNumber; i++) {
+		for (int j = 0; j < gameNumber; j++) {
+			switch (i) {
+			case 0:
+				map1Games.at(j)->startGame(turnNumber);
+				break;
+			case 1:
+				map2Games.at(j)->startGame(turnNumber);
+				break;
+			case 2:
+				map3Games.at(j)->startGame(turnNumber);
+				break;
+			case 3:
+				map4Games.at(j)->startGame(turnNumber);
+				break;
+			case 4:
+				map5Games.at(j)->startGame(turnNumber);
+				break;
+			default:
+				cout << "An error has occured." << endl;
+				break;
+			}
 		}
 	}
 }
@@ -167,19 +193,19 @@ void Tournament::assignStrategies(int playerNumber) {
 		} while (input < 1 || input > 4);
 		switch (input) {
 		case 1:
-			playerVector.at(0)->setStrategy(new AggroStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new AggroStrategy(playerVector.at(i)));
 			break;
 		case 2:
-			playerVector.at(0)->setStrategy(new PassiveStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new PassiveStrategy(playerVector.at(i)));
 			break;
 		case 3:
-			playerVector.at(0)->setStrategy(new RandomStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new RandomStrategy(playerVector.at(i)));
 			break;
 		case 4:
-			playerVector.at(0)->setStrategy(new CheaterStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new CheaterStrategy(playerVector.at(i)));
 			break;
 		default:
-			playerVector.at(0)->setStrategy(new UserStrategy(playerVector.at(i)));
+			playerVector.at(i)->setStrategy(new UserStrategy(playerVector.at(i)));
 			break;
 		}
 	}
