@@ -16,23 +16,21 @@ void CheaterStrategy::attack(Map* map, vector<Player*> playerVector) {
 	player->stream.str("");
 
 	
-		cout << "Cheater's countries:" << endl;
-		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-			cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
-		}
+	cout << "Cheater's countries:" << endl;
+	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+		cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
+	}
 
-		player->stream << "Player " << player->getId() << " is attacking all of its neighbor enemies." << endl;
-		player->Notify();
-		player->stream.clear();
-		player->stream.str("");
+	player->stream << "Player " << player->getId() << " is attacking all of its neighbor enemies." << endl;
+	player->Notify();
+	player->stream.clear();
+	player->stream.str("");
 
-		attackDo(from, target, map, playerVector);
+	attackDo(from, target, map, playerVector);
 
-		if (player->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
-			player->setWinner(true);
-		}
-	
-
+	if (player->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
+		player->setWinner(true);
+	}
 }
 
 void CheaterStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {

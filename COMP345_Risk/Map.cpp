@@ -239,7 +239,7 @@ void Country::visitCountry(Map m) {
 		}
 	}
 	if (visits == m.getContainedCountriesInMap().size()) {
-		std::cout << "Map connectivity validated." << std::endl;
+		//std::cout << "Map connectivity validated." << std::endl;
 	}
 
 }

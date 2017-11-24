@@ -3,6 +3,11 @@
 #include "MapLoader.h"
 #include "Subject.h"
 #include "PlayerStatus.h"
+#include "UserStrategy.h"
+#include "AggroStrategy.h"
+#include "PassiveStrategy.h"
+#include "CheaterStrategy.h"
+#include "RandomStrategy.h"
 
 #include <string>
 #include <dirent.h>
@@ -35,7 +40,7 @@ private:
 	int TURN_MIN = 10;
 	int TURN_MAX = 50;
 
-	void startGame();
+	void start();
 	string winners;
 
 	int selectMap();

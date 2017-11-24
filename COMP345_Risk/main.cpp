@@ -7,6 +7,7 @@
 #include "CCODecorator.h"
 #include "PDODecorator.h"
 #include "TurnNumber.h"
+#include "Tournament.h"
 
 #include <iostream>
 using namespace std;
@@ -22,25 +23,29 @@ void loadMenu() {
 	
 	do {
 		// Menu for a2.
-		cout << "\n\nAssignment 2 Debug Menu" << endl;
-		cout << "1- Start Game" << endl;
-		cout << "2- Exit" << endl;
+		cout << "\n\nAssignment 4 Debug Menu" << endl;
+		cout << "1- Start Manual Game" << endl;
+		cout << "2- Start Tournament Demo" << endl;
+		cout << "3- Exit" << endl;
 
 		cin >> selection;
 		switch (selection) {
 		case 1://Starts game.
-			startGame();
+			startManualGame();
 			break;
-		case 2://Exit
+		case 2://Starts game.
+			startTournament();
+			break;
+		case 3://Exit
 			exit(0);
 			break;
 		default:
 			break;
 		}
-	} while (selection != 6);
+	} while (selection != 3);
 }
 
-void startGame() {
+void startManualGame() {
 	//start game here. (Game.cpp)
 	Game *game = new Game();
 	GameStatus *gameStatus = new GameStatus(game);
@@ -48,4 +53,9 @@ void startGame() {
 	gameStatus = new PDODecorator(gameStatus, game);
 	TurnNumber *turnCounter = new TurnNumber(game);
 	game->startGame();
+	game->startTestGame();
+}
+
+void startTournament() {
+	Tournament *tournament = new Tournament();
 }

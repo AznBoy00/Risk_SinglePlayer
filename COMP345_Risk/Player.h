@@ -44,6 +44,7 @@ public:
 	stringstream stream;
 	void setWinner(bool w) { winner = w; }
 	bool getWinner() { return winner; }
+	bool isDead() { return dead; }
 private:
 	//Player Variables
 	int id;
@@ -53,6 +54,7 @@ private:
 	//string state;
 	int turnNumber = 0;
 	bool winner = false;
+	bool dead = false;
 	
 	vector<Country*> ownedCountries;
 	Player * findTarget(vector<Player*> playerVector, Country * atkTarget);

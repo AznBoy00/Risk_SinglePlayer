@@ -20,6 +20,8 @@ public:
 	void initializePlayers();
 	void assignTurns();
 	void startGame();
+	void startTestGame();
+	void startGame(int turnNumber);
 	void assignCountries();
 	void assignArmies();
 private:
