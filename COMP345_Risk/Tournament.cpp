@@ -1,7 +1,6 @@
 #include "Tournament.h"
 
 Tournament::Tournament() {
-	start();
 }
 
 void Tournament::start() {
@@ -95,7 +94,6 @@ void Tournament::start() {
 
 	winner = map1Games[0]->startGame(turnNumber);
 	map1W.push_back(convertWinner(winner));
-
 	winner = map1Games[1]->startGame(turnNumber);
 	map1W.push_back(convertWinner(winner));
 

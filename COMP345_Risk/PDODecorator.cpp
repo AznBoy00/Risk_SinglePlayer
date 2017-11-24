@@ -12,7 +12,5 @@ void PDODecorator::display() {
 		int percentageOfDomination = (int)((double)(((double)currentPlayer->getOwnedCountries().size()) / (double)(subject->loadedMap->getMap()->getContainedCountriesInMap().size())) * 100);
 		cout << "Player " << currentPlayer->getId() << ": " << percentageOfDomination << "% of World domination" << endl << endl;
 	}
-	
-
 }
 

@@ -185,7 +185,7 @@ Player* RandomStrategy::findTarget(vector<Player*> playerVector, Country* atkTar
 }
 
 void RandomStrategy::reinforce(Map* map, Deck* deck) {
-	int input, reinforceAmount, denominator;
+	int input, reinforceAmount;
 
 	player->stream << "------------------------------------------\n"
 		<< "IT'S PLAYER " << player->getId() << "'S TURN!\n"
@@ -198,54 +198,7 @@ void RandomStrategy::reinforce(Map* map, Deck* deck) {
 	int addArmies = 0;
 	addArmies += player->getOwnedCountries().size() < 12 ? 3 : (int)(player->getOwnedCountries().size() / 3);
 
-player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countries as the turn starts." << endl;
-player->Notify();
-player->stream.clear();
-player->stream.str("");
-
-do {
-	cout << "Your countries:" << endl;
-	for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
-		cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
-	}
-	cout << "You have " << addArmies << " new troops that you can reinforce! Which country do you want to reinforce?" << endl;
-	input = rand() % player->getOwnedCountries().size() + 1;
-	while (input < 1 || input > player->getOwnedCountries().size()) {
-		cout << "Please enter a valid input:" << endl;
-		input = rand() % player->getOwnedCountries().size() + 1;
-	}
-
-	cout << "How many troops do you want to reinforce in " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << "?" << endl;
-	reinforceAmount = rand() % addArmies + 1;
-	while (reinforceAmount < 0 || reinforceAmount > addArmies) {
-		cout << "Please enter a valid input:" << endl;
-		reinforceAmount = rand() % (addArmies + 1);
-	}
-	player->getOwnedCountries().at(input - 1)->setNumberOfTroops(player->getOwnedCountries().at(input - 1)->getNumberOfTroops() + reinforceAmount);
-	addArmies -= reinforceAmount;
-	player->stream << "Added " << reinforceAmount << " armies to " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << " belonging to Player " << player->getId() << endl;
-	player->Notify();
-	player->stream.clear();
-	player->stream.str("");
-} while (addArmies != 0);
-
-
-if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
-	cout << "You have more than 5 cards in hand. Trading you hands for reinforcement troops..." << endl;
-	addArmies += deck->exchangeHand(player->getId(), deck);
-}
-else {
-	cout << "Do you want to exchange your cards? (y to exchange, otherwise reinforce phase will be over)" << endl;
-	string confirm;
-	confirm = "n";
-
-	if (confirm == "y") {
-		addArmies += deck->exchangeHand(player->getId(), deck);
-	}
-}
-
-if (addArmies != 0) {
-	player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countrie(s) of choice" << endl;
+	player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countries as the turn starts." << endl;
 	player->Notify();
 	player->stream.clear();
 	player->stream.str("");
@@ -255,7 +208,7 @@ if (addArmies != 0) {
 		for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
 			cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
 		}
-		cout << "You have " << addArmies << " new troops that you can reinforce using your exchanged cards! Which country do you want to reinforce?" << endl;
+		cout << "You have " << addArmies << " new troops that you can reinforce! Which country do you want to reinforce?" << endl;
 		input = rand() % player->getOwnedCountries().size() + 1;
 		while (input < 1 || input > player->getOwnedCountries().size()) {
 			cout << "Please enter a valid input:" << endl;
@@ -266,7 +219,7 @@ if (addArmies != 0) {
 		reinforceAmount = rand() % addArmies + 1;
 		while (reinforceAmount < 0 || reinforceAmount > addArmies) {
 			cout << "Please enter a valid input:" << endl;
-			reinforceAmount = rand() % addArmies + 1;
+			reinforceAmount = rand() % (addArmies + 1);
 		}
 		player->getOwnedCountries().at(input - 1)->setNumberOfTroops(player->getOwnedCountries().at(input - 1)->getNumberOfTroops() + reinforceAmount);
 		addArmies -= reinforceAmount;
@@ -275,7 +228,54 @@ if (addArmies != 0) {
 		player->stream.clear();
 		player->stream.str("");
 	} while (addArmies != 0);
-}
+
+
+	if (player->getHand()->cardsInHand(player->getId(), deck) > 5) {
+		cout << "You have more than 5 cards in hand. Trading you hands for reinforcement troops..." << endl;
+		addArmies += deck->exchangeHand(player->getId(), deck);
+	}
+	else {
+		cout << "Do you want to exchange your cards? (y to exchange, otherwise reinforce phase will be over)" << endl;
+		string confirm;
+		confirm = "n";
+
+		if (confirm == "y") {
+			addArmies += deck->exchangeHand(player->getId(), deck);
+		}
+	}
+
+	if (addArmies != 0) {
+		player->stream << "We will be adding " << addArmies << " armies to Player " << player->getId() << "'s countrie(s) of choice" << endl;
+		player->Notify();
+		player->stream.clear();
+		player->stream.str("");
+
+		do {
+			cout << "Your countries:" << endl;
+			for (size_t i = 0; i < player->getOwnedCountries().size(); i++) {
+				cout << i + 1 << " - " << player->getOwnedCountries().at(i)->getNameOfCountry() << " | Army size: " << player->getOwnedCountries().at(i)->getNumberOfTroops() << endl;
+			}
+			cout << "You have " << addArmies << " new troops that you can reinforce using your exchanged cards! Which country do you want to reinforce?" << endl;
+			input = rand() % player->getOwnedCountries().size() + 1;
+			while (input < 1 || input > player->getOwnedCountries().size()) {
+				cout << "Please enter a valid input:" << endl;
+				input = rand() % player->getOwnedCountries().size() + 1;
+			}
+
+			cout << "How many troops do you want to reinforce in " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << "?" << endl;
+			reinforceAmount = rand() % addArmies + 1;
+			while (reinforceAmount < 0 || reinforceAmount > addArmies) {
+				cout << "Please enter a valid input:" << endl;
+				reinforceAmount = rand() % addArmies + 1;
+			}
+			player->getOwnedCountries().at(input - 1)->setNumberOfTroops(player->getOwnedCountries().at(input - 1)->getNumberOfTroops() + reinforceAmount);
+			addArmies -= reinforceAmount;
+			player->stream << "Added " << reinforceAmount << " armies to " << player->getOwnedCountries().at(input - 1)->getNameOfCountry() << " belonging to Player " << player->getId() << endl;
+			player->Notify();
+			player->stream.clear();
+			player->stream.str("");
+		} while (addArmies != 0);
+	}
 }
 
 void RandomStrategy::fortify() {

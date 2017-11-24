@@ -133,4 +133,45 @@ void Game::assignArmies() {
 		cout << "Player " << turnVector.at(i)->getId() << " has placed " << troopsPerPlayer << " troops." << endl;
 	}
 }
+
+//THIS ONE IS USED FOR A4
+int Game::startGame(int turnNumber) {
+	int gameTurn = 0;
+	numOfPlayers = playerVector.size();
+	//srand(time(0));
+	winnerId = -1;
+
+	assignTurns();
+	assignCountries();
+	assignArmies();
+
+	// Create deck and cards
+	Deck* playDeck = new Deck();
+
+	// Run every steps of the game here.
+	while (winnerId == -1) {
+		for (int i = 0; i < turnVector.size(); i++) {
+			if (gameTurn == turnNumber) {
+				//Draw declaration
+				winnerId = 0; // 0 = draw
+			}
+			else {
+				turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, turnVector, this);
+				if (turnVector[i]->getWinner() == true) {
+					winnerId = turnVector[i]->getId();
+					break;
+				}
+				gameTurn++;
+			}
+		}
+	}
+
+	if (winnerId == 0) {
+		cout << "\nA draw has occured after " << turnNumber << " turns." << endl;
+	}
+	else {
+		cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
+	}
+
+	return winnerId;
 }

@@ -1,20 +1,4 @@
-#include "Dice.h"
-#include "Player.h"
-#include "Time.h"
 #include "main.h"
-#include "Game.h"
-#include "GameStatus.h"
-#include "CCODecorator.h"
-#include "PDODecorator.h"
-#include "PHODecorator.h"
-#include "TurnNumber.h"
-#include "UserStrategy.h"
-#include "AggroStrategy.h"
-#include "PassiveStrategy.h"
-#include "CheaterStrategy.h"
-#include "RandomStrategy.h"
-#include <iostream>
-using namespace std;
 
 int main() {
 	loadMenu();
@@ -34,19 +18,19 @@ void loadMenu() {
 
 		cin >> selection;
 		switch (selection) {
-		case 1://Starts game.
-			startGame();
-  		break;
-		case 2://Starts game.
-			startTournament();
-			break;
-		case 2://Exit
-			exit(0);
-			break;
-		default:
-			break;
+			case 1://Starts game.
+				startGame();
+  				break;
+			case 2://Starts Tournament.
+				startTournament();
+				break;
+			case 3://Exit
+				exit(0);
+				break;
+			default:
+				break;
 		}
-	} while (selection != 6);
+	} while (selection != 3);
 }
 
 void chooseDecorators(GameStatus* gs, Game* game) {
@@ -133,6 +117,11 @@ void startGame() {
 				cout << "\nThe winner is Player " << game->getWinnerId() << ". Congratulations!" << endl;
 				break;
 			}
-    }
+		}
 	}
+}
+
+void startTournament() {
+	Tournament *tournament = new Tournament();
+	tournament->start();
 }

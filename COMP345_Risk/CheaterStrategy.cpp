@@ -34,10 +34,6 @@ void CheaterStrategy::attack(Map* map, vector<Player*> playerVector) {
 }
 
 void CheaterStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
-	//srand(time(0));
-
-	int temp, input;
-
 	for (int i = 0; i < player->getOwnedCountries().size(); i++) {
 		atkFrom = player->getOwnedCountries().at(i);
 		for (int j = 0; j < atkFrom->getEnemies().size(); j++) {

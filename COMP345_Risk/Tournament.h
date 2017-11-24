@@ -15,6 +15,7 @@
 class Tournament {
 public:
 	Tournament();
+	void start();
 private:
 	MapLoader* map1;
 	MapLoader* map2;
@@ -40,7 +41,7 @@ private:
 	int TURN_MIN = 10;
 	int TURN_MAX = 50;
 
-	void start();
+	
 	string winners;
 
 	int selectMap();

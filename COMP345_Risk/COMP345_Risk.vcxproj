@@ -33,6 +33,7 @@
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PassiveStrategy.cpp" />
     <ClCompile Include="PDODecorator.cpp" />
+    <ClCompile Include="PHODecorator.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStatus.cpp" />
     <ClCompile Include="RandomStrategy.cpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PassiveStrategy.h" />
     <ClInclude Include="PDODecorator.h" />
+    <ClInclude Include="PHODecorator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="RandomStrategy.h" />
