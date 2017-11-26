@@ -1,7 +1,19 @@
+#include "Dice.h"
+#include "Player.h"
+#include "Time.h"
+#include "Game.h"
+#include "GameStatus.h"
+#include "CCODecorator.h"
+#include "PDODecorator.h"
+#include "PHODecorator.h"
+#include "TurnNumber.h"
+#include "UserStrategy.h"
+#include "AggroStrategy.h"
+#include "PassiveStrategy.h"
+#include "CheaterStrategy.h"
+#include "RandomStrategy.h"
+#include "Tournament.h"
 
 void startGame();
-void loadMaps();
 void loadMenu();
-void loadDice();
-void playerActions();
-void cardDeckMethods();
+void startTournament();

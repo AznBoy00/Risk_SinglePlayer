@@ -57,6 +57,7 @@ MapLoader::MapLoader(std::string fileDirectory) {
 				territory->setCoordinateX(stoi(lineVector.at(1))); //converting X to int
 				territory->setCoordinateY(stoi(lineVector.at(2))); //converting Y to int
 				territory->setContinent(lineVector.at(3));
+				map->getContinentByName(lineVector.at(3))->setContainedCountryInContinent(territory);
 				map->setContainedCountryInMap(territory); //add that country to the list of countries in the map
 			}
 			else {
@@ -106,14 +107,14 @@ MapLoader::MapLoader(std::string fileDirectory) {
 				}
 			}
 
-			std::cout << "Country name is: " << territory->getNameOfCountry() << endl;
+			/*std::cout << "Country name is: " << territory->getNameOfCountry() << endl;
 			std::cout << "X: " << territory->getCoordinateX() << " Y: " << territory->getCoordinateY() << endl;
 			std::cout << "Continent: " << territory->getContinent() << endl;
 			std::cout << "Neighbors: ";
 			for (int i = 0; i<territory->getNeighboringCountries().size(); i++) {
 				std::cout << territory->getNeighboringCountries().at(i)->getNameOfCountry() << " ";
 			}
-			std::cout << endl;
+			std::cout << endl;*/
 		}
 
 		if (line.find("[Territories]") != string::npos && hasMap && hasContinents) {
@@ -129,11 +130,11 @@ MapLoader::MapLoader(std::string fileDirectory) {
 	}
 
 	//Check for number of countries
-	std::cout << "Number of countries: " << map->getContainedCountriesInMap().size() << endl;
+	std::cout << "Number of countries loaded: " << map->getContainedCountriesInMap().size() << endl;
 	//Check neighbors to check graph connectivity
 	map->getContainedCountriesInMap().at(0)->visitCountry(*map);
 	//map->depthFirstSearchForCountries(map->getContainedCountriesInMap().at(0), map->getContainedCountriesInMap());
-	cout << map->isMapFullyConnected();
+	//cout << map->isMapFullyConnected();
 	//delete m;
 
 }

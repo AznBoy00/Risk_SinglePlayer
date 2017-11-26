@@ -8,9 +8,10 @@ public:
 	GameStatus();
 	GameStatus(Game* g);
 	~GameStatus();
-	void Update();
-	void display();
-private:
+
+	virtual void Update();
+	virtual void display();
+protected:
 	Game *subject;
 };
 

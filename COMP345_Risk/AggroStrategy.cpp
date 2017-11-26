@@ -64,11 +64,14 @@ void AggroStrategy::attack(Map* map, vector<Player*> playerVector) {
 
 		if (from->getEnemies().size() == 0) {
 			input = "n";
-		}
-		else {
+		} else {
 			input = "y";
 		}
 	} while (input == "y");
+
+	if (player->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
+		player->setWinner(true);
+	}
 }
 
 void AggroStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {
@@ -108,8 +111,7 @@ void AggroStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vec
 	player->stream.str("");
 	if (atkDiceRoll > defDiceRoll) {
 		execNumber = atkDiceRoll;
-	}
-	else {
+	} else {
 		execNumber = defDiceRoll;
 	}
 	cout << execNumber;
@@ -159,6 +161,8 @@ void AggroStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vec
 					}
 				}
 				player->setConquered(true);
+				//Draw a card
+				
 				break;
 			}
 		}

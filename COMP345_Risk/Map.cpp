@@ -140,6 +140,7 @@ std::string Continent::getNameOfContinent() {
 	return nameOfContinent;
 }
 
+
 std::vector<Continent*> Continent::getNeighboringContinents() {
 	return neighboringContinents;
 }
@@ -238,7 +239,7 @@ void Country::visitCountry(Map m) {
 		}
 	}
 	if (visits == m.getContainedCountriesInMap().size()) {
-		std::cout << "Map connectivity validated." << std::endl;
+		//std::cout << "Map connectivity validated." << std::endl;
 	}
 
 }

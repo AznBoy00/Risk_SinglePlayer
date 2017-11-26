@@ -9,15 +9,7 @@ Player::Player(int newId) {
 	strategy = NULL;
 	dice = new Dice();
 	id = newId;
-	//cout << "\nDice object for player id: " << id << " created." << endl;//debug
-	/*diceRolled = 0;
-	diceDistribution[0] = 0;
-	diceDistribution[1] = 0;
-	diceDistribution[2] = 0;
-	diceDistribution[3] = 0;
-	diceDistribution[4] = 0;
-	diceDistribution[5] = 0;*/
-	cout << "Player id: " << id << " created." << endl; //debug
+	//cout << "Player id: " << id << " created." << endl; //debug
 }
 
 Player::~Player() {
@@ -43,6 +35,11 @@ void Player::setDiceRolled(int dice) {
 	diceRolled = dice;
 }
 
+void Player::draw() {
+	
+}
+
+
 //Executes the turn
 void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Game* game) {
 	game->Notify();
@@ -53,10 +50,19 @@ void Player::executeTurn(Map *map, Deck* deck, vector<Player*> playerVector, Gam
 		conquered = false;
 	}
 	strategy->fortify();
+
+	if (this->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
+		this->setWinner(true);
+	}
 }
 
 void Player::setStrategy(Strategy* strat) {
 	this->strategy = strat;
+}
+
+void Player::setStrategy(Strategy* strat, int strategyId) {
+	this->strategy = strat;
+	this->strategyId = strategyId;
 }
 
 void Player::showStats(Deck* deck) {

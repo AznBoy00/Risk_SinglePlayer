@@ -58,6 +58,10 @@ void UserStrategy::attack(Map* map, vector<Player*> playerVector) {
 		cout << "Do you want to attack again? (y to attack again, anything else will exit)" << endl;
 		cin >> input;
 	} while (input == "y");
+
+	if (player->getOwnedCountries().size() >= map->getContainedCountriesInMap().size()) {
+		player->setWinner(true);
+	}
 }
 
 void UserStrategy::attackDo(Country* atkFrom, Country* atkTarget, Map* map, vector<Player*> playerVector) {

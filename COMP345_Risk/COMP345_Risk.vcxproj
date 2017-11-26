@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="AggroStrategy.cpp" />
     <ClCompile Include="Cards.cpp" />
+    <ClCompile Include="CCODecorator.cpp" />
+    <ClCompile Include="CheaterStrategy.cpp" />
     <ClCompile Include="Dice.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameConstants.cpp" />
@@ -30,29 +32,42 @@
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PassiveStrategy.cpp" />
+    <ClCompile Include="PDODecorator.cpp" />
+    <ClCompile Include="PHODecorator.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStatus.cpp" />
+    <ClCompile Include="RandomStrategy.cpp" />
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="Tournament.cpp" />
+    <ClCompile Include="TurnNumber.cpp" />
     <ClCompile Include="UserStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AggroStrategy.h" />
     <ClInclude Include="Cards.h" />
+    <ClInclude Include="CCODecorator.h" />
+    <ClInclude Include="CheaterStrategy.h" />
     <ClInclude Include="Dice.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameConstants.h" />
+    <ClInclude Include="GameDecorator.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PassiveStrategy.h" />
+    <ClInclude Include="PDODecorator.h" />
+    <ClInclude Include="PHODecorator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStatus.h" />
+    <ClInclude Include="RandomStrategy.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="Tournament.h" />
+    <ClInclude Include="TurnNumber.h" />
     <ClInclude Include="UserStrategy.h" />
   </ItemGroup>
   <ItemGroup>

@@ -3,14 +3,18 @@
 #include "Game.h"
 #include "Cards.h"
 #include "time.h"
-#include "UserStrategy.h"
-#include "AggroStrategy.h"
-#include "PassiveStrategy.h"
 #include <dirent.h>
 
 
 Game::Game() {
 }
+
+Game::Game(vector<Player*> pV, vector<PlayerStatus*> pS, MapLoader* mL) {
+	this->playerVector = pV;
+	this->playersStatus = pS;
+	this->loadedMap = mL;
+}
+
 
 void Game::selectMap() {
 	// Initialize main data.
@@ -80,7 +84,9 @@ void Game::assignCountries() {
 	int countryCount = 0;
 	cout << "Number of countries is " << loadedMap->getMap()->getContainedCountriesInMap().size() << endl;
 	//while all countries have not been allocated
+	
 	while (countryCount < loadedMap->getMap()->getContainedCountriesInMap().size()) {
+
 		//allocating one country per player at a time (round-robin)
 		for (int i = 0; i < numOfPlayers; i++) {
 			int randomCountryNumber;
@@ -99,6 +105,9 @@ void Game::assignCountries() {
 				break;
 			}
 		}
+	}
+	for (int i = 0; i < numOfPlayers; i++) {
+		cout << "Player " << i + 1 << " has " << turnVector.at(i)->getOwnedCountries().size() << " countries." << endl;
 	}
 }
 
@@ -125,13 +134,13 @@ void Game::assignArmies() {
 	}
 }
 
-void Game::startGame() {
-
-	srand(time(0));
+//THIS ONE IS USED FOR A4
+int Game::startGame(int turnNumber) {
+	int gameTurn = 0;
+	numOfPlayers = playerVector.size();
+	//srand(time(0));
 	winnerId = -1;
 
-	selectMap();
-	initializePlayers();
 	assignTurns();
 	assignCountries();
 	assignArmies();
@@ -140,18 +149,29 @@ void Game::startGame() {
 	Deck* playDeck = new Deck();
 
 	// Run every steps of the game here.
-	for (int i = 0; i < turnVector.size(); i++){
-	//turnVector[i]->setStrategy(new UserStrategy(turnVector[i]));
-	//turnVector[i]->setStrategy(new AggroStrategy(turnVector[i]));
-	turnVector[i]->setStrategy(new PassiveStrategy(turnVector[i]));
-}
 	while (winnerId == -1) {
-
 		for (int i = 0; i < turnVector.size(); i++) {
-			turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, playerVector, this);
+			if (gameTurn == turnNumber) {
+				//Draw declaration
+				winnerId = 0; // 0 = draw
+			}
+			else {
+				turnVector.at(i)->executeTurn(loadedMap->getMap(), playDeck, turnVector, this);
+				if (turnVector[i]->getWinner() == true) {
+					winnerId = turnVector[i]->getId();
+					break;
+				}
+				gameTurn++;
+			}
 		}
-		winnerId = 1;
 	}
 
-	cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
+	if (winnerId == 0) {
+		cout << "\nA draw has occured after " << turnNumber << " turns." << endl;
+	}
+	else {
+		cout << "\nThe winner is Player " << winnerId << ". Congratulations!" << endl;
+	}
+
+	return winnerId;
 }
